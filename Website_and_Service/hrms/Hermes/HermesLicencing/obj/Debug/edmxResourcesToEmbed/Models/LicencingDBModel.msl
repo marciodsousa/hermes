@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LicencingDBModelStoreContainer" CdmEntityContainer="LicencingDBEntities">
+    <EntitySetMapping Name="TEmpresa">
+      <EntityTypeMapping TypeName="LicencingDBModel.TEmpresa">
+        <MappingFragment StoreEntitySet="TEmpresa">
+          <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="morada" ColumnName="morada" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="nif" ColumnName="nif" />
+          <ScalarProperty Name="contacto" ColumnName="contacto" />
+          <ScalarProperty Name="servidor" ColumnName="servidor" />
+          <ScalarProperty Name="idLicenca" ColumnName="idLicenca" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TLicenca">
+      <EntityTypeMapping TypeName="LicencingDBModel.TLicenca">
+        <MappingFragment StoreEntitySet="TLicenca">
+          <ScalarProperty Name="idLicenca" ColumnName="idLicenca" />
+          <ScalarProperty Name="dataInicio" ColumnName="dataInicio" />
+          <ScalarProperty Name="idTipoLicenca" ColumnName="idTipoLicenca" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TTipoLicenca">
+      <EntityTypeMapping TypeName="LicencingDBModel.TTipoLicenca">
+        <MappingFragment StoreEntitySet="TTipoLicenca">
+          <ScalarProperty Name="idTipoLicenca" ColumnName="idTipoLicenca" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="descricao" ColumnName="descricao" />
+          <ScalarProperty Name="duracao" ColumnName="duracao" />
+          <ScalarProperty Name="valor" ColumnName="valor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TTipoUtilizador">
+      <EntityTypeMapping TypeName="LicencingDBModel.TTipoUtilizador">
+        <MappingFragment StoreEntitySet="TTipoUtilizador">
+          <ScalarProperty Name="idTipoUtilizador" ColumnName="idTipoUtilizador" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="descriçao" ColumnName="descriçao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TUtilizador">
+      <EntityTypeMapping TypeName="LicencingDBModel.TUtilizador">
+        <MappingFragment StoreEntitySet="TUtilizador">
+          <ScalarProperty Name="idUtilizador" ColumnName="idUtilizador" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="passwordSalt" ColumnName="passwordSalt" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
+          <ScalarProperty Name="idTipoUtilizador" ColumnName="idTipoUtilizador" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="numSerieEquip" ColumnName="numSerieEquip" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,13 @@
+﻿@model HermesLicencing.Models.TEmpresa
+@{
+    ViewBag.Title = "Empresas";
+}
+
+<h2>EMPRESASs</h2>
+@if (Model != null)
+{
+    foreach (var movie in Model.nome)
+    {
+        <li>@movie</li>
+    }
+}

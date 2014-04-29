@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4c4084a410f6420fb89365f9d2f9d3be" Name="Diagram1">
+        <EntityTypeShape EntityType="LicencingDBModel.TEmpresa" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LicencingDBModel.TLicenca" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LicencingDBModel.TTipoLicenca" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LicencingDBModel.TTipoUtilizador" Width="1.5" PointX="10.375" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LicencingDBModel.TUtilizador" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="LicencingDBModel.FK_TEmpresa_TLicenca" ManuallyRouted="false" />
+        <AssociationConnector Association="LicencingDBModel.FK_TUtilizador_TEmpresa" ManuallyRouted="false" />
+        <AssociationConnector Association="LicencingDBModel.FK_TLicenca_TTipoLicenca" ManuallyRouted="false" />
+        <AssociationConnector Association="LicencingDBModel.FK_TUtilizador_TTipoUtilizador" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

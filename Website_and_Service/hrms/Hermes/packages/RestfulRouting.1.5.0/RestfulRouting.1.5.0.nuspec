@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>RestfulRouting</id>
+    <version>1.5.0</version>
+    <authors>Steve Hodgkiss</authors>
+    <owners>Steve Hodgkiss</owners>
+    <licenseUrl>https://github.com/stevehodgkiss/restful-routing/blob/master/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>http://stevehodgkiss.github.com/restful-routing/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RestfulRouting is a routing library for ASP.NET MVC based on the Rails 3 routing DSL.</description>
+    <tags>routing rest asp.net mvc</tags>
+    <dependencies>
+      <dependency id="WebActivator" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+</package>

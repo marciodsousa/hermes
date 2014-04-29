@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LicencingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TEmpresa">
+          <Key>
+            <PropertyRef Name="idEmpresa" />
+          </Key>
+          <Property Name="idEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="morada" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="email" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="nif" Type="nchar" MaxLength="9" Nullable="false" />
+          <Property Name="contacto" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="servidor" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="idLicenca" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TLicenca">
+          <Key>
+            <PropertyRef Name="idLicenca" />
+          </Key>
+          <Property Name="idLicenca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dataInicio" Type="date" Nullable="false" />
+          <Property Name="idTipoLicenca" Type="int" Nullable="false" />
+          <Property Name="estado" Type="nchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TTipoLicenca">
+          <Key>
+            <PropertyRef Name="idTipoLicenca" />
+          </Key>
+          <Property Name="idTipoLicenca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="descricao" Type="nchar" MaxLength="500" Nullable="false" />
+          <Property Name="duracao" Type="int" Nullable="false" />
+          <Property Name="valor" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TTipoUtilizador">
+          <Key>
+            <PropertyRef Name="idTipoUtilizador" />
+          </Key>
+          <Property Name="idTipoUtilizador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="descriçao" Type="nchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TUtilizador">
+          <Key>
+            <PropertyRef Name="idUtilizador" />
+          </Key>
+          <Property Name="idUtilizador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="passwordSalt" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="nome" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="idEmpresa" Type="int" Nullable="false" />
+          <Property Name="idTipoUtilizador" Type="int" Nullable="false" />
+          <Property Name="estado" Type="int" Nullable="false" />
+          <Property Name="numSerieEquip" Type="nchar" MaxLength="20" />
+          <Property Name="password" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="email" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_TEmpresa_TLicenca">
+          <End Role="TLicenca" Type="Self.TLicenca" Multiplicity="1" />
+          <End Role="TEmpresa" Type="Self.TEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TLicenca">
+              <PropertyRef Name="idLicenca" />
+            </Principal>
+            <Dependent Role="TEmpresa">
+              <PropertyRef Name="idLicenca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TLicenca_TTipoLicenca">
+          <End Role="TTipoLicenca" Type="Self.TTipoLicenca" Multiplicity="1" />
+          <End Role="TLicenca" Type="Self.TLicenca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTipoLicenca">
+              <PropertyRef Name="idTipoLicenca" />
+            </Principal>
+            <Dependent Role="TLicenca">
+              <PropertyRef Name="idTipoLicenca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUtilizador_TEmpresa">
+          <End Role="TEmpresa" Type="Self.TEmpresa" Multiplicity="1" />
+          <End Role="TUtilizador" Type="Self.TUtilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEmpresa">
+              <PropertyRef Name="idEmpresa" />
+            </Principal>
+            <Dependent Role="TUtilizador">
+              <PropertyRef Name="idEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUtilizador_TTipoUtilizador">
+          <End Role="TTipoUtilizador" Type="Self.TTipoUtilizador" Multiplicity="1" />
+          <End Role="TUtilizador" Type="Self.TUtilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTipoUtilizador">
+              <PropertyRef Name="idTipoUtilizador" />
+            </Principal>
+            <Dependent Role="TUtilizador">
+              <PropertyRef Name="idTipoUtilizador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LicencingDBModelStoreContainer">
+          <EntitySet Name="TEmpresa" EntityType="Self.TEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TLicenca" EntityType="Self.TLicenca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TTipoLicenca" EntityType="Self.TTipoLicenca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TTipoUtilizador" EntityType="Self.TTipoUtilizador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUtilizador" EntityType="Self.TUtilizador" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TEmpresa_TLicenca" Association="Self.FK_TEmpresa_TLicenca">
+            <End Role="TLicenca" EntitySet="TLicenca" />
+            <End Role="TEmpresa" EntitySet="TEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TLicenca_TTipoLicenca" Association="Self.FK_TLicenca_TTipoLicenca">
+            <End Role="TTipoLicenca" EntitySet="TTipoLicenca" />
+            <End Role="TLicenca" EntitySet="TLicenca" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUtilizador_TEmpresa" Association="Self.FK_TUtilizador_TEmpresa">
+            <End Role="TEmpresa" EntitySet="TEmpresa" />
+            <End Role="TUtilizador" EntitySet="TUtilizador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUtilizador_TTipoUtilizador" Association="Self.FK_TUtilizador_TTipoUtilizador">
+            <End Role="TTipoUtilizador" EntitySet="TTipoUtilizador" />
+            <End Role="TUtilizador" EntitySet="TUtilizador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LicencingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TEmpresa">
+          <Key>
+            <PropertyRef Name="idEmpresa" />
+          </Key>
+          <Property Name="idEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="morada" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="nif" Type="String" MaxLength="9" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="contacto" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="servidor" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="idLicenca" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TLicenca" Relationship="Self.FK_TEmpresa_TLicenca" FromRole="TEmpresa" ToRole="TLicenca" />
+        </EntityType>
+        <EntityType Name="TLicenca">
+          <Key>
+            <PropertyRef Name="idLicenca" />
+          </Key>
+          <Property Name="idLicenca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dataInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idTipoLicenca" Type="Int32" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TTipoLicenca" Relationship="Self.FK_TLicenca_TTipoLicenca" FromRole="TLicenca" ToRole="TTipoLicenca" />
+        </EntityType>
+        <EntityType Name="TTipoLicenca">
+          <Key>
+            <PropertyRef Name="idTipoLicenca" />
+          </Key>
+          <Property Name="idTipoLicenca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="descricao" Type="String" MaxLength="500" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="duracao" Type="Int32" Nullable="false" />
+          <Property Name="valor" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TTipoUtilizador">
+          <Key>
+            <PropertyRef Name="idTipoUtilizador" />
+          </Key>
+          <Property Name="idTipoUtilizador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="descriçao" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TUtilizador">
+          <Key>
+            <PropertyRef Name="idUtilizador" />
+          </Key>
+          <Property Name="idUtilizador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="passwordSalt" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="nome" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="idEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="idTipoUtilizador" Type="Int32" Nullable="false" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
+          <Property Name="numSerieEquip" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TEmpresa" Relationship="Self.FK_TUtilizador_TEmpresa" FromRole="TUtilizador" ToRole="TEmpresa" />
+          <NavigationProperty Name="TTipoUtilizador" Relationship="Self.FK_TUtilizador_TTipoUtilizador" FromRole="TUtilizador" ToRole="TTipoUtilizador" />
+        </EntityType>
+        <Association Name="FK_TEmpresa_TLicenca">
+          <End Role="TLicenca" Type="Self.TLicenca" Multiplicity="1" />
+          <End Role="TEmpresa" Type="Self.TEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TLicenca">
+              <PropertyRef Name="idLicenca" />
+            </Principal>
+            <Dependent Role="TEmpresa">
+              <PropertyRef Name="idLicenca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUtilizador_TEmpresa">
+          <End Role="TEmpresa" Type="Self.TEmpresa" Multiplicity="1" />
+          <End Role="TUtilizador" Type="Self.TUtilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEmpresa">
+              <PropertyRef Name="idEmpresa" />
+            </Principal>
+            <Dependent Role="TUtilizador">
+              <PropertyRef Name="idEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TLicenca_TTipoLicenca">
+          <End Role="TTipoLicenca" Type="Self.TTipoLicenca" Multiplicity="1" />
+          <End Role="TLicenca" Type="Self.TLicenca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTipoLicenca">
+              <PropertyRef Name="idTipoLicenca" />
+            </Principal>
+            <Dependent Role="TLicenca">
+              <PropertyRef Name="idTipoLicenca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TUtilizador_TTipoUtilizador">
+          <End Role="TTipoUtilizador" Type="Self.TTipoUtilizador" Multiplicity="1" />
+          <End Role="TUtilizador" Type="Self.TUtilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTipoUtilizador">
+              <PropertyRef Name="idTipoUtilizador" />
+            </Principal>
+            <Dependent Role="TUtilizador">
+              <PropertyRef Name="idTipoUtilizador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LicencingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TEmpresa" EntityType="Self.TEmpresa" />
+          <EntitySet Name="TLicenca" EntityType="Self.TLicenca" />
+          <EntitySet Name="TTipoLicenca" EntityType="Self.TTipoLicenca" />
+          <EntitySet Name="TTipoUtilizador" EntityType="Self.TTipoUtilizador" />
+          <EntitySet Name="TUtilizador" EntityType="Self.TUtilizador" />
+          <AssociationSet Name="FK_TEmpresa_TLicenca" Association="Self.FK_TEmpresa_TLicenca">
+            <End Role="TLicenca" EntitySet="TLicenca" />
+            <End Role="TEmpresa" EntitySet="TEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUtilizador_TEmpresa" Association="Self.FK_TUtilizador_TEmpresa">
+            <End Role="TEmpresa" EntitySet="TEmpresa" />
+            <End Role="TUtilizador" EntitySet="TUtilizador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TLicenca_TTipoLicenca" Association="Self.FK_TLicenca_TTipoLicenca">
+            <End Role="TTipoLicenca" EntitySet="TTipoLicenca" />
+            <End Role="TLicenca" EntitySet="TLicenca" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TUtilizador_TTipoUtilizador" Association="Self.FK_TUtilizador_TTipoUtilizador">
+            <End Role="TTipoUtilizador" EntitySet="TTipoUtilizador" />
+            <End Role="TUtilizador" EntitySet="TUtilizador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LicencingDBModelStoreContainer" CdmEntityContainer="LicencingDBEntities">
+          <EntitySetMapping Name="TEmpresa">
+            <EntityTypeMapping TypeName="LicencingDBModel.TEmpresa">
+              <MappingFragment StoreEntitySet="TEmpresa">
+                <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="morada" ColumnName="morada" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nif" ColumnName="nif" />
+                <ScalarProperty Name="contacto" ColumnName="contacto" />
+                <ScalarProperty Name="servidor" ColumnName="servidor" />
+                <ScalarProperty Name="idLicenca" ColumnName="idLicenca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TLicenca">
+            <EntityTypeMapping TypeName="LicencingDBModel.TLicenca">
+              <MappingFragment StoreEntitySet="TLicenca">
+                <ScalarProperty Name="idLicenca" ColumnName="idLicenca" />
+                <ScalarProperty Name="dataInicio" ColumnName="dataInicio" />
+                <ScalarProperty Name="idTipoLicenca" ColumnName="idTipoLicenca" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TTipoLicenca">
+            <EntityTypeMapping TypeName="LicencingDBModel.TTipoLicenca">
+              <MappingFragment StoreEntitySet="TTipoLicenca">
+                <ScalarProperty Name="idTipoLicenca" ColumnName="idTipoLicenca" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="duracao" ColumnName="duracao" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TTipoUtilizador">
+            <EntityTypeMapping TypeName="LicencingDBModel.TTipoUtilizador">
+              <MappingFragment StoreEntitySet="TTipoUtilizador">
+                <ScalarProperty Name="idTipoUtilizador" ColumnName="idTipoUtilizador" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="descriçao" ColumnName="descriçao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUtilizador">
+            <EntityTypeMapping TypeName="LicencingDBModel.TUtilizador">
+              <MappingFragment StoreEntitySet="TUtilizador">
+                <ScalarProperty Name="idUtilizador" ColumnName="idUtilizador" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="passwordSalt" ColumnName="passwordSalt" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
+                <ScalarProperty Name="idTipoUtilizador" ColumnName="idTipoUtilizador" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="numSerieEquip" ColumnName="numSerieEquip" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
