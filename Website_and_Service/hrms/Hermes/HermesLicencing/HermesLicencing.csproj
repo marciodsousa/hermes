@@ -169,12 +169,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="App_Data\LicencingDB.mdf" />
-    <Content Include="App_Data\LicencingDB_log.ldf">
-      <DependentUpon>LicencingDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -188,6 +186,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Utilizadores\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Empresas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\LicencingDBModel.edmx">
@@ -211,13 +218,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Utilizadores\Login.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Empresas\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\wvm100.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

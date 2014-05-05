@@ -48,7 +48,7 @@ namespace HermesLicencing.Models
         [StringLength(100)]
         public string email { get; set; }
 
-    
+
         public virtual TEmpresa TEmpresa { get; set; }
         public virtual TTipoUtilizador TTipoUtilizador { get; set; }
 
@@ -58,15 +58,12 @@ namespace HermesLicencing.Models
             return db.Set<TUtilizador>();
         }
 
-        public static TUtilizador getById(int id)
+        public static TUtilizador GetById(int id)
         {
-            
-            var db = new Models.LicencingDBEntities();
-            return db.Set<TUtilizador>  
+
+            /*var db = new Models.LicencingDBEntities();
+            return db.Set<TUtilizador>;*/
+            return null;
         }
-
-        
-
-
     }
 }

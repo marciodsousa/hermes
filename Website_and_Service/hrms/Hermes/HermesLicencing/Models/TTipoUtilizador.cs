@@ -16,6 +16,6 @@ namespace HermesLicencing.Models
     {
         public int idTipoUtilizador { get; set; }
         public string nome { get; set; }
-        public string descriçao { get; set; }
+        public string descricao { get; set; }
     }
 }

@@ -30,6 +30,5 @@ namespace HermesLicencing.Models
             var db = new Models.LicencingDBEntities();
             return db.Set<TEmpresa>();
         }
-
     }
 }
