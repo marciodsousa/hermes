@@ -11,6 +11,7 @@ namespace HermesLicencing.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     
     public partial class TEmpresa
     {
@@ -29,6 +30,15 @@ namespace HermesLicencing.Models
         {
             var db = new Models.LicencingDBEntities();
             return db.Set<TEmpresa>();
+        }
+
+        public static TEmpresa GetById(int id)
+        {
+
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TEmpresa.Where(c => c.idEmpresa == id).Select(c => c);
+            return query.ToList().First();
         }
     }
 }

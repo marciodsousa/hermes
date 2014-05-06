@@ -6,9 +6,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,12 +24,6 @@ import android.widget.TextView;
  * well.
  */
 public class LoginActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -204,16 +200,12 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			session = new SessionManager(getApplicationContext());
-			
+			HashMap<String, String> usr;
 			
 			// TODO: attempt authentication against a network service.
 
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}
+			Controller c = new Controller();
+			 usr = c.getUserData(mUsername);
 
 			/*for (String credential : DUMMY_CREDENTIALS) {
 				String[] pieces = credential.split(":");
@@ -222,12 +214,24 @@ public class LoginActivity extends Activity {
 					return pieces[1].equals(mPassword);
 				}
 			}*/
-			Controller c = new Controller();
-			HashMap<String, String> usr = c.getUserData(mUsername, mPassword);
+			
+			 // if user exists
 			if (!usr.isEmpty())
-				session.createLoginSession(usr.get("username"), usr.get("name"), usr.get("email"));
+			{
+				//check password
+				
+				//check if using a device
+				if(usr.get("serial").isEmpty())
+				{
+					TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+					
+					session.createLoginSession(usr.get("idUtilizador"),usr.get("username"), usr.get("name"), usr.get("email"),
+						usr.get("password"),usr.get("passwordSalt"),usr.get("estado"),telephonyManager.getDeviceId(),usr.get("tipoUsr"),usr.get("idEmpresa"));
 
-			return true;
+					return true;
+				}
+			}
+			return false;
 		}
 
 		@Override

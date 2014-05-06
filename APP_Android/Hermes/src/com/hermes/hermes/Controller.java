@@ -25,7 +25,7 @@ public class Controller {
     {
     
     }
-	public HashMap<String, String> getUserData(String user, String pass)
+	public HashMap<String, String> getUserData(String user)
 	{
  
 		HashMap<String, String> ret = new HashMap<String, String>();
@@ -40,10 +40,7 @@ public class Controller {
 
         if (jsonStr != null) {
             try {
-                JSONObject jsonObj = new JSONObject(jsonStr);
-                 
-                // Getting JSON Array node
-                contacts = jsonObj.getJSONArray("utilizadores");
+            	contacts = new JSONArray (jsonStr);
 
                 // looping through All Contacts
                 for (int i = 0; i < contacts.length(); i++) {
@@ -55,6 +52,10 @@ public class Controller {
                     String name = c.getString("nome");
                     String password = c.getString("password");
                     String passwordSalt = c.getString("passwordSalt");
+                    String estado = c.getString("estado");
+                    String serial = c.getString("numSerieEquip");
+                    String tipoUsr = c.getString("idTipoUtilizador");
+                    String idEmpresa = c.getString("idEmpresa");
                     
                     HashMap<String, String> userObj = new HashMap<String, String>();
 
@@ -65,8 +66,12 @@ public class Controller {
                     userObj.put("nome", name);
                     userObj.put("password", password);
                     userObj.put("passwordSalt", passwordSalt);
+                    userObj.put("estado", estado);
+                    userObj.put("serial", serial);
+                    userObj.put("tipoUsr", tipoUsr);
+                    userObj.put("idEmpresa", idEmpresa);
                     
-                    if (user.toLowerCase() == userObj.get("username").toLowerCase())
+                    if (user.equalsIgnoreCase(userObj.get("username").toString()))
                     	ret = userObj;
                 }
             } catch (JSONException e) {

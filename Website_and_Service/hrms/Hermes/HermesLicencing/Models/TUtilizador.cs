@@ -12,6 +12,7 @@ namespace HermesLicencing.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     
     public partial class TUtilizador
     {
@@ -52,18 +53,23 @@ namespace HermesLicencing.Models
         public virtual TEmpresa TEmpresa { get; set; }
         public virtual TTipoUtilizador TTipoUtilizador { get; set; }
 
-        public static IEnumerable<TUtilizador> All()
+        public static List<TUtilizador> All()
         {
             var db = new Models.LicencingDBEntities();
-            return db.Set<TUtilizador>();
+
+            var query = db.TUtilizador.Select(c => c);
+            return query.ToList();
         }
 
         public static TUtilizador GetById(int id)
         {
 
-            /*var db = new Models.LicencingDBEntities();
-            return db.Set<TUtilizador>;*/
-            return null;
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TUtilizador.Where(c=>c.idUtilizador==id).Select(c => c);
+            return query.ToList().First();
         }
     }
+
+
 }

@@ -33,3 +33,4 @@ C:\Users\Márcio\Desktop\Hermes\Website_and_Service\hrms\Hermes\HermesLicencing\
 C:\Users\Márcio\Desktop\Hermes\Website_and_Service\hrms\Hermes\HermesLicencing\bin\WebActivator.pdb
 C:\Users\Márcio\Desktop\Hermes\Website_and_Service\hrms\Hermes\HermesLicencing\obj\Release\HermesLicencing.dll
 C:\Users\Márcio\Desktop\Hermes\Website_and_Service\hrms\Hermes\HermesLicencing\obj\Release\HermesLicencing.pdb
+C:\Users\Márcio\Desktop\Hermes\Website_and_Service\hrms\Hermes\HermesLicencing\obj\Release\HermesLicencing.csprojResolveAssemblyReference.cache

@@ -20,21 +20,41 @@ public class SessionManager {
     // Shared pref mode
     int PRIVATE_MODE = 0;
      
-    // Shared pref file name
-    private static final String PREF_NAME = "HermesPref";
-     
-    // All Shared Preferences Keys
-    private static final String IS_LOGIN = "IsLoggedIn";
-     
-    // Username (make variable public to access from outside)
-    public static final String KEY_USERNAME = "username";
-    
-    // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
+	// Shared pref file name
+	private static final String PREF_NAME = "HermesPref";
+	 
+	// All Shared Preferences Keys
+	private static final String IS_LOGIN = "IsLoggedIn";
+	     
+	// Userid (make variable public to access from outside)
+	public static final String KEY_USERID = "idUser";
+	
+	// Username (make variable public to access from outside)
+	public static final String KEY_USERNAME = "username";
+	
+	// User name (make variable public to access from outside)
+	public static final String KEY_NAME = "name";
+	 
+	// Email address (make variable public to access from outside)
+	public static final String KEY_EMAIL = "email";
+	    
+	// User password (make variable public to access from outside)
+	public static final String KEY_PASSWORD = "password";
+	
+	// User password SALT (make variable public to access from outside)
+	public static final String KEY_PASSWORDSLT = "passwordSalt";
+	
+	// User status (make variable public to access from outside)
+	public static final String KEY_STATUS = "estado";
 
-     
-    // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+	// Phone Serial Number (make variable public to access from outside)
+	public static final String KEY_SERIAL = "numSerieEquip";
+	    
+	// CompanyID (make variable public to access from outside)
+	public static final String KEY_COMPANYID = "idEmpresa";
+	    
+	// UserTypeID (make variable public to access from outside)
+	public static final String KEY_USERTYPE = "idTipoUtilizador";
      
     // Constructor
     public SessionManager(Context context){
@@ -46,11 +66,14 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String username, String name, String email){
+    public void createLoginSession(String id, String username, String name, String email, String password, String passSalt, String status, String serial, String usrtype, String companyid ){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
          
-        // Storing name in pref
+        // Storing userid in pref
+        editor.putString(KEY_USERID, id);
+        
+        // Storing username in pref
         editor.putString(KEY_USERNAME, username);
         
         // Storing name in pref
@@ -58,6 +81,24 @@ public class SessionManager {
          
         // Storing email in pref
         editor.putString(KEY_EMAIL, email);
+        
+        // Storing password in pref
+        editor.putString(KEY_PASSWORD, password);
+        
+        // Storing passwordSalt in pref
+        editor.putString(KEY_PASSWORDSLT, passSalt);
+         
+        // Storing status in pref
+        editor.putString(KEY_STATUS, status);
+        
+        // Storing phone SerialNumber in pref
+        editor.putString(KEY_SERIAL, serial);
+        
+        // Storing user typeid in pref
+        editor.putString(KEY_COMPANYID, usrtype);
+         
+        // Storing companyid in pref
+        editor.putString(KEY_USERTYPE, companyid);
          
         // commit changes
         editor.commit();
@@ -93,13 +134,34 @@ public class SessionManager {
         HashMap<String, String> user = new HashMap<String, String>();
         
         // user name
-        user.put(KEY_USERNAME, pref.getString(KEY_USERNAME, null));
+        user.put(KEY_USERID, pref.getString(KEY_USERID, null));
         
         // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_USERNAME, pref.getString(KEY_USERNAME, null));
          
         // user email id
+        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        
+        // user name
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        
+        // user name
+        user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
+         
+        // user email id
+        user.put(KEY_PASSWORDSLT, pref.getString(KEY_PASSWORDSLT, null));
+        
+        // user name
+        user.put(KEY_STATUS, pref.getString(KEY_STATUS, null));
+        
+        // user name
+        user.put(KEY_SERIAL, pref.getString(KEY_SERIAL, null));
+         
+        // user email id
+        user.put(KEY_COMPANYID, pref.getString(KEY_COMPANYID, null));
+        
+        // user email id
+        user.put(KEY_USERTYPE, pref.getString(KEY_USERTYPE, null));
          
         // return user
         return user;

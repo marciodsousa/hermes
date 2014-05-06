@@ -28,15 +28,8 @@ namespace HermesLicencing
 
             map.Resources<UtilizadoresController>(utilizadores =>
             {
-                utilizadores.Except("create", "destroy");
-                utilizadores.Resources<EmpresasController>(empresas =>
-                {
-                    empresas.Only("index", "show", "destroy");
-                    /*empresas.Resources<LicencasController>(licencas =>
-                    {
-                        licencas.Only("index", "create");
-                    });*/
-                });
+                utilizadores.Only("index", "show", "destroy");
+                
                 /*utilizadores.Resources<AccountsController>(accounts =>
                 {
                     accounts.Only("index", "show", "destroy");
@@ -44,6 +37,15 @@ namespace HermesLicencing
                     {
                         transactions.Only("index", "create");
                     });
+                });*/
+            });
+
+            map.Resources<EmpresasController>(empresas =>
+            {
+                empresas.Only("index", "show", "destroy");
+                /*empresas.Resources<LicencasController>(licencas =>
+                {
+                    licencas.Only("index", "create");
                 });*/
             });
             /*
