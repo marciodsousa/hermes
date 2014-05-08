@@ -40,5 +40,71 @@ namespace HermesLicencing.Models
             var query = db.TEmpresa.Where(c => c.idEmpresa == id).Select(c => c);
             return query.ToList().First();
         }
+
+        public static int Update(TEmpresa emp)
+        {
+            int ret = 0;
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TEmpresa.Select(c => c);
+            var empresas = query.ToList();
+
+            if (!ValidateData(emp))
+                return 2;
+
+            foreach (TEmpresa e in empresas)
+            {
+                if (emp.idEmpresa == e.idEmpresa)
+                {
+                    e.idEmpresa = emp.idEmpresa;
+                    e.nome = emp.nome;
+                    e.morada = emp.morada;
+                    e.email = emp.email;
+                    e.nif = emp.nif;
+                    e.contacto = emp.contacto;
+                    e.servidor = emp.servidor;
+                    e.idLicenca = emp.idLicenca;
+
+                    db.SaveChanges();
+                    ret = 1;
+                    break;
+                }
+            }
+            return ret;
+        }
+
+        public static int AddCompany(TEmpresa emp)
+        {
+            var db = new Models.LicencingDBEntities();
+
+            if (!ValidateData(emp))
+                return 2;
+
+            db.TEmpresa.Add(emp);
+            db.SaveChanges();
+
+            return emp.idEmpresa;
+        }
+
+        public static bool ValidateData(TEmpresa emp)
+        {
+            bool ret = false;
+
+            if (emp.nome == null)
+                return false;
+            if (emp.morada == null)
+                return false;
+            if (emp.nif == null)
+                return false;
+            if (emp.email == null)
+                return false;
+            if (emp.contacto == null)
+                return false;
+            if (emp.servidor == null)
+                return false;
+
+            return ret;
+        }
+
     }
 }

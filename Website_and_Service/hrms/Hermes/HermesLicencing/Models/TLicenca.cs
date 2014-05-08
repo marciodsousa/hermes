@@ -11,6 +11,7 @@ namespace HermesLicencing.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     
     public partial class TLicenca
     {
@@ -20,5 +21,80 @@ namespace HermesLicencing.Models
         public string estado { get; set; }
     
         public virtual TTipoLicenca TTipoLicenca { get; set; }
+
+
+        public static List<TLicenca> All()
+        {
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TLicenca.Select(c => c);
+            return query.ToList();
+        }
+
+        public static TLicenca GetById(int id)
+        {
+
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TLicenca.Where(c => c.idLicenca == id).Select(c => c);
+            return query.ToList().First();
+        }
+
+        public static int Update(TLicenca lic)
+        {
+            int ret = 0;
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TLicenca.Select(c => c);
+            var licencas = query.ToList();
+
+            if (!ValidateData(lic))
+                return 2;
+
+            foreach (TLicenca l in licencas)
+            {
+                if (lic.idLicenca == l.idLicenca)
+                {
+                    l.idLicenca = lic.idLicenca;
+                    l.dataInicio = lic.dataInicio;
+                    l.estado = lic.estado;
+                    l.idTipoLicenca = lic.idTipoLicenca;
+
+                    db.SaveChanges();
+                    ret = 1;
+                    break;
+                }
+            }
+            return ret;
+        }
+
+        public static int AddLicenca(TLicenca lic)
+        {
+            var db = new Models.LicencingDBEntities();
+
+            if (!ValidateData(lic))
+                return 2;
+
+            db.TLicenca.Add(lic);
+            db.SaveChanges();
+
+            return lic.idLicenca;
+        }
+
+        public static bool ValidateData(TLicenca lic)
+        {
+            bool ret = false;
+
+            if (lic.idLicenca == null)
+                return false;
+            if (lic.dataInicio == null)
+                return false;
+            if (lic.estado == null)
+                return false;
+            if (lic.idTipoLicenca == null)
+                return false;
+
+            return ret;
+        }
     }
 }

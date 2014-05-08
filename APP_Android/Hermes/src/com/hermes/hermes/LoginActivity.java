@@ -26,11 +26,6 @@ import android.widget.TextView;
 public class LoginActivity extends Activity {
 
 	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
-	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
@@ -45,9 +40,11 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-	
+
 	// Session reference
 	private SessionManager session;
+
+	private int loginStatus = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +53,6 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
-		mUsername = getIntent().getStringExtra(EXTRA_EMAIL);
 		mUsernameView = (EditText) findViewById(R.id.username);
 		mUsernameView.setText(mUsername);
 
@@ -92,6 +88,11 @@ public class LoginActivity extends Activity {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
+	}
+	
+	@Override
+	public void onBackPressed() {
+		finish();
 	}
 
 	/**
@@ -201,37 +202,40 @@ public class LoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			session = new SessionManager(getApplicationContext());
 			HashMap<String, String> usr;
-			
+
 			// TODO: attempt authentication against a network service.
 
 			Controller c = new Controller();
-			 usr = c.getUserData(mUsername);
+			int usrId = c.loginServer(mUsername, mPassword);
 
-			/*for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mUsername)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}*/
-			
-			 // if user exists
-			if (!usr.isEmpty())
-			{
-				//check password
-				
-				//check if using a device
-				if(usr.get("serial").isEmpty())
-				{
-					TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-					
-					session.createLoginSession(usr.get("idUtilizador"),usr.get("username"), usr.get("name"), usr.get("email"),
-						usr.get("password"),usr.get("passwordSalt"),usr.get("estado"),telephonyManager.getDeviceId(),usr.get("tipoUsr"),usr.get("idEmpresa"));
+			// if user does not exist
+			if (usrId == 0) {
+				loginStatus = -1;
+				return false;
+				// if password was correct
+			} else if (usrId == -1) {
+				loginStatus = -2;
+				return false;
+			} else {
+				usr = c.getUserData(usrId); // get User Data
 
+				// check if using a device
+				if (!usr.get("serial").isEmpty()) {
+					loginStatus = -3;
+					return false;
+				} else {
+					TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+					session.createLoginSession(usr.get("idUtilizador"),
+							usr.get("username"), usr.get("name"),
+							usr.get("email"), usr.get("password"),
+							usr.get("passwordSalt"), usr.get("estado"),
+							telephonyManager.getDeviceId(), usr.get("tipoUsr"),
+							usr.get("idEmpresa"));
+					loginStatus = 0;
 					return true;
 				}
 			}
-			return false;
 		}
 
 		@Override
@@ -242,9 +246,24 @@ public class LoginActivity extends Activity {
 			if (success) {
 				finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
+				
+				switch (loginStatus) {
+		            case -1:  
+	            		mUsernameView.setError(getString(R.string.error_invalid_username));
+	            		mUsernameView.requestFocus();
+	            			break;
+	            			
+		            case -2:  
+						mPasswordView.setError(getString(R.string.error_incorrect_password));
+						mPasswordView.requestFocus();
+						    break;
+					
+		            case -3:  
+		            	mUsernameView.setError(getString(R.string.error_user_already_active));
+		            	mUsernameView.requestFocus();
+		                    break;
+				}
+				
 			}
 		}
 

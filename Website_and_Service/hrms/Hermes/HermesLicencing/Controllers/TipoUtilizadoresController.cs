@@ -7,26 +7,26 @@ using HermesLicencing.Models;
 
 namespace HermesLicencing.Controllers
 {
-    public class EmpresasController : ApplicationController
+    public class TipoUtilizadoresController : ApplicationController
     {
         //
-        // GET: /Empresas/
+        // GET: /TipoUtilizadores/
 
         public ActionResult Index()
         {
             //return RespondTo(format =>
             //{
             //    //format.Default = View();
-            //    format.Json = () => Json(Models.TEmpresa.All(), JsonRequestBehavior.AllowGet);
+            //    format.Json = () => Json(Models.TTipoUtilizador.All(), JsonRequestBehavior.AllowGet);
             //});
-            return Json(Models.TEmpresa.All(), JsonRequestBehavior.AllowGet);
+            return Json(Models.TTipoUtilizador.All(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Show(int Id)
         {
-            var empresa = Models.TEmpresa.GetById(Id);
+            var tipoUsr = Models.TTipoUtilizador.GetById(Id);
 
-            if (empresa == null)
+            if (tipoUsr == null)
             {
                 return new HttpNotFoundResult();
             }
@@ -34,10 +34,10 @@ namespace HermesLicencing.Controllers
             {
                 //return RespondTo(format =>
                 //{
-                //    //format.Default = View(empresa);
-                //    format.Json = () => Json(empresa, JsonRequestBehavior.AllowGet);
+                //    //format.Default = View(tipoUsr);
+                //    format.Json = () => Json(tipoUsr, JsonRequestBehavior.AllowGet);
                 //});
-                return Json(empresa, JsonRequestBehavior.AllowGet);
+                return Json(tipoUsr, JsonRequestBehavior.AllowGet);
             }
         }
         /*
@@ -59,25 +59,20 @@ namespace HermesLicencing.Controllers
             return result;
         }*/
 
-        public ActionResult Update(int id, string nome, string morada, string email, string nif, string contacto, string servidor, int idLicenca)
+        public ActionResult Update(int id, string nome, string descricao)
         {
             ActionResult result = null;
 
-            TEmpresa emp = new TEmpresa
+            TTipoUtilizador tipoUsr = new TTipoUtilizador
             {
-                idEmpresa = id,
+                idTipoUtilizador = id,
                 nome = nome,
-                morada = morada,
-                email = email,
-                nif = nif,
-                contacto = contacto,
-                servidor = servidor,
-                idLicenca = idLicenca
+                descricao = descricao
             };
-            switch (TEmpresa.Update(emp))
+            switch (TTipoUtilizador.Update(tipoUsr))
             {
                 case 1: //utilizador actualizado com sucesso
-                    result = Json(TEmpresa.GetById(id));
+                    result = Json(TTipoUtilizador.GetById(id));
                     break;
 
                 case 0: //utilizador não encontrado
@@ -96,11 +91,11 @@ namespace HermesLicencing.Controllers
             return result;
         }
 
-        public ActionResult Create(TEmpresa emp)
+        public ActionResult Create(TTipoUtilizador tipoUsr)
         {
-            int empId;
-            empId = TEmpresa.AddCompany(emp);
-            return Json(TEmpresa.GetById(empId));
+            int tipoId;
+            tipoId = TTipoUtilizador.AddUserType(tipoUsr);
+            return Json(TTipoUtilizador.GetById(tipoId));
         }
     }
 }

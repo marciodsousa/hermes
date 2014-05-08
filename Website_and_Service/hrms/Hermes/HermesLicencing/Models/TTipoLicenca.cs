@@ -11,6 +11,7 @@ namespace HermesLicencing.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     
     public partial class TTipoLicenca
     {
@@ -19,5 +20,81 @@ namespace HermesLicencing.Models
         public string descricao { get; set; }
         public int duracao { get; set; }
         public decimal valor { get; set; }
+
+        public static List<TTipoLicenca> All()
+        {
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TTipoLicenca.Select(c => c);
+            return query.ToList();
+        }
+
+        public static TTipoLicenca GetById(int id)
+        {
+
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TTipoLicenca.Where(c => c.idTipoLicenca == id).Select(c => c);
+            return query.ToList().First();
+        }
+
+        public static int Update(TTipoLicenca tlic)
+        {
+            int ret = 0;
+            var db = new Models.LicencingDBEntities();
+
+            var query = db.TTipoLicenca.Select(c => c);
+            var tipoLics = query.ToList();
+
+            if (!ValidateData(tlic))
+                return 2;
+
+            foreach (TTipoLicenca tl in tipoLics)
+            {
+                if (tlic.idTipoLicenca == tl.idTipoLicenca)
+                {
+                    tl.idTipoLicenca = tlic.idTipoLicenca;
+                    tl.nome = tlic.nome;
+                    tl.duracao = tlic.duracao;
+                    tl.descricao = tlic.descricao;
+                    tl.valor = tlic.valor;
+
+                    db.SaveChanges();
+                    ret = 1;
+                    break;
+                }
+            }
+            return ret;
+        }
+
+        public static int AddLicType(TTipoLicenca tlic)
+        {
+            var db = new Models.LicencingDBEntities();
+
+            if (!ValidateData(tlic))
+                return 2;
+
+            db.TTipoLicenca.Add(tlic);
+            db.SaveChanges();
+
+            return tlic.idTipoLicenca;
+        }
+
+
+        public static bool ValidateData(TTipoLicenca tlic)
+        {
+            bool ret = false;
+
+            if (tlic.nome == null)
+                return false;
+            if (tlic.duracao == null)
+                return false;
+            if (tlic.descricao == null)
+                return false;
+            if (tlic.valor == null)
+                return false;
+
+            return ret;
+        }
     }
 }

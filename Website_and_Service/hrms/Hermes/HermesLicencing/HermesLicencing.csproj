@@ -126,8 +126,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LicencasController.cs" />
+    <Compile Include="Controllers\TipoLicencasController.cs" />
+    <Compile Include="Controllers\TipoUtilizadoresController.cs" />
     <Compile Include="Controllers\UtilizadoresController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -19,35 +19,33 @@ namespace HermesLicencing
 
             map.Resources<UtilizadoresController>(utilizadores =>
             {
-                utilizadores.Only("index","show");
-                utilizadores.Resources<EmpresasController>(contas =>
-                {
-                    contas.Only("index");
-                });
-            });
-
-            map.Resources<UtilizadoresController>(utilizadores =>
-            {
-                utilizadores.Only("index", "show", "destroy");
-                
-                /*utilizadores.Resources<AccountsController>(accounts =>
-                {
-                    accounts.Only("index", "show", "destroy");
-                    accounts.Resources<TransactionsController>(transactions =>
-                    {
-                        transactions.Only("index", "create");
-                    });
-                });*/
+                utilizadores.Only("index", "show", "create", "update");
             });
 
             map.Resources<EmpresasController>(empresas =>
             {
-                empresas.Only("index", "show", "destroy");
-                /*empresas.Resources<LicencasController>(licencas =>
-                {
-                    licencas.Only("index", "create");
-                });*/
+                empresas.Only("index", "show", "create", "update");
             });
+
+            map.Resources<LicencasController>(licencas =>
+            {
+                licencas.Only("index", "show", "create", "update");
+            });
+
+            map.Resources<TipoLicencasController>(tipolicencas =>
+            {
+                tipolicencas.Only("index", "show", "create", "update", "destroy");
+            });
+
+            map.Resources<TipoUtilizadoresController>(tipoutilizadores =>
+            {
+                tipoutilizadores.Only("index", "show", "create", "update", "destroy");
+            });
+            map.Resources<AuthController>(auths =>
+            {
+                auths.Only("index", "show", "create", "update", "destroy");
+            });
+
             /*
              * TODO: Add your routes here.
              * 
