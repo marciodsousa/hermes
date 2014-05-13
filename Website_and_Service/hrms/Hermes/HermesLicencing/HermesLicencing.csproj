@@ -225,7 +225,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Shared\LayoutLogin.cshtml" />
     <None Include="Properties\PublishProfiles\wvm100.pubxml" />
+    <Content Include="Views\Empresas\Show.cshtml" />
+    <Content Include="Views\Utilizadores\Show.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

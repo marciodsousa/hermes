@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 19:19:10</publishTime>
     </File>
     <File Include="bin/HermesLicencing.dll">
-      <publishTime>05/08/2014 10:49:17</publishTime>
+      <publishTime>05/13/2014 01:14:03</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>04/28/2014 19:04:41</publishTime>
@@ -67,25 +67,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 19:04:25</publishTime>
     </File>
     <File Include="Models/LicencingDBModel.edmx.diagram">
-      <publishTime>05/04/2014 16:56:57</publishTime>
+      <publishTime>04/05/2014 16:56:57</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>04/28/2014 19:19:23</publishTime>
     </File>
     <File Include="Views/Empresas/Index.cshtml">
-      <publishTime>04/29/2014 00:51:08</publishTime>
+      <publishTime>05/12/2014 20:40:56</publishTime>
+    </File>
+    <File Include="Views/Empresas/Show.cshtml">
+      <publishTime>05/13/2014 01:09:43</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>04/29/2014 00:29:44</publishTime>
+      <publishTime>05/12/2014 19:38:19</publishTime>
+    </File>
+    <File Include="Views/Shared/LayoutLogin.cshtml">
+      <publishTime>05/12/2014 20:10:45</publishTime>
     </File>
     <File Include="Views/Utilizadores/Login.cshtml">
-      <publishTime>05/08/2014 00:27:34</publishTime>
+      <publishTime>05/12/2014 20:07:44</publishTime>
+    </File>
+    <File Include="Views/Utilizadores/Show.cshtml">
+      <publishTime>05/13/2014 01:09:46</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/28/2014 19:04:25</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/05/2014 21:12:28</publishTime>
+      <publishTime>05/13/2014 01:14:07</publishTime>
     </File>
   </ItemGroup>
 </Project>

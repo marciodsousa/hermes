@@ -14,30 +14,29 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Index()
         {
-            //return RespondTo(format =>
-            //{
-            //    //format.Default = View();
-            //    format.Json = () => Json(Models.TEmpresa.All(), JsonRequestBehavior.AllowGet);
-            //});
-            return Json(Models.TEmpresa.All(), JsonRequestBehavior.AllowGet);
+            return RespondTo(format =>
+            {
+                format.Default = View();
+                format.Json = () => Json(Models.TEmpresa.All(), JsonRequestBehavior.AllowGet);
+            });
         }
 
         public ActionResult Show(int Id)
         {
             var empresa = Models.TEmpresa.GetById(Id);
-
+            TempData["idEmpresa"] = Id;
             if (empresa == null)
             {
                 return new HttpNotFoundResult();
             }
             else
             {
-                //return RespondTo(format =>
-                //{
-                //    //format.Default = View(empresa);
-                //    format.Json = () => Json(empresa, JsonRequestBehavior.AllowGet);
-                //});
-                return Json(empresa, JsonRequestBehavior.AllowGet);
+                return RespondTo(format =>
+                {
+                    format.Default = View(empresa);
+                    format.Json = () => Json(empresa, JsonRequestBehavior.AllowGet);
+                });
+                
             }
         }
         /*

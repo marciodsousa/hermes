@@ -30,7 +30,11 @@ namespace HermesLicencing.Controllers
             }
             else
             {
-                return Json(user, JsonRequestBehavior.AllowGet);
+                return RespondTo(format =>
+                {
+                    format.Default = View(user);
+                    format.Json = () => Json(user, JsonRequestBehavior.AllowGet);
+                });
             }
         }
 
@@ -86,17 +90,27 @@ namespace HermesLicencing.Controllers
         [HttpPost]
         public ActionResult Login(Models.TUtilizador user)
         {
-
+            //
             //if (ModelState.IsValid)
             //{
             if (IsValid(user.username, user.password)>0)
             {
-                Session["user"] = db.TUtilizador.FirstOrDefault(u => u.username == user.username);
-                return RedirectToAction("Index", "Home");
+                var usr = db.TUtilizador.FirstOrDefault(u => u.username == user.username);
+                if (usr.idTipoUtilizador == 1)
+                {
+                    Session["usrId"] = usr.idUtilizador;
+                    Session["userName"] = usr.nome;
+                    return RedirectToAction("Index", "Empresas");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "You are not allowed to enter this application.");
+                }
+                
             }
             else
             {
-                ModelState.AddModelError("", "Login data is incorrect!");
+                ModelState.AddModelError("", "Login data is incorrect.");
             }
             //}
             //var errors = ModelState.Values.SelectMany(v => v.Errors);

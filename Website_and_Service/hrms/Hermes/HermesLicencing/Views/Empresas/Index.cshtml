@@ -1,13 +1,30 @@
 ﻿@model HermesLicencing.Models.TEmpresa
 @{
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
     ViewBag.Title = "Empresas";
 }
 
-<h2>EMPRESASs</h2>
-@if (Model != null)
-{
-    foreach (var movie in Model.nome)
-    {
-        <li>@movie</li>
-    }
-}
+<h1>User: @Session["userName"] </h1>
+
+<div class='section' id='transactionsTableContainer'></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'empresas',
+            dataType: 'json',
+            success: function (empresas) {
+                var table = '<table><tr><th>Empresa</th></tr>';
+                alert(empresas); //uncomment this for debug
+                $.each(empresas, function (index, empresa) {
+                    table += '<tr><td><a href="empresas/'+empresa.idEmpresa+'">'+ empresa.nome + '</a></td><td></tr>';
+                });
+
+                table += '</table>';
+
+                $('div[id="transactionsTableContainer"]').empty().append(table);
+            }
+        });
+    });
+</script>
