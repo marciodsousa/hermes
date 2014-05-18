@@ -229,6 +229,10 @@
     <None Include="Properties\PublishProfiles\wvm100.pubxml" />
     <Content Include="Views\Empresas\Show.cshtml" />
     <Content Include="Views\Utilizadores\Show.cshtml" />
+    <Content Include="Views\TipoUtilizadores\Index.cshtml" />
+    <Content Include="Views\TipoUtilizadores\Show.cshtml" />
+    <Content Include="Views\TipoLicencas\Index.cshtml" />
+    <Content Include="Views\TipoLicencas\Show.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

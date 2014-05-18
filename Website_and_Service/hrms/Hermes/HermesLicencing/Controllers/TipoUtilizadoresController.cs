@@ -14,12 +14,11 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Index()
         {
-            //return RespondTo(format =>
-            //{
-            //    //format.Default = View();
-            //    format.Json = () => Json(Models.TTipoUtilizador.All(), JsonRequestBehavior.AllowGet);
-            //});
-            return Json(Models.TTipoUtilizador.All(), JsonRequestBehavior.AllowGet);
+            return RespondTo(format =>
+            {
+                format.Default = View();
+                format.Json = () => Json(Models.TTipoUtilizador.All(), JsonRequestBehavior.AllowGet);
+            });
         }
 
         public ActionResult Show(int Id)
@@ -32,50 +31,25 @@ namespace HermesLicencing.Controllers
             }
             else
             {
-                //return RespondTo(format =>
-                //{
-                //    //format.Default = View(tipoUsr);
-                //    format.Json = () => Json(tipoUsr, JsonRequestBehavior.AllowGet);
-                //});
-                return Json(tipoUsr, JsonRequestBehavior.AllowGet);
+                return RespondTo(format =>
+                {
+                    format.Default = View(tipoUsr);
+                    format.Json = () => Json(tipoUsr, JsonRequestBehavior.AllowGet);
+                });
             }
         }
-        /*
-        public ActionResult Destroy(int UserId, int Id)
+        
+        public ActionResult Update(TTipoUtilizador tipoUsr)
         {
             ActionResult result = null;
 
-            switch (Users.GetById(UserId).DeleteAccount(Id))
-            {
-                case AccountDeleteResult.Deleted:
-                    result = Json(new { success = true });
-                    break;
-
-                case AccountDeleteResult.NoSuchAccount:
-                    result = new HttpNotFoundResult();
-                    break;
-            }
-
-            return result;
-        }*/
-
-        public ActionResult Update(int id, string nome, string descricao)
-        {
-            ActionResult result = null;
-
-            TTipoUtilizador tipoUsr = new TTipoUtilizador
-            {
-                idTipoUtilizador = id,
-                nome = nome,
-                descricao = descricao
-            };
             switch (TTipoUtilizador.Update(tipoUsr))
             {
-                case 1: //utilizador actualizado com sucesso
-                    result = Json(TTipoUtilizador.GetById(id));
+                case 1: //tipoUtilizador actualizado com sucesso
+                    result = Json(TTipoUtilizador.GetById(tipoUsr.idTipoUtilizador));
                     break;
 
-                case 0: //utilizador não encontrado
+                case 0: //tipoUtilizador não encontrado
                     result = new HttpNotFoundResult();
                     break;
 

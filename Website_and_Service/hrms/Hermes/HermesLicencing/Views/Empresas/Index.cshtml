@@ -6,17 +6,55 @@
 
 <h1>User: @Session["userName"] </h1>
 
+<div class='section' id='newCompanyDetails'>
+    <table>
+        <tr>
+            <td><label for="nome">Nome*</label></td>
+            <td><input type="text" id="nome" /></td>
+        </tr>
+        <tr>
+            <td><label for="morada">Morada*</label></td>
+            <td><input type="text" id="morada" /></td>
+        </tr>
+        <tr>
+            <td><label for="email">E-mail</label></td>
+            <td><input type="text" id="email" /></td>
+        </tr>
+        <tr>
+            <td><label for="nif">NIF*</label></td>
+            <td><input type="text" id="nif" /></td>
+        </tr>
+        <tr>
+            <td><label for="contacto">Contacto*</label></td>
+            <td><input type="text" id="contacto" /></td>
+        </tr>
+        <tr>
+            <td><label for="servidor">Servidor</label></td>
+            <td><input type="text" id="servidor" /></td>
+        </tr>
+        <tr>
+            <td><label for="idLicenca">ID Licenca</label></td>
+            <td><input type="text" id="idLicenca" /></td>
+        </tr>
+        <tr>
+            <td class="field-validation-error"></td>
+            <td><button id="submitButton">Adicionar Empresa</button></td>
+        </tr>
+
+    </table>
+</div>
+
 <div class='section' id='transactionsTableContainer'></div>
 <script type="text/javascript">
 
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
-            url: 'empresas',
+            //url: '/hermes/empresas',
+            url: '/empresas',
             dataType: 'json',
             success: function (empresas) {
                 var table = '<table><tr><th>Empresa</th></tr>';
-                alert(empresas); //uncomment this for debug
                 $.each(empresas, function (index, empresa) {
                     table += '<tr><td><a href="empresas/'+empresa.idEmpresa+'">'+ empresa.nome + '</a></td><td></tr>';
                 });
@@ -25,6 +63,42 @@
 
                 $('div[id="transactionsTableContainer"]').empty().append(table);
             }
+        });
+    });
+
+    var onUserUpdateFailed = function (xhr) {
+        var errorCell = $('td[class*="field-validation-error"]');
+        errorCell.empty();
+        switch (xhr.status) {
+            case 400:
+                errorCell.append('E-mail address is invalid.');
+                break;
+
+            case 409:
+                errorCell.append('Name or E-mail address conflicts with another user.');
+                break;
+        }
+    };
+
+    $("#submitButton").click(function () {
+        var empresa = {
+            nome: $("#nome").val(),
+            morada: $("#morada").val(),
+            email: $("#email").val(),
+            nif: $("#nif").val(),
+            contacto: $("#contacto").val(),
+            servidor: $("#servidor").val(),
+            idLicenca: $("#idLicenca").val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            //url: '/hermes/empresas/',
+            url: '/empresas/',
+            data: empresa,
+            dataType: 'json',
+            //success: location.reload(),
+            error: onUserUpdateFailed
         });
     });
 </script>

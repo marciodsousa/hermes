@@ -15,12 +15,11 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Index()
         {
-            //return RespondTo(format =>
-            //{
-            //    format.Default = View();
-            //    format.Json = () => Json(Models.TLicenca.All(), JsonRequestBehavior.AllowGet);
-            //});
-            return Json(Models.TLicenca.All(), JsonRequestBehavior.AllowGet);
+            return RespondTo(format =>
+            {
+                format.Default = View();
+                format.Json = () => Json(Models.TLicenca.All(), JsonRequestBehavior.AllowGet);
+            });
         }
 
         public ActionResult Show(int Id)
@@ -33,31 +32,25 @@ namespace HermesLicencing.Controllers
             }
             else
             {
-                //return RespondTo(format =>
-                //{
-                //    format.Default = View(licenca);
-                //    format.Json = () => Json(licenca, JsonRequestBehavior.AllowGet);
-                //});
-                return Json(licenca, JsonRequestBehavior.AllowGet);
+                return RespondTo(format =>
+                {
+                    format.Default = View(licenca);
+                    format.Json = () => Json(licenca, JsonRequestBehavior.AllowGet);
+                });
             }
         }
 
-        public ActionResult Update(int id, DateTime dta, int idTipoLic, string status)
+        public ActionResult Update(TLicenca lic)
         {
             ActionResult result = null;
 
-            TLicenca lic = new TLicenca { idLicenca = id,
-                dataInicio = dta,
-                idTipoLicenca = idTipoLic,
-                estado = status,
-            };
             switch (TLicenca.Update(lic))
             {
-                case 1: //utilizador actualizado com sucesso
-                    result = Json(TLicenca.GetById(id));
+                case 1: //licença actualizada com sucesso
+                    result = Json(TLicenca.GetById(lic.idLicenca));
                     break;
 
-                case 0: //utilizador não encontrado
+                case 0: //licenca não encontrada
                     result = new HttpNotFoundResult();
                     break;
 

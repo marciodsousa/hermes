@@ -1,0 +1,66 @@
+﻿@model HermesLicencing.Models.TTipoUtilizador
+@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h1>Tipo Licença: @Model.nome </h1>
+
+
+<div class='section' id='userDetails'>
+    <table>
+        <tr>
+            <td><label for="idTipoUtilizador">ID</label></td>
+            <td><div id="idTipoUtilizador">@Model.idTipoUtilizador</div></td>
+        </tr>
+        <tr>
+            <td><label for="nome">Nome</label></td>
+            <td><input type="text" id="nome" value="@Model.nome" /></td>
+        </tr>
+        <tr>
+            <td><label for="descricao">descricao</label></td>
+            <td><input type="text" id="descricao" value="@Model.descricao" /></td>
+        </tr>
+        <tr>
+            <td class="field-validation-error"></td>
+            <td><input type="button" value="Guardar Alterações" onclick="saveData()" /></td>
+        </tr>
+
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    var onUserUpdateFailed = function (xhr) {
+        var errorCell = $('td[class*="field-validation-error"]');
+        errorCell.empty();
+        switch (xhr.status) {
+            case 400:
+                errorCell.append('E-mail address is invalid.');
+                break;
+
+            case 409:
+                errorCell.append('Name or E-mail address conflicts with another user.');
+                break;
+        }
+    };
+
+    var saveData = function () {
+        var tipoUsr = {
+            idTipoUtilizador: $('div[id="idTipoUtilizador"]').text(),
+            nome: $("#nome").val(),
+            descricao: $("#descricao").val()
+        };
+
+        $.ajax({
+            type: 'PUT',
+            //url: '/hermes/tipoutilizadores/' + '@Model.idTipoUtilizador',
+            url: '/tipoutilizadores/' + '@Model.idTipoUtilizador',
+            data: tipoUsr,
+            dataType: 'json',
+            //success: location.reload(),
+            error: onUserUpdateFailed
+        });
+    };
+
+</script>

@@ -39,47 +39,18 @@ namespace HermesLicencing.Controllers
                 
             }
         }
-        /*
-        public ActionResult Destroy(int UserId, int Id)
+
+        public ActionResult Update(TEmpresa emp)
         {
             ActionResult result = null;
 
-            switch (Users.GetById(UserId).DeleteAccount(Id))
-            {
-                case AccountDeleteResult.Deleted:
-                    result = Json(new { success = true });
-                    break;
-
-                case AccountDeleteResult.NoSuchAccount:
-                    result = new HttpNotFoundResult();
-                    break;
-            }
-
-            return result;
-        }*/
-
-        public ActionResult Update(int id, string nome, string morada, string email, string nif, string contacto, string servidor, int idLicenca)
-        {
-            ActionResult result = null;
-
-            TEmpresa emp = new TEmpresa
-            {
-                idEmpresa = id,
-                nome = nome,
-                morada = morada,
-                email = email,
-                nif = nif,
-                contacto = contacto,
-                servidor = servidor,
-                idLicenca = idLicenca
-            };
             switch (TEmpresa.Update(emp))
             {
-                case 1: //utilizador actualizado com sucesso
-                    result = Json(TEmpresa.GetById(id));
+                case 1: //empresa actualizada com sucesso
+                    result = Json(TEmpresa.GetById(emp.idEmpresa));
                     break;
 
-                case 0: //utilizador não encontrado
+                case 0: //empresa não encontrada
                     result = new HttpNotFoundResult();
                     break;
 

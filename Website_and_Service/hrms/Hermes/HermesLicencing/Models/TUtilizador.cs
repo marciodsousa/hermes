@@ -108,9 +108,16 @@ namespace HermesLicencing.Models
         public static int AddUser(TUtilizador usr)
         {
             var db = new Models.LicencingDBEntities();
-
+            var crypto = new SimpleCrypto.PBKDF2();
+            
             if (!ValidateData(usr))
                 return 2;
+
+            //tratamento da password
+            var encryPass = crypto.Compute(usr.password);
+            var encrySalt = crypto.Salt;
+            usr.password = encryPass;
+            usr.passwordSalt = encrySalt;
 
             db.TUtilizador.Add(usr);
             db.SaveChanges();
@@ -120,7 +127,7 @@ namespace HermesLicencing.Models
 
         public static bool ValidateData(TUtilizador usr)
         {
-            bool ret = false;
+            bool ret = true;
 
             if (usr.username == null || usr.username.CompareTo("")==0)
                 return false;

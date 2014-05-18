@@ -88,7 +88,7 @@ namespace HermesLicencing.Models
 
         public static bool ValidateData(TEmpresa emp)
         {
-            bool ret = false;
+            bool ret = true;
 
             if (emp.nome == null)
                 return false;

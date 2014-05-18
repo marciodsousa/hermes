@@ -83,7 +83,7 @@ namespace HermesLicencing.Models
 
         public static bool ValidateData(TTipoLicenca tlic)
         {
-            bool ret = false;
+            bool ret = true;
 
             if (tlic.nome == null)
                 return false;

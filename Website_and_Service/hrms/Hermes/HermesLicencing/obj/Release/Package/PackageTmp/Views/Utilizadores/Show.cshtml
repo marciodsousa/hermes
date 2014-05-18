@@ -31,7 +31,11 @@
         </tr>
         <tr>
             <td><label for="estado">Estado</label></td>
-            <td><input type="text" id="estado" value="@Model.estado" /></td>
+            <td>
+                <select id="estado">
+                </select> />
+            
+            </td>
         </tr>
         <tr>
             <td><label for="idTipoUtilizador">idTipoUtilizador</label></td>
@@ -43,13 +47,29 @@
         </tr>
         <tr>
             <td class="field-validation-error"></td>
-            <td><input type="button" value="Guardar Alterações" onclick="saveData´()" /></td>
+            <td><input type="button" value="Guardar Alterações" onclick="saveData()" /></td>
         </tr>
         
     </table>
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        var listItems = "";
+        var usrStatus = parseInt("@Model.estado");
+
+        var statuses = ["Inactivo", "Activo", "Suspenso"];
+
+        for (var i = 0; i < 3; i++) {
+            listItems += "<option value='" + i +"' ";
+            if (i == usrStatus)
+            {
+                listItems += "selected";
+            }
+            listItems += ">" + statuses[i] + "</option>";
+        }
+        $('#estado').html(listItems);
+    });
 
     var onUserUpdateFailed = function (xhr) {
         var errorCell = $('td[class*="field-validation-error"]');
@@ -65,23 +85,48 @@
         }
     };
 
+
     var saveData = function () {
         var utilizaddor = {
             idUtilizador: $('div[id="idUtilizador"]').text(),
-            username: $('input[id="username"]').attr('value'),
+            username: $("#username").val(),
             passwordSalt: '@Model.passwordSalt',
-            nome: $('input[id="nome"]').attr('value'),
-            idEmpresa: $('input[id="idEmpresa"]').attr('value'),
-            idTipoUtilizador: $('input[id="idTipoUtilizador"]').attr('value'),
-            estado: $('input[id="estado"]').attr('value'),
+            nome: $("#nome").val(),
+            idEmpresa: $("#idEmpresa").val(),
+            idTipoUtilizador: $("#idTipoUtilizador").val(),
+            estado: $("#estado").val(),
             numSerieEquip: $('div[id="numSerieEquip"]').text(),
             password: '@Model.password',
-            email: $('input[id="email"]').attr('value')
+            email: $("#email").val()
         };
 
         $.ajax({
             type: 'PUT',
-            url: '/utilizadores/'+'@Model.idUtilizador',
+            url: '/hermes/utilizadores/' + '@Model.idUtilizador',
+            data: utilizaddor,
+            dataType: 'json',
+            success: location.reload(),
+            error: onUserUpdateFailed
+        });
+    };
+
+    var resetSerial = function () {
+        var utilizaddor = {
+            idUtilizador: $('div[id="idUtilizador"]').text(),
+            username: $("#username").val(),
+            passwordSalt: '@Model.passwordSalt',
+            nome: $("#nome").val(),
+            idEmpresa: $("#idEmpresa").val(),
+            idTipoUtilizador: $("#idTipoUtilizador").val(),
+            estado: $("#estado").val(),
+            numSerieEquip: '',
+            password: '@Model.password',
+            email: $("#email").val()
+        };
+
+        $.ajax({
+            type: 'PUT',
+            url: '/hermes/utilizadores/' + '@Model.idUtilizador',
             data: utilizaddor,
             dataType: 'json',
             success: location.reload(),

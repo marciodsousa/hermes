@@ -43,37 +43,98 @@
         </tr>
         <tr>
             <td class="field-validation-error"></td>
-            <td><input type="button" value="Guardar Alterações" onclick="saveData´()" /></td>
+            <td><input type="button" value="Guardar Alterações" onclick="saveData()" /></td>
+        </tr>
+
+    </table>
+</div>
+
+<div class='section' id='newUser'>
+    <table>
+        <tr>
+            <td><label for="username">Username</label></td>
+            <td><input type="text" id="username"/></td>
+        </tr>
+        <tr>
+            <td><label for="usrNome">Nome</label></td>
+            <td><input type="text" id="usrNome" /></td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td><input type="password" id="password" /></td>
+        </tr>
+        <tr>
+            <td><label for="usrEmail">E-mail</label></td>
+            <td><input type="text" id="usrEmail"/></td>
+        </tr>
+        <tr>
+            <td><label for="usrEstado">Estado</label></td>
+            <td><input type="text" id="usrEstado" /></td>
+        </tr>
+        <tr>
+            <td><label for="idTipoUtilizador">idTipoUtilizador</label></td>
+            <td><input type="text" id="idTipoUtilizador" /></td>
+        </tr>
+        <tr>
+            <td class="field-validation-error"></td>
+            <td><button id="submitButton">Adicionar Utilizador a empresa</button></td>
         </tr>
 
     </table>
 </div>
 
 <div class='section' id='transactionsTableContainer'></div>
+
+<div class='section' id='licenceTableContainer'></div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
-        //alert('@(TempData["idEmpresa"])');
         $.ajax({
             type: 'GET',
+            //url: '/hermes/utilizadores',
             url: '/utilizadores',
             dataType: 'json',
             success: function (utilizadores) {
                 var table = '<table><tr><th>id user</th></tr>';
-                //alert(utilizadores); //uncomment this for debug
-                
+
                 $.each(utilizadores, function (index, user) {
-                    if(user.idEmpresa == '@(TempData["idEmpresa"])')
-                    {
-                        table += '<tr><td><a href="/utilizadores/' + user.idUtilizador + '">' + user.nome + '</a></td><td></tr>';
+                    if (user.idEmpresa == '@(TempData["idEmpresa"])') {
+                        table += '<tr><td><a href="/hermes/utilizadores/' + user.idUtilizador + '">' + user.nome + '</a></td><td></tr>';
                     }
 
                 });
                 table += '</table>';
                 $('div[id="transactionsTableContainer"]').empty().append(table);
-             }
+            }
         });
+
     });
+
+    @*var fillLicence = function () {
+        $.ajax({
+            type: 'GET',
+            url: '/licencas',
+            dataType: 'json',
+            success: function (licencas) {
+                var table = '<table><tr><th>id licenca</th></tr>';
+
+                "idLicenca":1,
+			"dataInicio":"\/Date(1396652400000)\/",
+			"idTipoLicenca":1,
+			"estado":"1"
+
+                $.each(utilizadores, function (index, lic) {
+                    if (user.idEmpresa == '@(TempData["idEmpresa"])') {
+                        table += '<tr><td><a href="/licencas/' + lic.idLicenca + '">' + lic.nome + '</a></td><td></tr>';
+                    }
+
+                });
+                table += '</table>';
+                $('div[id="transactionsTableContainer"]').empty().append(table);
+            }
+        });
+    };*@
 
     var onUserUpdateFailed = function (xhr) {
         var errorCell = $('td[class*="field-validation-error"]');
@@ -92,22 +153,47 @@
     var saveData = function () {
         var empresa = {
             idEmpresa: $('div[id="idEmpresa"]').text(),
-            nome: $('input[id="nome"]').attr('value'),
-            morada: $('input[id="morada"]').attr('value'),
-            email: $('input[id="email"]').attr('value'),
-            nif: $('input[id="nif"]').attr('value'),
-            contacto: $('input[id="contacto"]').attr('value'),
-            servidor: $('input[id="servidor"]').attr('value'),
-            idLicenca: $('input[id="idLicenca"]').attr('value')
+            nome: $("#nome").val(),
+            morada: $("#morada").val(),
+            email: $("#email").val(),
+            nif: $("#nif").val(),
+            contacto: $("#contacto").val(),
+            servidor: $("#servidor").val(),
+            idLicenca: $("#idLicenca").val()
         };
 
         $.ajax({
             type: 'PUT',
+            @*url: '/hermes/empresas/' + '@Model.idEmpresa',*@
             url: '/empresas/' + '@Model.idEmpresa',
             data: empresa,
             dataType: 'json',
-            success: location.reload(),
+            //success: location.reload(),
             error: onUserUpdateFailed
         });
     };
+
+    $("#submitButton").click(function () {
+        var utilizador = {
+            username: $("#username").val(),
+            passwordSalt: '1',
+            nome: $("#usrNome").val(),
+            idEmpresa: '@Model.idEmpresa',
+            idTipoUtilizador: $("#idTipoUtilizador").val(),
+            estado: $("#usrEstado").val(),
+            numSerieEquip: '1',
+            password: $("#password").val(),
+            email: $("#usrEmail").val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            //url: '/hermes/utilizadores/',
+            url: '/utilizadores/',
+            data: utilizador,
+            dataType: 'json',
+            //success: location.reload(),
+            error: onUserUpdateFailed
+        });
+    });
 </script>

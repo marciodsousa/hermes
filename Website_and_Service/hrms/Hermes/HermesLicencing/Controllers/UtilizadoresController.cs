@@ -38,24 +38,14 @@ namespace HermesLicencing.Controllers
             }
         }
 
-        public ActionResult Update(int id, string usrname, string pswdslt, string name, int idE, int idTU, int stat, string serial, string pwd, string email)
+        public ActionResult Update(TUtilizador user)
         {
             ActionResult result = null;
 
-            TUtilizador user = new TUtilizador { idUtilizador = id,
-                                                 username = usrname,
-                                                 passwordSalt = pswdslt,
-                                                 nome = name,
-                                                 idEmpresa = idE,
-                                                 idTipoUtilizador = idTU,
-                                                 estado = stat,
-                                                 numSerieEquip = serial,
-                                                 password = pwd,
-                                                 email = email};
             switch (TUtilizador.Update(user))
             {
                 case 1: //utilizador actualizado com sucesso
-                    result = Json(TUtilizador.GetById(id));
+                    result = Json(TUtilizador.GetById(user.idUtilizador));
                     break;
 
                 case 0: //utilizador não encontrado

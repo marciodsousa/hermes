@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 19:19:10</publishTime>
     </File>
     <File Include="bin/HermesLicencing.dll">
-      <publishTime>05/13/2014 01:14:03</publishTime>
+      <publishTime>05/19/2014 00:19:52</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>04/28/2014 19:04:41</publishTime>
@@ -73,10 +73,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 19:19:23</publishTime>
     </File>
     <File Include="Views/Empresas/Index.cshtml">
-      <publishTime>05/12/2014 20:40:56</publishTime>
+      <publishTime>05/19/2014 00:30:26</publishTime>
     </File>
     <File Include="Views/Empresas/Show.cshtml">
-      <publishTime>05/13/2014 01:09:43</publishTime>
+      <publishTime>05/19/2014 00:44:42</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>05/12/2014 19:38:19</publishTime>
@@ -84,11 +84,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/LayoutLogin.cshtml">
       <publishTime>05/12/2014 20:10:45</publishTime>
     </File>
+    <File Include="Views/TipoLicencas/Index.cshtml">
+      <publishTime>05/19/2014 00:31:54</publishTime>
+    </File>
+    <File Include="Views/TipoLicencas/Show.cshtml">
+      <publishTime>05/19/2014 00:31:54</publishTime>
+    </File>
+    <File Include="Views/TipoUtilizadores/Index.cshtml">
+      <publishTime>05/19/2014 00:31:54</publishTime>
+    </File>
+    <File Include="Views/TipoUtilizadores/Show.cshtml">
+      <publishTime>05/19/2014 00:31:54</publishTime>
+    </File>
     <File Include="Views/Utilizadores/Login.cshtml">
       <publishTime>05/12/2014 20:07:44</publishTime>
     </File>
     <File Include="Views/Utilizadores/Show.cshtml">
-      <publishTime>05/13/2014 01:09:46</publishTime>
+      <publishTime>05/19/2014 00:31:54</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/28/2014 19:04:25</publishTime>

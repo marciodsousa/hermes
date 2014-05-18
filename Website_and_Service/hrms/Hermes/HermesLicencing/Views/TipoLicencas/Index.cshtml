@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h1>User: @Session["userName"] </h1>
+<h2>TipoLicencas</h2>
+
+<div class='section' id='transactionsTableContainer'></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            //url: '/hermes/tipoLicencas',
+            url: '/tipoLicencas',
+            dataType: 'json',
+            success: function (tipoLicencas) {
+                var table = '<table><tr><th>tipoLicencas</th></tr>';
+                //alert(tipoLicencas); //uncomment this for debug
+                $.each(tipoLicencas, function (index, tLicenca) {
+                    //table += '<tr><td><a href="/hermes/tipolicencas/' + tLicenca.idTipoLicenca + '">' + tLicenca.nome + '</a> : ' + tLicenca.descricao + '</td><td></tr>';
+                    table += '<tr><td><a href="/tipolicencas/' + tLicenca.idTipoLicenca + '">' + tLicenca.nome + '</a> : ' + tLicenca.descricao + '</td><td></tr>';
+                });
+
+                table += '</table>';
+
+                $('div[id="transactionsTableContainer"]').empty().append(table);
+            }
+        });
+    });
+</script>
