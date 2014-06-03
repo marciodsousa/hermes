@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using HermesLicencing.Models;
+using HermesLicencingInterface.Models;
 
 namespace HermesLicencing.Controllers
 {
@@ -11,20 +11,17 @@ namespace HermesLicencing.Controllers
     {
         //
         // GET: /Licencas/
-        Models.LicencingDBEntities db = new Models.LicencingDBEntities();
 
         public ActionResult Index()
         {
-            return RespondTo(format =>
-            {
-                format.Default = View();
-                format.Json = () => Json(Models.TLicenca.All(), JsonRequestBehavior.AllowGet);
-            });
+
+            return Json(TLicenca.All(), JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult Show(int Id)
         {
-            var licenca = Models.TLicenca.GetById(Id);
+            var licenca = TLicenca.GetById(Id);
 
             if (licenca == null)
             {
@@ -32,11 +29,7 @@ namespace HermesLicencing.Controllers
             }
             else
             {
-                return RespondTo(format =>
-                {
-                    format.Default = View(licenca);
-                    format.Json = () => Json(licenca, JsonRequestBehavior.AllowGet);
-                });
+                return Json(licenca, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -69,8 +62,29 @@ namespace HermesLicencing.Controllers
         public ActionResult Create(TLicenca lic)
         {
             int licId;
-            licId = TLicenca.AddLicenca(lic);
-            return Json(TLicenca.GetById(licId));
+
+            
+            //se licença para este IMEI já está atribuida, devolver
+            var existLic = TLicenca.GetByIMEI(lic.imei);
+            if (existLic != null)
+                return Json(existLic);
+
+            
+            int idEmp = lic.idEmpresa;
+
+            //caso contrário, ver se empresa já tem o número máximo de licenças atribuido
+            if (TLicenca.GetByEmp(idEmp).Count() < TEmpresa.GetById(idEmp).maxRegs)
+            {
+                //numero maximo de licenças da empresa ainda nao foi atingido, adicionar.
+                licId = TLicenca.AddLicenca(lic);
+                return Json(TLicenca.GetById(licId));
+            }
+            else
+            {
+                //Enviar Aviso ao admin a dizer que nr máximo de licenças foi atingido
+                return new HttpStatusCodeResult(409);
+            }
+    
         }
 
     }

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<HermesLicencingInterface.Models.TLicenca>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Licenças da empresa </h2>
+<table>
+    <tr>
+        <th>IMEI</th>
+        <th>Estado</th>
+        <th>CodLicenca</th>
+
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td>@obj.imei</td>
+            <td>@obj.estado</td>
+            <td>@obj.codLicenca</td>
+        </tr>
+    }
+</table>

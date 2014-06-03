@@ -1,0 +1,27 @@
+﻿@model IEnumerable<HermesLicencingInterface.Models.TEmpresa>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Morada</th>
+        <th>Email</th>
+        <th>NIF</th>
+        <th>Contacto</th>
+        <th>Nr máximo de Registos</th>
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td>@obj.nome</td>
+            <td>@obj.morada</td>
+            <td>@obj.email</td>
+            <td>@obj.nif</td>
+            <td>@obj.contacto</td>
+            <td>@obj.maxRegs</td>
+        </tr>
+    }
+</table>

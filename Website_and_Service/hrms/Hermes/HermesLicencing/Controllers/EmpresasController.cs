@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using HermesLicencing.Models;
+using HermesLicencingInterface.Models;
 
 namespace HermesLicencing.Controllers
 {
@@ -14,16 +14,12 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Index()
         {
-            return RespondTo(format =>
-            {
-                format.Default = View();
-                format.Json = () => Json(Models.TEmpresa.All(), JsonRequestBehavior.AllowGet);
-            });
+            return Json(TEmpresa.All(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Show(int Id)
         {
-            var empresa = Models.TEmpresa.GetById(Id);
+            var empresa = TEmpresa.GetById(Id);
             TempData["idEmpresa"] = Id;
             if (empresa == null)
             {
@@ -31,11 +27,7 @@ namespace HermesLicencing.Controllers
             }
             else
             {
-                return RespondTo(format =>
-                {
-                    format.Default = View(empresa);
-                    format.Json = () => Json(empresa, JsonRequestBehavior.AllowGet);
-                });
+                return Json(empresa, JsonRequestBehavior.AllowGet);
                 
             }
         }

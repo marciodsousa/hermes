@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LicencingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TEmpresa">
+          <Key>
+            <PropertyRef Name="idEmpresa" />
+          </Key>
+          <Property Name="idEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="morada" Type="nvarchar" MaxLength="200" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nif" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="contacto" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="maxRegs" Type="int" />
+        </EntityType>
+        <EntityType Name="TLicenca">
+          <Key>
+            <PropertyRef Name="idLicenca" />
+          </Key>
+          <Property Name="idLicenca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imei" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idEmpresa" Type="int" Nullable="false" />
+          <Property Name="estado" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="codLicenca" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TUtilizador">
+          <Key>
+            <PropertyRef Name="idUtilizador" />
+          </Key>
+          <Property Name="idUtilizador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="passwordSalt" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="nome" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TLicenca_TEmpresa">
+          <End Role="TEmpresa" Type="Self.TEmpresa" Multiplicity="1" />
+          <End Role="TLicenca" Type="Self.TLicenca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEmpresa">
+              <PropertyRef Name="idEmpresa" />
+            </Principal>
+            <Dependent Role="TLicenca">
+              <PropertyRef Name="idEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LicencingDBModelStoreContainer">
+          <EntitySet Name="TEmpresa" EntityType="Self.TEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TLicenca" EntityType="Self.TLicenca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUtilizador" EntityType="Self.TUtilizador" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TLicenca_TEmpresa" Association="Self.FK_TLicenca_TEmpresa">
+            <End Role="TEmpresa" EntitySet="TEmpresa" />
+            <End Role="TLicenca" EntitySet="TLicenca" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LicencingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TEmpresa">
+          <Key>
+            <PropertyRef Name="idEmpresa" />
+          </Key>
+          <Property Name="idEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="morada" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nif" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contacto" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="maxRegs" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TLicenca">
+          <Key>
+            <PropertyRef Name="idLicenca" />
+          </Key>
+          <Property Name="idLicenca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imei" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="codLicenca" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TEmpresa" Relationship="Self.FK_TLicenca_TEmpresa" FromRole="TLicenca" ToRole="TEmpresa" />
+        </EntityType>
+        <Association Name="FK_TLicenca_TEmpresa">
+          <End Role="TEmpresa" Type="Self.TEmpresa" Multiplicity="1" />
+          <End Role="TLicenca" Type="Self.TLicenca" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TEmpresa">
+              <PropertyRef Name="idEmpresa" />
+            </Principal>
+            <Dependent Role="TLicenca">
+              <PropertyRef Name="idEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LicencingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TEmpresa" EntityType="Self.TEmpresa" />
+          <EntitySet Name="TLicenca" EntityType="Self.TLicenca" />
+          <AssociationSet Name="FK_TLicenca_TEmpresa" Association="Self.FK_TLicenca_TEmpresa">
+            <End Role="TEmpresa" EntitySet="TEmpresa" />
+            <End Role="TLicenca" EntitySet="TLicenca" />
+          </AssociationSet>
+          <EntitySet Name="TUtilizador" EntityType="LicencingDBModel.TUtilizador" />
+        </EntityContainer>
+        <EntityType Name="TUtilizador">
+          <Key>
+            <PropertyRef Name="idUtilizador" />
+          </Key>
+          <Property Name="idUtilizador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="passwordSalt" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="nome" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LicencingDBModelStoreContainer" CdmEntityContainer="LicencingDBEntities">
+          <EntitySetMapping Name="TEmpresa">
+            <EntityTypeMapping TypeName="LicencingDBModel.TEmpresa">
+              <MappingFragment StoreEntitySet="TEmpresa">
+                <ScalarProperty Name="maxRegs" ColumnName="maxRegs" />
+                <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="morada" ColumnName="morada" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nif" ColumnName="nif" />
+                <ScalarProperty Name="contacto" ColumnName="contacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TLicenca">
+            <EntityTypeMapping TypeName="LicencingDBModel.TLicenca">
+              <MappingFragment StoreEntitySet="TLicenca">
+                <ScalarProperty Name="idLicenca" ColumnName="idLicenca" />
+                <ScalarProperty Name="imei" ColumnName="imei" />
+                <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="codLicenca" ColumnName="codLicenca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUtilizador">
+            <EntityTypeMapping TypeName="LicencingDBModel.TUtilizador">
+              <MappingFragment StoreEntitySet="TUtilizador">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="passwordSalt" ColumnName="passwordSalt" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idUtilizador" ColumnName="idUtilizador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

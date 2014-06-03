@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="431226347958427588ddb96e22fa393f" Name="Diagram1">
+        <EntityTypeShape EntityType="PESTICliModel.TCliente" Width="1.5" PointX="2.875" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PESTICliModel.TGuiaTransporte" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PESTICliModel.TLinhaProduto" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PESTICliModel.TLocal" Width="1.5" PointX="0.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PESTICliModel.TProduto" Width="1.5" PointX="8.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PESTICliModel.TUtilizador" Width="1.5" PointX="8.875" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="PESTICliModel.FK_TGuiaTransporte_idCliente" ManuallyRouted="false" />
+        <AssociationConnector Association="PESTICliModel.FK_TGuiaTransporte_TLocalC" ManuallyRouted="false" />
+        <AssociationConnector Association="PESTICliModel.FK_TGuiaTransporte_TLocalD" ManuallyRouted="false" />
+        <AssociationConnector Association="PESTICliModel.FK_TLinhaProduto_TGuiaTransporte" ManuallyRouted="false" />
+        <AssociationConnector Association="PESTICliModel.FK_TLinhaProduto_TProduto" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PESTICliModel.TEmpresa" Width="1.5" PointX="5.375" PointY="9" />
+        <EntityTypeShape EntityType="PESTICliModel.TLicenca" Width="1.5" PointX="7.625" PointY="9" />
+        <AssociationConnector Association="PESTICliModel.FK_TLicenca_TEmpresa" />
+        <AssociationConnector Association="PESTICliModel.FK_TUtilizador_TEmpresa" />
+        <AssociationConnector Association="PESTICliModel.FK_TGuiaTransporte_idUtilizador" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

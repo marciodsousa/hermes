@@ -6,17 +6,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>Z:\Hermes</_PublishTargetUrl>
+    <_PublishTargetUrl>Z:\HermesLicencingWS</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>04/28/2014 19:19:08</publishTime>
+      <publishTime>06/03/2014 00:43:54</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>04/28/2014 19:19:10</publishTime>
+      <publishTime>06/03/2014 00:43:54</publishTime>
     </File>
     <File Include="bin/HermesLicencing.dll">
-      <publishTime>05/19/2014 00:19:52</publishTime>
+      <publishTime>06/03/2014 01:23:20</publishTime>
+    </File>
+    <File Include="bin/HermesLicencingInterface.dll">
+      <publishTime>06/03/2014 01:22:25</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>04/28/2014 19:04:41</publishTime>
@@ -70,13 +73,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/05/2014 16:56:57</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>04/28/2014 19:19:23</publishTime>
+      <publishTime>06/03/2014 01:21:02</publishTime>
     </File>
     <File Include="Views/Empresas/Index.cshtml">
-      <publishTime>05/19/2014 00:30:26</publishTime>
+      <publishTime>05/19/2014 00:53:21</publishTime>
     </File>
     <File Include="Views/Empresas/Show.cshtml">
-      <publishTime>05/19/2014 00:44:42</publishTime>
+      <publishTime>05/19/2014 00:53:21</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>05/12/2014 19:38:19</publishTime>
@@ -106,7 +109,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 19:04:25</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/13/2014 01:14:07</publishTime>
+      <publishTime>06/03/2014 01:23:20</publishTime>
     </File>
   </ItemGroup>
 </Project>
