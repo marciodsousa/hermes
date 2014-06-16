@@ -58,11 +58,15 @@ namespace HermesLicencingInterface.Models
 
         public static TEmpresa GetById(int id)
         {
-
             var db = new Models.LicencingDBEntities();
 
             var query = db.TEmpresa.Where(c => c.idEmpresa == id).Select(c => c);
-            return query.ToList().First();
+
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static int Update(TEmpresa emp)

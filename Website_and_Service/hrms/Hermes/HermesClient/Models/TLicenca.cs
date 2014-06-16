@@ -11,8 +11,10 @@ namespace HermesClient.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    
+    using System.Web.Mvc;
+
     public partial class TLicenca
     {
         public int idLicenca { get; set; }
@@ -20,7 +22,7 @@ namespace HermesClient.Models
         public int idEmpresa { get; set; }
         public string estado { get; set; }
         public string codLicenca { get; set; }
-    
+
         public virtual TEmpresa TEmpresa { get; set; }
 
         public static List<TLicenca> All()
@@ -45,8 +47,13 @@ namespace HermesClient.Models
 
             var db = new Models.PESTICliEntities();
 
-            var query = db.TLicenca.Where(c => c.imei == imei).Select(c => c);
-            return query.ToList().First();
+            var query = db.TLicenca.Where( x => x.imei.Equals(imei));
+
+            var list = query.ToList();
+            if (list.Count>0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static int Update(TLicenca lic)

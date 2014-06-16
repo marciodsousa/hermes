@@ -31,12 +31,16 @@ public class LoginActivity extends Activity {
 	private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
+	private String mServer;
 	private String mUsername;
 	private String mPassword;
 
+
 	// UI references.
+	private EditText mServerView;
 	private EditText mUsernameView;
 	private EditText mPasswordView;
+
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
@@ -53,6 +57,9 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
+		mServerView = (EditText) findViewById(R.id.server);
+		mServerView.setText(mServer);
+		
 		mUsernameView = (EditText) findViewById(R.id.username);
 		mUsernameView.setText(mUsername);
 
@@ -110,12 +117,35 @@ public class LoginActivity extends Activity {
 		mPasswordView.setError(null);
 
 		// Store values at the time of the login attempt.
+		mServer = mServerView.getText().toString();
 		mUsername = mUsernameView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
 
 		boolean cancel = false;
 		View focusView = null;
 
+		// Check for a valid server Address.
+		if (TextUtils.isEmpty(mServer)) {
+			mServerView.setError(getString(R.string.error_field_required));
+			focusView = mServerView;
+			cancel = true;
+		} else if (mServer.contains(" ")) {
+			mServerView.setError(getString(R.string.error_invalid_server));
+			focusView = mServerView;
+			cancel = true;
+		}
+		
+		// Check for a valid username.
+		if (TextUtils.isEmpty(mUsername)) {
+			mUsernameView.setError(getString(R.string.error_field_required));
+			focusView = mUsernameView;
+			cancel = true;
+		} else if (mUsername.contains(" ")) {
+			mUsernameView.setError(getString(R.string.error_invalid_username));
+			focusView = mUsernameView;
+			cancel = true;
+		}
+				
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
@@ -127,16 +157,7 @@ public class LoginActivity extends Activity {
 			cancel = true;
 		}
 
-		// Check for a valid username.
-		if (TextUtils.isEmpty(mUsername)) {
-			mUsernameView.setError(getString(R.string.error_field_required));
-			focusView = mUsernameView;
-			cancel = true;
-		} else if (mUsername.contains(" ")) {
-			mUsernameView.setError(getString(R.string.error_invalid_username));
-			focusView = mUsernameView;
-			cancel = true;
-		}
+		
 
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
@@ -202,12 +223,38 @@ public class LoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			session = new SessionManager(getApplicationContext());
 			HashMap<String, String> usr;
+			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 			// TODO: attempt authentication against a network service.
 
 			Controller c = new Controller();
-			int usrId = c.loginServer(mUsername, mPassword);
+			
+			
+			int licId = c.registerDevice("Http://wvm100.dei.isep.ipp.pt/hermesclientws", telephonyManager.getDeviceId());
+			
+			
 
+			// Server Doesnt Exist
+			if (licId == -3) {
+				loginStatus = -4;
+				return false;
+			}	
+			
+			int usrId = c.loginServer(mServer, mUsername, mPassword);
+			
+			// Max devices registered limit reached
+			if (licId == -4) {
+				loginStatus = -5;
+				return false;
+			}	
+						
+						
+			// if server address is invalid
+			if (usrId == -2) {
+				loginStatus = -4;
+				return false;
+			}		
+							
 			// if user does not exist
 			if (usrId == 0) {
 				loginStatus = -1;
@@ -224,14 +271,10 @@ public class LoginActivity extends Activity {
 					loginStatus = -3;
 					return false;
 				} else {
-					TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+					
 
-					session.createLoginSession(usr.get("idUtilizador"),
-							usr.get("username"), usr.get("name"),
-							usr.get("email"), usr.get("password"),
-							usr.get("passwordSalt"), usr.get("estado"),
-							telephonyManager.getDeviceId(), usr.get("tipoUsr"),
-							usr.get("idEmpresa"));
+					session.createLoginSession( usr.get("idUtilizador"),
+							usr.get("username"), usr.get("name"), usr.get("codLicenca"));
 					loginStatus = 0;
 					return true;
 				}
@@ -261,6 +304,11 @@ public class LoginActivity extends Activity {
 		            case -3:  
 		            	mUsernameView.setError(getString(R.string.error_user_already_active));
 		            	mUsernameView.requestFocus();
+		                    break;
+		                    
+		            case -4:  
+		            	mServerView.setError(getString(R.string.error_invalid_server));
+		            	mServerView.requestFocus();
 		                    break;
 				}
 				

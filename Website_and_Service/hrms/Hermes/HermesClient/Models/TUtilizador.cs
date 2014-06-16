@@ -14,19 +14,46 @@ namespace HermesClient.Models
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Web.Mvc;
-    
+
     public partial class TUtilizador
     {
         public int idUtilizador { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        [Display(Name = "Username: ")]
         public string username { get; set; }
+
         public string passwordSalt { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(200, MinimumLength = 6)]
+        [Display(Name = "Password: ")]
         public string password { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        [Display(Name = "Nome: ")]
         public string nome { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [StringLength(200)]
+        [Display(Name = "Email: ")]
         public string email { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de utilizador: ")]
         public int tipoUtilizador { get; set; }
+
+        [Required]
+        [Display(Name = "Estado do Utilizador: ")]
         public int estado { get; set; }
+
         public int idEmpresa { get; set; }
-    
+
+
         public virtual TEmpresa TEmpresa { get; set; }
 
         public static List<TUtilizador> All()

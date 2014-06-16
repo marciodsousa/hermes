@@ -25,37 +25,60 @@ namespace HermesLicencingInterface.Models
 
         public static List<TLicenca> All()
         {
+            List<TLicenca> ret;
+
             var db = new Models.LicencingDBEntities();
 
             var query = db.TLicenca.Select(c => c);
-            return query.ToList();
+
+            ret = query.ToList();
+            if (ret.Count > 0)
+                return ret;
+
+            return new List<TLicenca>();
         }
 
         public static TLicenca GetById(int id)
         {
-
             var db = new Models.LicencingDBEntities();
 
             var query = db.TLicenca.Where(c => c.idLicenca == id).Select(c => c);
-            return query.ToList().First();
+
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static TLicenca GetByIMEI(string imei)
         {
-
             var db = new Models.LicencingDBEntities();
 
-            var query = db.TLicenca.Where(c => c.imei == imei).Select(c => c);
-            return query.ToList().First();
+            var query = db.TLicenca.Where(x => x.imei.Equals(imei));
+
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static List<TLicenca> GetByEmp(int idEmp)
         {
+            List<TLicenca> ret;
 
             var db = new Models.LicencingDBEntities();
 
             var query = db.TLicenca.Where(c => c.idEmpresa == idEmp).Select(c => c);
-            return query.ToList();
+
+            ret = query.ToList();
+            if (ret.Count > 0)
+                return ret;
+
+            return new List<TLicenca>();
+
+
         }
 
         public static int Update(TLicenca lic)
@@ -90,9 +113,6 @@ namespace HermesLicencingInterface.Models
         public static int AddLicenca(TLicenca lic)
         {
             var db = new Models.LicencingDBEntities();
-
-            if (!ValidateData(lic))
-                return 2;
 
             //gerar código único para empresa
             lic.codLicenca = "" + (lic.idLicenca + 1000);

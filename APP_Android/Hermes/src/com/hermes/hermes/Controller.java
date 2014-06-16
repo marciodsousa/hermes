@@ -82,7 +82,7 @@ public class Controller {
         new GetContacts().execute();*/
     }
  
-	public int loginServer(String user, String passwd)
+	public int loginServer(String server, String user, String passwd)
 	{
  
 		int ret=0;
@@ -96,7 +96,28 @@ public class Controller {
         list.add(new BasicNameValuePair("passwd", passwd));
 
         // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(host+"Auths", ServiceHandler.POST,list);
+        String jsonStr = sh.makeServiceCall(server+"/Licenca", ServiceHandler.POST,list);
+        
+        if (jsonStr != null)
+        	ret=Integer.parseInt(jsonStr);
+        
+        return ret;
+    }
+	
+	public int registerDevice(String server, String imei)
+	{
+ 
+		int ret=0;
+
+        // Creating service handler class instance
+        ServiceHandler sh = new ServiceHandler();
+        
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        
+        list.add(new BasicNameValuePair("imei", imei));
+
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(server+"/Licencas", ServiceHandler.POST,list);
         
         if (jsonStr != null)
         	ret=Integer.parseInt(jsonStr);

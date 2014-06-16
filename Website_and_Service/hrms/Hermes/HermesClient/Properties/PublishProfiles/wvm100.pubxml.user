@@ -10,10 +10,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>06/02/2014 00:38:22</publishTime>
+      <publishTime>06/03/2014 00:43:54</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>06/03/2014 00:43:54</publishTime>
     </File>
     <File Include="bin/HermesClient.dll">
-      <publishTime>06/03/2014 00:29:35</publishTime>
+      <publishTime>06/15/2014 21:05:17</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>04/28/2014 19:04:41</publishTime>
@@ -55,19 +58,64 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 19:04:43</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>06/01/2014 23:16:18</publishTime>
+      <publishTime>01/06/2014 23:16:18</publishTime>
     </File>
     <File Include="Models/ClientDBModel.edmx.diagram">
-      <publishTime>06/02/2014 22:35:26</publishTime>
+      <publishTime>02/06/2014 22:35:26</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>06/02/2014 22:53:18</publishTime>
+      <publishTime>06/03/2014 01:19:46</publishTime>
+    </File>
+    <File Include="Views/Cliente/Create.cshtml">
+      <publishTime>06/11/2014 01:47:34</publishTime>
+    </File>
+    <File Include="Views/Cliente/Edit.cshtml">
+      <publishTime>06/11/2014 01:48:33</publishTime>
+    </File>
+    <File Include="Views/Cliente/Index.cshtml">
+      <publishTime>06/11/2014 01:45:29</publishTime>
+    </File>
+    <File Include="Views/Empresa/Edit.cshtml">
+      <publishTime>06/09/2014 01:59:54</publishTime>
+    </File>
+    <File Include="Views/Local/Create.cshtml">
+      <publishTime>06/11/2014 01:53:59</publishTime>
+    </File>
+    <File Include="Views/Local/Edit.cshtml">
+      <publishTime>06/11/2014 01:51:36</publishTime>
+    </File>
+    <File Include="Views/Local/Index.cshtml">
+      <publishTime>06/11/2014 01:50:53</publishTime>
+    </File>
+    <File Include="Views/Produto/Create.cshtml">
+      <publishTime>06/05/2014 04:13:58</publishTime>
+    </File>
+    <File Include="Views/Produto/Edit.cshtml">
+      <publishTime>06/11/2014 02:49:13</publishTime>
+    </File>
+    <File Include="Views/Produto/Index.cshtml">
+      <publishTime>06/11/2014 01:39:55</publishTime>
+    </File>
+    <File Include="Views/Shared/LayoutLogin.cshtml">
+      <publishTime>06/05/2014 02:02:53</publishTime>
+    </File>
+    <File Include="Views/Utilizador/Create.cshtml">
+      <publishTime>06/05/2014 03:38:53</publishTime>
+    </File>
+    <File Include="Views/Utilizador/Edit.cshtml">
+      <publishTime>06/11/2014 01:12:21</publishTime>
+    </File>
+    <File Include="Views/Utilizador/Index.cshtml">
+      <publishTime>06/11/2014 03:13:07</publishTime>
+    </File>
+    <File Include="Views/Utilizador/Login.cshtml">
+      <publishTime>06/05/2014 03:38:53</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>06/01/2014 23:16:18</publishTime>
+      <publishTime>01/06/2014 23:16:18</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/03/2014 01:05:51</publishTime>
+      <publishTime>06/14/2014 17:34:07</publishTime>
     </File>
   </ItemGroup>
 </Project>

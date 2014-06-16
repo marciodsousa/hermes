@@ -11,14 +11,112 @@ namespace HermesClient.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Web.Mvc;
+
     public partial class TEmpresa
     {
         public int idEmpresa { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        [Display(Name = "Nome: ")]
         public string nome { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        [Display(Name = "Morada: ")]
         public string morada { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        [Display(Name = "Email: ")]
         public string email { get; set; }
+
+        [Required]
+        [StringLength(9)]
+        [Display(Name = "NIF: ")]
         public string nif { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        [Display(Name = "Contacto: ")]
         public string contacto { get; set; }
+
+        public static List<TEmpresa> All()
+        {
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TEmpresa.Select(c => c);
+            return query.ToList();
+        }
+
+        public static TEmpresa GetById(int id)
+        {
+
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TEmpresa.Where(c => c.idEmpresa == id).Select(c => c);
+            return query.ToList().First();
+        }
+
+        public static int Update(TEmpresa emp)
+        {
+            int ret = 0;
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TEmpresa.Select(c => c);
+            var emps = query.ToList();
+
+            if (!ValidateData(emp))
+                return 2;
+
+            foreach (TEmpresa e in emps)
+            {
+                if (emp.idEmpresa == e.idEmpresa)
+                {
+                    e.idEmpresa = emp.idEmpresa;
+                    e.nome = emp.nome;
+                    e.morada = emp.morada;
+                    e.nif = emp.nif;
+                    e.contacto = emp.contacto;
+
+                    db.SaveChanges();
+                    ret = 1;
+                    break;
+                }
+            }
+            return ret;
+        }
+
+        public static int AddUser(TEmpresa emp)
+        {
+            var db = new Models.PESTICliEntities();
+
+            if (!ValidateData(emp))
+                return 2;
+
+            db.TEmpresa.Add(emp);
+            db.SaveChanges();
+
+            return emp.idEmpresa;
+        }
+
+        public static bool ValidateData(TEmpresa emp)
+        {
+            bool ret = true;
+
+            if (emp.morada == null || emp.morada.CompareTo("") == 0)
+                return false;
+            if (emp.nome == null && emp.nome.CompareTo("") == 0)
+                return false;
+            if (emp.nif == null && emp.nif.CompareTo("") == 0)
+                return false;
+            if (emp.contacto == null && emp.contacto.CompareTo("") == 0)
+                return false;
+
+            return ret;
+        }
     }
 }

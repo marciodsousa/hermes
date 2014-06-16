@@ -34,7 +34,7 @@
           <Property Name="idUtilizador" Type="int" Nullable="false" />
           <Property Name="matricula" Type="nvarchar" MaxLength="12" />
           <Property Name="idCLiente" Type="int" Nullable="false" />
-          <Property Name="dataTransporte" Type="date" Nullable="false" />
+          <Property Name="dataTransporte" Type="nvarchar" MaxLength="10" Nullable="true" />
           <Property Name="idLocalCarga" Type="int" Nullable="false" />
           <Property Name="idLocalDescarga" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" Nullable="false" />
@@ -72,7 +72,7 @@
           </Key>
           <Property Name="idProduto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nome" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="valUnitario" Type="money" Nullable="false" />
+          <Property Name="valUnitario" Type="int" Nullable="false" />
           <Property Name="codProduto" Type="nvarchar" MaxLength="50" />
           <Property Name="descricao" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -250,7 +250,7 @@
           <Property Name="idUtilizador" Type="Int32" Nullable="false" />
           <Property Name="matricula" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="idCLiente" Type="Int32" Nullable="false" />
-          <Property Name="dataTransporte" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dataTransporte" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="idLocalCarga" Type="Int32" Nullable="false" />
           <Property Name="idLocalDescarga" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="Int32" Nullable="false" />
@@ -284,7 +284,7 @@
           </Key>
           <Property Name="idProduto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="valUnitario" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="valUnitario" Type="Int32" Nullable="false" />
           <Property Name="codProduto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>

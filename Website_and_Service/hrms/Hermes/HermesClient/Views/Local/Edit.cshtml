@@ -1,0 +1,35 @@
+﻿@model HermesClient.Models.TLocal
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Editar Local</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Falhou edição do local, consultar detalhes.");
+    <div>
+        <fieldset>
+            <legend>
+                Editar Local
+            </legend>
+            <div>
+                @Html.LabelFor(l => l.nome)
+            </div>
+            <div>
+                @Html.TextBoxFor(l => l.nome)
+                @Html.ValidationMessageFor(l => l.nome)
+            </div>
+            <div>
+                @Html.LabelFor(l => l.morada)
+            </div>
+            <div>
+                @Html.TextBoxFor(l => l.morada)
+                @Html.ValidationMessageFor(l => l.morada)
+            </div>
+
+            <input type="submit" value="Enviar" />
+        </fieldset>
+    </div>
+}

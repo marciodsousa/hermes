@@ -11,28 +11,114 @@ namespace HermesClient.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Web.Mvc;
+
     public partial class TGuiaTransporte
     {
         public TGuiaTransporte()
         {
             this.TLinhaProduto = new HashSet<TLinhaProduto>();
         }
-    
+
         public int idGuia { get; set; }
         public Nullable<int> idEmissao { get; set; }
         public int idUtilizador { get; set; }
         public string matricula { get; set; }
         public int idCLiente { get; set; }
-        public System.DateTime dataTransporte { get; set; }
+        public string dataTransporte { get; set; }
         public int idLocalCarga { get; set; }
         public int idLocalDescarga { get; set; }
         public int estado { get; set; }
-    
+
         public virtual TCliente TCliente { get; set; }
         public virtual TLocal TLocal { get; set; }
         public virtual TLocal TLocal1 { get; set; }
         public virtual ICollection<TLinhaProduto> TLinhaProduto { get; set; }
         public virtual TUtilizador TUtilizador { get; set; }
+
+        public static List<TGuiaTransporte> All()
+        {
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TGuiaTransporte.Select(c => c);
+            return query.ToList();
+        }
+
+        public static TGuiaTransporte GetById(int id)
+        {
+
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TGuiaTransporte.Where(c => c.idGuia == id).Select(c => c);
+            return query.ToList().First();
+        }
+
+        public static int Update(TGuiaTransporte guiat)
+        {
+            int ret = 0;
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TGuiaTransporte.Select(c => c);
+            var gts = query.ToList();
+
+            if (!ValidateData(guiat))
+                return 2;
+
+            foreach (TGuiaTransporte gt in gts)
+            {
+                if (guiat.idGuia == gt.idGuia)
+                {
+                    gt.idEmissao = guiat.idEmissao;
+                    gt.idUtilizador = guiat.idUtilizador;
+                    gt.matricula = guiat.matricula;
+                    gt.idCLiente = guiat.idCLiente;
+                    gt.dataTransporte = guiat.dataTransporte;
+                    gt.idLocalCarga = guiat.idLocalCarga;
+                    gt.idLocalDescarga = guiat.idLocalDescarga;
+                    gt.estado = guiat.estado;
+
+                    db.SaveChanges();
+                    ret = 1;
+                    break;
+                }
+            }
+            return ret;
+        }
+
+        public static int AddUser(TGuiaTransporte guiat)
+        {
+            var db = new Models.PESTICliEntities();
+
+            if (!ValidateData(guiat))
+                return 2;
+
+            db.TGuiaTransporte.Add(guiat);
+            db.SaveChanges();
+
+            return guiat.idGuia;
+        }
+
+        public static bool ValidateData(TGuiaTransporte guiat)
+        {
+            bool ret = true;
+
+
+            if (guiat.idCLiente == null || guiat.idCLiente < 1)
+                return false;
+            if (guiat.idUtilizador == null || guiat.idUtilizador < 1)
+                return false;
+            if (guiat.dataTransporte == null)
+                return false;
+            if (guiat.idLocalCarga == null || guiat.idLocalCarga < 1)
+                return false;
+            if (guiat.idLocalDescarga == null || guiat.idLocalDescarga < 1)
+                return false;
+            if (guiat.estado == null || guiat.estado < 1)
+                return false;
+
+            return ret;
+        }
     }
 }

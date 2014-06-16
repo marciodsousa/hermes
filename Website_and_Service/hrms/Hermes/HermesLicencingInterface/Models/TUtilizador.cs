@@ -28,6 +28,8 @@ namespace HermesLicencingInterface.Models
         public string passwordSalt { get; set; }
 
         [Required]
+        [StringLength(200)]
+        [Display(Name = "Nome: ")]
         public string nome { get; set; }
 
         [Required]
@@ -39,6 +41,7 @@ namespace HermesLicencingInterface.Models
         [Required]
         [EmailAddress]
         [StringLength(200)]
+        [Display(Name = "Email: ")]
         public string email { get; set; }
 
         public static List<TUtilizador> All()
@@ -55,7 +58,12 @@ namespace HermesLicencingInterface.Models
             var db = new Models.LicencingDBEntities();
 
             var query = db.TUtilizador.Where(c => c.idUtilizador == id).Select(c => c);
-            return query.ToList().First();
+
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static int Update(TUtilizador usr)

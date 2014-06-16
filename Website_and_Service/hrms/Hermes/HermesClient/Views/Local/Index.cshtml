@@ -1,0 +1,23 @@
+﻿@model IEnumerable<HermesClient.Models.TLocal>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tr>
+        <th>idLocal</th>
+        <th>nome</th>
+        <th>morada</th>
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td>@obj.idLocal</td>
+            <td><a href="/local/edit/@obj.idLocal">@obj.nome</a></td>
+            <td>@obj.morada</td>
+        </tr>
+    }
+</table>

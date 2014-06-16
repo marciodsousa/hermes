@@ -14,9 +14,7 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Index()
         {
-
             return Json(TLicenca.All(), JsonRequestBehavior.AllowGet);
-
         }
 
         public ActionResult Show(int Id)
@@ -61,29 +59,28 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Create(TLicenca lic)
         {
-            int licId;
-
-            
+            return new HttpStatusCodeResult(400);
             //se licença para este IMEI já está atribuida, devolver
             var existLic = TLicenca.GetByIMEI(lic.imei);
             if (existLic != null)
-                return Json(existLic);
+                return Json(existLic, JsonRequestBehavior.AllowGet);
 
-            
-            int idEmp = lic.idEmpresa;
 
-            //caso contrário, ver se empresa já tem o número máximo de licenças atribuido
-            if (TLicenca.GetByEmp(idEmp).Count() < TEmpresa.GetById(idEmp).maxRegs)
+            var emp = TEmpresa.GetById(lic.idEmpresa);
+            if (emp != null)
             {
-                //numero maximo de licenças da empresa ainda nao foi atingido, adicionar.
-                licId = TLicenca.AddLicenca(lic);
-                return Json(TLicenca.GetById(licId));
+              
+                //caso contrário, ver se empresa já tem o número máximo de licenças atribuido
+                if (TLicenca.GetByEmp(emp.idEmpresa).Count() < emp.maxRegs)
+                {
+                    //numero maximo de licenças da empresa ainda nao foi atingido, adicionar.
+                    int licId = TLicenca.AddLicenca(lic);
+                    return Json(TLicenca.GetById(licId), JsonRequestBehavior.AllowGet);
+                }
             }
-            else
-            {
-                //Enviar Aviso ao admin a dizer que nr máximo de licenças foi atingido
-                return new HttpStatusCodeResult(409);
-            }
+
+            //Enviar Aviso ao admin a dizer que nr máximo de licenças foi atingido
+            return new HttpStatusCodeResult(409);
     
         }
 

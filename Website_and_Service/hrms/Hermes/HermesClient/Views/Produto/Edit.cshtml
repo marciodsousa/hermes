@@ -1,0 +1,55 @@
+﻿@model HermesClient.Models.TProduto
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Editar Produto</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Falhou edição do produto, consultar detalhes.");
+    <div>
+        <fieldset>
+            <legend>
+                Editar produto
+            </legend>
+            <div>
+                @Html.LabelFor(p => p.idProduto)
+            </div>
+            <div>
+                @Html.DisplayFor(p => p.idProduto)
+            </div>
+            <div>
+                @Html.LabelFor(p => p.nome)
+            </div>
+            <div>
+                @Html.TextBoxFor(p => p.nome)
+                @Html.ValidationMessageFor(p => p.nome)
+            </div>
+            <div>
+                @Html.LabelFor(p => p.codProduto)
+            </div>
+            <div>
+                @Html.TextBoxFor(p => p.codProduto)
+                @Html.ValidationMessageFor(p => p.codProduto)
+            </div>
+            <div>
+                @Html.LabelFor(p => p.descricao)
+            </div>
+            <div>
+                @Html.TextBoxFor(p => p.descricao)
+                @Html.ValidationMessageFor(p => p.descricao)
+            </div>
+            <div>
+                @Html.LabelFor(p => p.valUnitario)
+            </div>
+            <div>
+                @Html.TextBoxFor(p => p.valUnitario)
+                @Html.ValidationMessageFor(p => p.valUnitario)
+            </div>
+
+            <input type="submit" value="Enviar" />
+        </fieldset>
+    </div>
+}

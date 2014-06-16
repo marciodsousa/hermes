@@ -6,8 +6,9 @@ using System.Web.Mvc;
 using HermesClient.Models;
 using System.Net;
 using System.IO;
-using System.Runtime.Serialization.Json;
+using System.Web.Script.Serialization;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace HermesClientWebService.Controllers
 {
@@ -18,9 +19,7 @@ namespace HermesClientWebService.Controllers
 
         public ActionResult Index()
         {
-
             return Json(TLicenca.All(), JsonRequestBehavior.AllowGet);
-
         }
 
         public ActionResult Show(int Id)
@@ -65,72 +64,43 @@ namespace HermesClientWebService.Controllers
 
         public ActionResult Create(TLicenca lic)
         {
-            int licId;
-            //se licença para este IMEI já está atribuida, devolver
-            var existLic = TLicenca.GetByIMEI(lic.imei);
-            if (existLic != null)
-                return Json(existLic);
+            string result;
+            var serializer = new JavaScriptSerializer();
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Licencas");
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/licencas");
 
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
 
-            int idEmp = lic.idEmpresa;
-
-            //caso contrário, fazer pedido de licença á empresa fornecedora
-
-
-            //// corrected to WebRequest from HttpWebRequest
-            //var url = "http://wvm100.dei.isep.ipp.pt/Hermes/Licenca";
-
-            //// Synchronous Consumption
-            //var syncClient = new WebClient();
-            //var content = syncClient.DownloadString(url);
- 
-            //// Create the Json serializer and parse the response
-            //DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(TLicenca));
-            //using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(content)))
-            //{
-            //    var weatherData = (TLicenca)serializer.ReadObject(ms);
-            //}
-
-            //*************
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/Hermes/Licencas");
-            request.Method = "POST";
-
-            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
-            Byte[] byteArray = encoding.GetBytes(Json(lic).ToString());
-
-            request.ContentLength = byteArray.Length;
-            request.ContentType = @"application/json";
-
-            using (Stream dataStream = request.GetRequestStream())
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-            }
-            long length = 0;
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                string json = JsonConvert.SerializeObject(Json(lic).Data);
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
-                    length = response.ContentLength;
-
-                    // Create the Json serializer and parse the response
-                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(TLicenca));
-                    using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(response.ToString())))
-                    {
-                        var newLicence = (TLicenca)serializer.ReadObject(ms);
-                        licId = TLicenca.AddLicenca(newLicence);
-
-                        return Json(TLicenca.GetById(licId));
-                    }
+                    result = streamReader.ReadToEnd();
                 }
             }
-            catch (WebException ex)
+
+
+            TLicenca licence = serializer.Deserialize<TLicenca>(result);
+
+            if (lic.imei == licence.imei)
             {
-                ex.ToString();
-                return new HttpStatusCodeResult(409);
+                TLicenca.AddLicenca(licence);
+                return Json(licence, JsonRequestBehavior.AllowGet);
             }
 
+            return new HttpStatusCodeResult(409);
         }
 
+
+        
        
 
     }

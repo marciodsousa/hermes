@@ -1,0 +1,34 @@
+﻿@model HermesClient.Models.TUtilizador
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "LoginFailed. CHeck your details again");
+    <div>
+        <fieldset>
+            <legend>
+                Login Form
+            </legend>
+            <div>
+                @Html.LabelFor(u => u.username)
+            </div>
+            <div>
+                @Html.TextBoxFor(u => u.username)
+                @Html.ValidationMessageFor(u => u.username)
+            </div>
+            <div>
+                @Html.LabelFor(u => u.password)
+            </div>
+            <div>
+                @Html.PasswordFor(u => u.password)
+                @Html.ValidationMessageFor(u => u.password)
+            </div>
+            <input type="submit" value="Log in" />
+        </fieldset>
+    </div>
+}

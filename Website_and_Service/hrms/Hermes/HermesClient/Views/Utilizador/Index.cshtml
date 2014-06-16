@@ -1,0 +1,31 @@
+﻿@model IEnumerable<HermesClient.Models.TUtilizador>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tr>
+        <th>idUtilizador</th>
+        <th>username</th>
+        <th>nome</th>
+        <th>email</th>
+        <th>tipoUtilizador</th>
+        <th>idEmpresa</th>
+        <th>estado</th>
+
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td>@obj.idUtilizador</td>
+            <td><a href="/utilizador/edit/@obj.idUtilizador">@obj.username</a></td>
+            <td>@obj.nome</td>
+            <td>@obj.email</td>
+            <td>@obj.idEmpresa</td>
+            <td>@obj.estado</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,35 @@
+﻿@model HermesClient.Models.TLocal
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h2>Adicionar Local</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Falhou criação de novo Local, consultar detalhes.");
+    <div>
+        <fieldset>
+            <legend>
+                Adicionar novo Local
+            </legend>
+            <div>
+                @Html.LabelFor(l => l.nome)
+            </div>
+            <div>
+                @Html.TextBoxFor(l => l.nome)
+                @Html.ValidationMessageFor(l => l.nome)
+            </div>
+            <div>
+                @Html.LabelFor(l => l.morada)
+            </div>
+            <div>
+                @Html.TextBoxFor(l => l.morada)
+                @Html.ValidationMessageFor(l => l.morada)
+            </div>
+
+            <input type="submit" value="Adicionar" />
+        </fieldset>
+    </div>
+}

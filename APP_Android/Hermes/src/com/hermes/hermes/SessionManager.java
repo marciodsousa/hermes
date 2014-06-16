@@ -34,27 +34,30 @@ public class SessionManager {
 	
 	// User name (make variable public to access from outside)
 	public static final String KEY_NAME = "name";
+	
+	// Licence code (make variable public to access from outside)
+	public static final String KEY_CODLIC = "codLicence";
 	 
-	// Email address (make variable public to access from outside)
-	public static final String KEY_EMAIL = "email";
-	    
-	// User password (make variable public to access from outside)
-	public static final String KEY_PASSWORD = "password";
-	
-	// User password SALT (make variable public to access from outside)
-	public static final String KEY_PASSWORDSLT = "passwordSalt";
-	
-	// User status (make variable public to access from outside)
-	public static final String KEY_STATUS = "estado";
-
-	// Phone Serial Number (make variable public to access from outside)
-	public static final String KEY_SERIAL = "numSerieEquip";
-	    
-	// CompanyID (make variable public to access from outside)
-	public static final String KEY_COMPANYID = "idEmpresa";
-	    
-	// UserTypeID (make variable public to access from outside)
-	public static final String KEY_USERTYPE = "idTipoUtilizador";
+//	// Email address (make variable public to access from outside)
+//	public static final String KEY_EMAIL = "email";
+//	    
+//	// User password (make variable public to access from outside)
+//	public static final String KEY_PASSWORD = "password";
+//	
+//	// User password SALT (make variable public to access from outside)
+//	public static final String KEY_PASSWORDSLT = "passwordSalt";
+//	
+//	// User status (make variable public to access from outside)
+//	public static final String KEY_STATUS = "estado";
+//
+//	// Phone Serial Number (make variable public to access from outside)
+//	public static final String KEY_SERIAL = "numSerieEquip";
+//	    
+//	// CompanyID (make variable public to access from outside)
+//	public static final String KEY_COMPANYID = "idEmpresa";
+//	    
+//	// UserTypeID (make variable public to access from outside)
+//	public static final String KEY_USERTYPE = "idTipoUtilizador";
      
     // Constructor
     public SessionManager(Context context){
@@ -66,7 +69,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String id, String username, String name, String email, String password, String passSalt, String status, String serial, String usrtype, String companyid ){
+    public void createLoginSession(String id, String username, String name, String codLic ){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
          
@@ -78,27 +81,30 @@ public class SessionManager {
         
         // Storing name in pref
         editor.putString(KEY_NAME, name);
+        
+        // Storing licence code in pref
+        editor.putString(KEY_CODLIC, codLic);
          
-        // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
-        
-        // Storing password in pref
-        editor.putString(KEY_PASSWORD, password);
-        
-        // Storing passwordSalt in pref
-        editor.putString(KEY_PASSWORDSLT, passSalt);
-         
-        // Storing status in pref
-        editor.putString(KEY_STATUS, status);
-        
-        // Storing phone SerialNumber in pref
-        editor.putString(KEY_SERIAL, serial);
-        
-        // Storing user typeid in pref
-        editor.putString(KEY_COMPANYID, usrtype);
-         
-        // Storing companyid in pref
-        editor.putString(KEY_USERTYPE, companyid);
+//        // Storing email in pref
+//        editor.putString(KEY_EMAIL, email);
+//        
+//        // Storing password in pref
+//        editor.putString(KEY_PASSWORD, password);
+//        
+//        // Storing passwordSalt in pref
+//        editor.putString(KEY_PASSWORDSLT, passSalt);
+//         
+//        // Storing status in pref
+//        editor.putString(KEY_STATUS, status);
+//        
+//        // Storing phone SerialNumber in pref
+//        editor.putString(KEY_SERIAL, serial);
+//        
+//        // Storing user typeid in pref
+//        editor.putString(KEY_COMPANYID, usrtype);
+//         
+//        // Storing companyid in pref
+//        editor.putString(KEY_USERTYPE, companyid);
          
         // commit changes
         editor.commit();
@@ -142,26 +148,29 @@ public class SessionManager {
         // user email id
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
         
-        // user name
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        // licence code
+        user.put(KEY_CODLIC, pref.getString(KEY_CODLIC, null));
         
-        // user name
-        user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
-         
-        // user email id
-        user.put(KEY_PASSWORDSLT, pref.getString(KEY_PASSWORDSLT, null));
-        
-        // user name
-        user.put(KEY_STATUS, pref.getString(KEY_STATUS, null));
-        
-        // user name
-        user.put(KEY_SERIAL, pref.getString(KEY_SERIAL, null));
-         
-        // user email id
-        user.put(KEY_COMPANYID, pref.getString(KEY_COMPANYID, null));
-        
-        // user email id
-        user.put(KEY_USERTYPE, pref.getString(KEY_USERTYPE, null));
+//        // user name
+//        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+//        
+//        // user name
+//        user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
+//         
+//        // user email id
+//        user.put(KEY_PASSWORDSLT, pref.getString(KEY_PASSWORDSLT, null));
+//        
+//        // user name
+//        user.put(KEY_STATUS, pref.getString(KEY_STATUS, null));
+//        
+//        // user name
+//        user.put(KEY_SERIAL, pref.getString(KEY_SERIAL, null));
+//         
+//        // user email id
+//        user.put(KEY_COMPANYID, pref.getString(KEY_COMPANYID, null));
+//        
+//        // user email id
+//        user.put(KEY_USERTYPE, pref.getString(KEY_USERTYPE, null));
          
         // return user
         return user;
