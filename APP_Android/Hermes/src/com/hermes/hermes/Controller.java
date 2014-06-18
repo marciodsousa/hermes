@@ -6,9 +6,12 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import com.hermes.hermes.Model.*;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -104,10 +107,10 @@ public class Controller {
         return ret;
     }
 	
-	public int registerDevice(String server, String imei)
+	public String registerDevice(String server, String imei)
 	{
  
-		int ret=0;
+		String ret="";
 
         // Creating service handler class instance
         ServiceHandler sh = new ServiceHandler();
@@ -115,13 +118,27 @@ public class Controller {
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         
         list.add(new BasicNameValuePair("imei", imei));
+        list.add(new BasicNameValuePair("estado", "0"));
 
         // Making a request to url and getting response
         String jsonStr = sh.makeServiceCall(server+"/Licencas", ServiceHandler.POST,list);
         
-        if (jsonStr != null)
-        	ret=Integer.parseInt(jsonStr);
-        
+        if (jsonStr.compareTo("200")==0)
+        {
+        	TLicenca l = null;
+            
+            try{
+            	Gson gson = new GsonBuilder().create();
+                l = gson.fromJson(jsonStr, TLicenca.class);
+                ret = l.getCodLicenca();
+            }catch(Exception ex)
+            {
+            	return "500";
+            }
+        }else{
+        	ret = jsonStr;
+        }
+
         return ret;
     }
 

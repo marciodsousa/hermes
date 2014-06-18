@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.hermes.hermes.Model.*;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -222,63 +223,54 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			session = new SessionManager(getApplicationContext());
-			HashMap<String, String> usr;
+			
 			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 			// TODO: attempt authentication against a network service.
 
 			Controller c = new Controller();
 			
+			//calls registerDevice method which returns the licence code
+			String codLic = c.registerDevice("Http://wvm100.dei.isep.ipp.pt/hermesclientws", telephonyManager.getDeviceId());
 			
-			int licId = c.registerDevice("Http://wvm100.dei.isep.ipp.pt/hermesclientws", telephonyManager.getDeviceId());
-			
-			
-
 			// Server Doesnt Exist
-			if (licId == -3) {
+			if (codLic.compareTo("404")==0)
+			{
+				loginStatus = -1;
+				return false;
+			}
+			
+			// Users number is maxxed out
+			if (codLic.compareTo("409")==0)
+			{
 				loginStatus = -4;
 				return false;
 			}	
 			
-			int usrId = c.loginServer(mServer, mUsername, mPassword);
-			
-			// Max devices registered limit reached
-			if (licId == -4) {
+			// test other errors
+			if (codLic.compareTo("500")==0 || codLic.compareTo("400")==0)
+			{
 				loginStatus = -5;
 				return false;
 			}	
-						
-						
-			// if server address is invalid
-			if (usrId == -2) {
-				loginStatus = -4;
-				return false;
-			}		
-							
+			
+			//calls login method which returns userID
+			int usrId = c.loginServer(mServer, mUsername, mPassword);
+
 			// if user does not exist
 			if (usrId == 0) {
-				loginStatus = -1;
+				loginStatus = -2;
 				return false;
 				// if password was correct
 			} else if (usrId == -1) {
-				loginStatus = -2;
+				loginStatus = -3;
 				return false;
-			} else {
-				usr = c.getUserData(usrId); // get User Data
-
-				// check if using a device
-				if (!usr.get("serial").isEmpty()) {
-					loginStatus = -3;
-					return false;
-				} else {
-					
-
-					session.createLoginSession( usr.get("idUtilizador"),
-							usr.get("username"), usr.get("name"), usr.get("codLicenca"));
-					loginStatus = 0;
-					return true;
-				}
 			}
+			
+			session.createLoginSession(usrId+"", mServer, codLic);
+			loginStatus = 0;
+			return true;
+			
 		}
 
 		@Override
@@ -289,29 +281,32 @@ public class LoginActivity extends Activity {
 			if (success) {
 				finish();
 			} else {
-				
 				switch (loginStatus) {
 		            case -1:  
-	            		mUsernameView.setError(getString(R.string.error_invalid_username));
-	            		mUsernameView.requestFocus();
+		            	mServerView.setError(getString(R.string.error_invalid_server));
+		            	mServerView.requestFocus();
 	            			break;
 	            			
 		            case -2:  
+	            		mUsernameView.setError(getString(R.string.error_invalid_username));
+	            		mUsernameView.requestFocus();
+		                    break;
+	            			
+		            case -3:  
 						mPasswordView.setError(getString(R.string.error_incorrect_password));
 						mPasswordView.requestFocus();
 						    break;
 					
-		            case -3:  
-		            	mUsernameView.setError(getString(R.string.error_user_already_active));
+		            case -4:  
+		            	mUsernameView.setError(getString(R.string.error_max_users_reached));
 		            	mUsernameView.requestFocus();
 		                    break;
 		                    
-		            case -4:  
-		            	mServerView.setError(getString(R.string.error_invalid_server));
-		            	mServerView.requestFocus();
+		            case -5:  
+		            	mUsernameView.setError(getString(R.string.error_error_registering_device));
+		            	mUsernameView.requestFocus();
 		                    break;
 				}
-				
 			}
 		}
 

@@ -29,35 +29,12 @@ public class SessionManager {
 	// Userid (make variable public to access from outside)
 	public static final String KEY_USERID = "idUser";
 	
-	// Username (make variable public to access from outside)
-	public static final String KEY_USERNAME = "username";
-	
-	// User name (make variable public to access from outside)
-	public static final String KEY_NAME = "name";
+	// server address (make variable public to access from outside)
+	public static final String KEY_SERVER = "server";
 	
 	// Licence code (make variable public to access from outside)
 	public static final String KEY_CODLIC = "codLicence";
 	 
-//	// Email address (make variable public to access from outside)
-//	public static final String KEY_EMAIL = "email";
-//	    
-//	// User password (make variable public to access from outside)
-//	public static final String KEY_PASSWORD = "password";
-//	
-//	// User password SALT (make variable public to access from outside)
-//	public static final String KEY_PASSWORDSLT = "passwordSalt";
-//	
-//	// User status (make variable public to access from outside)
-//	public static final String KEY_STATUS = "estado";
-//
-//	// Phone Serial Number (make variable public to access from outside)
-//	public static final String KEY_SERIAL = "numSerieEquip";
-//	    
-//	// CompanyID (make variable public to access from outside)
-//	public static final String KEY_COMPANYID = "idEmpresa";
-//	    
-//	// UserTypeID (make variable public to access from outside)
-//	public static final String KEY_USERTYPE = "idTipoUtilizador";
      
     // Constructor
     public SessionManager(Context context){
@@ -69,42 +46,19 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String id, String username, String name, String codLic ){
+    public void createLoginSession(String id, String server, String codLic ){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
          
         // Storing userid in pref
         editor.putString(KEY_USERID, id);
         
-        // Storing username in pref
-        editor.putString(KEY_USERNAME, username);
-        
-        // Storing name in pref
-        editor.putString(KEY_NAME, name);
+        // Storing server address in pref
+        editor.putString(KEY_SERVER, server);
         
         // Storing licence code in pref
         editor.putString(KEY_CODLIC, codLic);
-         
-//        // Storing email in pref
-//        editor.putString(KEY_EMAIL, email);
-//        
-//        // Storing password in pref
-//        editor.putString(KEY_PASSWORD, password);
-//        
-//        // Storing passwordSalt in pref
-//        editor.putString(KEY_PASSWORDSLT, passSalt);
-//         
-//        // Storing status in pref
-//        editor.putString(KEY_STATUS, status);
-//        
-//        // Storing phone SerialNumber in pref
-//        editor.putString(KEY_SERIAL, serial);
-//        
-//        // Storing user typeid in pref
-//        editor.putString(KEY_COMPANYID, usrtype);
-//         
-//        // Storing companyid in pref
-//        editor.putString(KEY_USERTYPE, companyid);
+   
          
         // commit changes
         editor.commit();
@@ -139,40 +93,15 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         
-        // user name
+        // user id
         user.put(KEY_USERID, pref.getString(KEY_USERID, null));
         
-        // user name
-        user.put(KEY_USERNAME, pref.getString(KEY_USERNAME, null));
-         
-        // user email id
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        // server address
+        user.put(KEY_SERVER, pref.getString(KEY_SERVER, null));
         
         // licence code
         user.put(KEY_CODLIC, pref.getString(KEY_CODLIC, null));
         
-//        // user name
-//        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-//        
-//        // user name
-//        user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
-//         
-//        // user email id
-//        user.put(KEY_PASSWORDSLT, pref.getString(KEY_PASSWORDSLT, null));
-//        
-//        // user name
-//        user.put(KEY_STATUS, pref.getString(KEY_STATUS, null));
-//        
-//        // user name
-//        user.put(KEY_SERIAL, pref.getString(KEY_SERIAL, null));
-//         
-//        // user email id
-//        user.put(KEY_COMPANYID, pref.getString(KEY_COMPANYID, null));
-//        
-//        // user email id
-//        user.put(KEY_USERTYPE, pref.getString(KEY_USERTYPE, null));
-         
-        // return user
         return user;
     }
      

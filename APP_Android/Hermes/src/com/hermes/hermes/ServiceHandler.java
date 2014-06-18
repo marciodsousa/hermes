@@ -2,8 +2,11 @@ package com.hermes.hermes;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.util.List;
  
+
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -70,9 +73,31 @@ public class ServiceHandler {
                 httpResponse = httpClient.execute(httpGet);
  
             }
-            httpEntity = httpResponse.getEntity();
-            response = EntityUtils.toString(httpEntity);
- 
+            
+            
+            switch (httpResponse.getStatusLine().getStatusCode()) {
+	            case HttpURLConnection.HTTP_OK:  
+					httpEntity = httpResponse.getEntity();
+					response = EntityUtils.toString(httpEntity);
+	        			break;
+	        			
+	            case HttpURLConnection.HTTP_NOT_FOUND:  
+	            	response = "404";
+					    break;
+				
+	            case HttpURLConnection.HTTP_INTERNAL_ERROR:  
+	            	response = "500";
+	                    break;
+	                    
+	            case HttpURLConnection.HTTP_CONFLICT:  
+	            	response = "409";
+	                    break;
+	                    
+	            case HttpURLConnection.HTTP_BAD_REQUEST:  
+	            	response = "400";
+	                    break;
+			}
+          
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

@@ -72,6 +72,9 @@ namespace HermesClientWebService.Controllers
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
+            TEmpresa emp = TEmpresa.All().First();
+            lic.idEmpresa = emp.idEmpresa;
+
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
                 string json = JsonConvert.SerializeObject(Json(lic).Data);
@@ -81,27 +84,25 @@ namespace HermesClientWebService.Controllers
                 streamWriter.Close();
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                //caso retorne codigo 409, quer dizer que valor maximo de licenças foi atingido. Retornar.
+                if(httpResponse.StatusCode==HttpStatusCode.Conflict)
+                    return new HttpStatusCodeResult(409);
+
+                //senão prosseguir parsing.
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
                     result = streamReader.ReadToEnd();
                 }
             }
 
-
             TLicenca licence = serializer.Deserialize<TLicenca>(result);
+            licence.TEmpresa = null;
 
-            if (lic.imei == licence.imei)
-            {
+            if ((lic.imei == licence.imei) && (TLicenca.GetByIMEI(licence.imei)!= null))
                 TLicenca.AddLicenca(licence);
-                return Json(licence, JsonRequestBehavior.AllowGet);
-            }
-
-            return new HttpStatusCodeResult(409);
+            
+            return Json(licence, JsonRequestBehavior.AllowGet);
         }
-
-
-        
-       
-
     }
 }

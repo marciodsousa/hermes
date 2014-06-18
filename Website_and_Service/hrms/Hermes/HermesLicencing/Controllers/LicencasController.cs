@@ -59,7 +59,6 @@ namespace HermesLicencing.Controllers
 
         public ActionResult Create(TLicenca lic)
         {
-            return new HttpStatusCodeResult(400);
             //se licença para este IMEI já está atribuida, devolver
             var existLic = TLicenca.GetByIMEI(lic.imei);
             if (existLic != null)

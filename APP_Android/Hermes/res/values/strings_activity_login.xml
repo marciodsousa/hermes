@@ -15,7 +15,8 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_user_already_active">This user is already active in another device. Please contact your company\'s Administrator</string>
+    <string name="error_max_users_reached">Maximum number of users reached. Contact Hermes.</string>
+    <string name="error_error_registering_device">Unable to register device at the moment. Contact Hermes.</string>
 
 
 </resources>
