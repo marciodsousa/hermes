@@ -222,6 +222,7 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
+			mServer = "http://wvm100.dei.isep.ipp.pt/hermesclientWS";
 			session = new SessionManager(getApplicationContext());
 			
 			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -231,7 +232,7 @@ public class LoginActivity extends Activity {
 			Controller c = new Controller();
 			
 			//calls registerDevice method which returns the licence code
-			String codLic = c.registerDevice("Http://wvm100.dei.isep.ipp.pt/hermesclientws", telephonyManager.getDeviceId());
+			String codLic = c.registerDevice(mServer, telephonyManager.getDeviceId());
 			
 			// Server Doesnt Exist
 			if (codLic.compareTo("404")==0)
@@ -268,6 +269,7 @@ public class LoginActivity extends Activity {
 			}
 			
 			session.createLoginSession(usrId+"", mServer, codLic);
+
 			loginStatus = 0;
 			return true;
 			
@@ -276,6 +278,11 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
+			Controller c = new Controller();
+			
+			//call method to fetch data from server before finishing activity
+			c.syncAllData(session);
+			
 			showProgress(false);
 
 			if (success) {

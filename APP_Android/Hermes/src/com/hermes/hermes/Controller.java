@@ -8,12 +8,15 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.hermes.hermes.Model.*;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
@@ -26,18 +29,16 @@ public class Controller {
  
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
+    ServiceHandler sh;
     
     public Controller()
     {
-    
+    	sh = new ServiceHandler();
     }
 	public HashMap<String, String> getUserData(int idUsr)
 	{
 	    JSONObject usr = null;
 		HashMap<String, String> ret = new HashMap<String, String>();
-
-        // Creating service handler class instance
-        ServiceHandler sh = new ServiceHandler();
 
         // Making a request to url and getting response
         String jsonStr = sh.makeServiceCall(host + "Utilizadores/"+idUsr, ServiceHandler.GET);
@@ -87,19 +88,15 @@ public class Controller {
  
 	public int loginServer(String server, String user, String passwd)
 	{
- 
 		int ret=0;
-
-        // Creating service handler class instance
-        ServiceHandler sh = new ServiceHandler();
-        
+ 
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         
         list.add(new BasicNameValuePair("usr", user));
         list.add(new BasicNameValuePair("passwd", passwd));
 
         // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(server+"/Licenca", ServiceHandler.POST,list);
+        String jsonStr = sh.makeServiceCall(server+"/Auths", ServiceHandler.POST,list);
         
         if (jsonStr != null)
         	ret=Integer.parseInt(jsonStr);
@@ -109,11 +106,7 @@ public class Controller {
 	
 	public String registerDevice(String server, String imei)
 	{
- 
 		String ret="";
-
-        // Creating service handler class instance
-        ServiceHandler sh = new ServiceHandler();
         
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         
@@ -123,7 +116,7 @@ public class Controller {
         // Making a request to url and getting response
         String jsonStr = sh.makeServiceCall(server+"/Licencas", ServiceHandler.POST,list);
         
-        if (jsonStr.compareTo("200")==0)
+        if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
         {
         	TLicenca l = null;
             
@@ -131,6 +124,7 @@ public class Controller {
             	Gson gson = new GsonBuilder().create();
                 l = gson.fromJson(jsonStr, TLicenca.class);
                 ret = l.getCodLicenca();
+    			
             }catch(Exception ex)
             {
             	return "500";
@@ -138,6 +132,135 @@ public class Controller {
         }else{
         	ret = jsonStr;
         }
+
+        return ret;
+    }
+	
+	public String syncAllData(SessionManager session)
+	{
+
+		SyncUserData(session);
+		SyncCompanyData(session);
+		SyncProducts(session);
+		SyncPlaces(session);
+		SyncClients(session);
+		SyncTranportationGuides(session);
+		
+		String ret="";
+
+       
+
+        return ret;
+    }
+	
+	public String SyncUserData(SessionManager session)
+	{
+		String ret="";
+
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(session.KEY_SERVER+"/Utilizadores/"+session.KEY_USERID, ServiceHandler.GET);
+        
+        if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
+        {
+
+            try{
+            	TUtilizador u = null;
+            	Gson gson = new GsonBuilder().create();
+                u = gson.fromJson(jsonStr, TUtilizador.class);
+    			
+            }catch(Exception ex)
+            {
+            	return "500";
+            }
+        }else{
+        	ret = jsonStr;
+        }
+
+        return ret;
+	
+    }
+	
+	public String SyncCompanyData(SessionManager session)
+	{
+ 
+		//SyncUserData
+		//SyncCompanyData
+		//SyncProducts
+		//SyncPlaces
+		//SyncClients
+		//SyncTranportationGuides
+		
+		String ret="";
+
+       
+
+        return ret;
+    }
+	
+	public String SyncProducts(SessionManager session)
+	{
+ 
+		//SyncUserData
+		//SyncCompanyData
+		//SyncProducts
+		//SyncPlaces
+		//SyncClients
+		//SyncTranportationGuides
+		
+		String ret="";
+
+       
+
+        return ret;
+    }
+	
+	public String SyncPlaces(SessionManager session)
+	{
+ 
+		//SyncUserData
+		//SyncCompanyData
+		//SyncProducts
+		//SyncPlaces
+		//SyncClients
+		//SyncTranportationGuides
+		
+		String ret="";
+
+       
+
+        return ret;
+    }
+	
+	public String SyncClients(SessionManager session)
+	{
+ 
+		//SyncUserData
+		//SyncCompanyData
+		//SyncProducts
+		//SyncPlaces
+		//SyncClients
+		//SyncTranportationGuides
+		
+		String ret="";
+
+       
+
+        return ret;
+    }
+	
+	public String SyncTranportationGuides(SessionManager session)
+	{
+ 
+		//SyncUserData
+		//SyncCompanyData
+		//SyncProducts
+		//SyncPlaces
+		//SyncClients
+		//SyncTranportationGuides
+		
+		String ret="";
+
+       
 
         return ret;
     }

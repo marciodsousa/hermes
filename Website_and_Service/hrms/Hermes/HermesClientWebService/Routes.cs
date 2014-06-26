@@ -14,12 +14,12 @@ namespace HermesClientWebService
             map.DebugRoute("routedebug");
 
             map.Route(new Route("",
-                new RouteValueDictionary(new { controller = "Empresas", action = "Index" }),
+                new RouteValueDictionary(new { controller = "Licencas", action = "Index" }),
                 new MvcRouteHandler()));
 
             map.Resources<AuthController>(auth =>
             {
-                auth.Only("index", "show", "create", "update");
+                auth.Only("index", "create");
             });
             map.Resources<LicencasController>(licencas =>
             {

@@ -1,22 +1,22 @@
 <resources>
 
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Iniciar Sessão</string>
 
     <!-- Strings related to login -->
-	<string name="prompt_server">Server Address</string>
+	<string name="prompt_server">Endereço do Servidor</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in_register"><b>Sign in</b> or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_register">Iniciar Sessão</string>
+    <string name="action_sign_in_short">Iniciar Sessão</string>
     <string name="action_forgot_password">Recover lost password</string>
-    <string name="login_progress_signing_in">Signing in&#8230;</string>
-	<string name="error_invalid_server">This server address is invalid</string>
-    <string name="error_invalid_username">This username is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_max_users_reached">Maximum number of users reached. Contact Hermes.</string>
-    <string name="error_error_registering_device">Unable to register device at the moment. Contact Hermes.</string>
+    <string name="login_progress_signing_in">A iniciar Sessão&#8230;</string>
+	<string name="error_invalid_server">O endereço do servidor é inválido</string>
+    <string name="error_invalid_username">O username é inválido</string>
+    <string name="error_invalid_password">A password é muito curta</string>
+    <string name="error_incorrect_password">A password está errada</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
+    <string name="error_max_users_reached">Número máximo de utilizadores atingido. Contacte a Hermes.</string>
+    <string name="error_error_registering_device">Impossível registar dispositivo. Contacte a Hermes.</string>
 
 
 </resources>
