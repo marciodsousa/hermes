@@ -1,6 +1,12 @@
 package com.hermes.hermes;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hermes.hermes.Model.TProduto;
+import com.hermes.hermes.db.DatabaseManager;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -25,6 +31,7 @@ import android.widget.Toast;
 
 
 public class ProductsFragment extends Fragment {
+	 ListView listView;
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -50,10 +57,47 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        
+        
+        
+        listView = (ListView) rootView.findViewById(R.id.list_view);
+        
         TextView textView = (TextView) rootView.findViewById(R.id.section_label);
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+        
+        setupListView(listView);
+        
+        
         return rootView;
+        
+        
+        
     }
+    
+    private void setupListView(ListView lv) {
+        final List<TProduto> products = DatabaseManager.getInstance().getAllProdutos();
+        
+        List<String> titles = new ArrayList<String>();
+        for (TProduto p : products) {
+            titles.add(p.getNome());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, titles);
+        lv.setAdapter(adapter);
+
+//        final Fragment fragment = this;
+//        lv.setOnItemClickListener(new OnItemClickListener() {
+//
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            	TProduto produto = products.get(position);
+//                Intent intent = new Intent(fragment, WishItemListActivity.class);
+//                intent.putExtra(Constants.keyWishListId, produto.getId());
+//                startActivity(intent);
+//            }
+//        });
+    }
+    
+    
 
     @Override
     public void onAttach(Activity activity) {

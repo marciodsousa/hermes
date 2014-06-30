@@ -223,13 +223,13 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			mServer = "http://wvm100.dei.isep.ipp.pt/hermesclientWS";
-			session = new SessionManager(getApplicationContext());
+			session = SessionManager.getInstance(getApplicationContext());
 			
 			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 			// TODO: attempt authentication against a network service.
 
-			Controller c = new Controller();
+			Controller c = new Controller(getApplicationContext());
 			
 			//calls registerDevice method which returns the licence code
 			String codLic = c.registerDevice(mServer, telephonyManager.getDeviceId());
@@ -269,7 +269,10 @@ public class LoginActivity extends Activity {
 			}
 			
 			session.createLoginSession(usrId+"", mServer, codLic);
-
+			
+			//call method to fetch data from server before finishing activity
+			c.syncAllData(session);
+			
 			loginStatus = 0;
 			return true;
 			
@@ -278,10 +281,7 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
-			Controller c = new Controller();
-			
-			//call method to fetch data from server before finishing activity
-			c.syncAllData(session);
+			Controller c = new Controller(getApplicationContext());
 			
 			showProgress(false);
 

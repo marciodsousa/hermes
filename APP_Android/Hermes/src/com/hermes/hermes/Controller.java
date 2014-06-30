@@ -1,6 +1,7 @@
 package com.hermes.hermes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.hermes.hermes.db.DatabaseManager;
+
 
 public class Controller {
 	
@@ -30,10 +33,15 @@ public class Controller {
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
     ServiceHandler sh;
+    Gson gson = new GsonBuilder().create();
+    DatabaseManager db;
+    SessionManager session;
     
-    public Controller()
+    public Controller(Context ctx)
     {
     	sh = new ServiceHandler();
+    	session = SessionManager.getInstance(ctx);
+    	db = DatabaseManager.getInstance();
     }
 	public HashMap<String, String> getUserData(int idUsr)
 	{
@@ -139,12 +147,12 @@ public class Controller {
 	public String syncAllData(SessionManager session)
 	{
 
-		SyncUserData(session);
-		SyncCompanyData(session);
-		SyncProducts(session);
-		SyncPlaces(session);
-		SyncClients(session);
-		SyncTranportationGuides(session);
+		SyncUserData();
+//		SyncCompanyData();
+		SyncProducts();
+//		SyncPlaces();
+//		SyncClients();
+//		SyncTranportationGuides();
 		
 		String ret="";
 
@@ -153,12 +161,146 @@ public class Controller {
         return ret;
     }
 	
-	public String SyncUserData(SessionManager session)
+	public String SyncUserData()
 	{
 		String ret="";
+		HashMap <String,String> data = session.getUserDetails();
+		
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/Utilizadores/"+data.get(session.KEY_USERID), ServiceHandler.GET);
+        
+        if (jsonStr.compareTo("400")==0 || jsonStr.compareTo("404")==0 || jsonStr.compareTo("409")==0 || jsonStr.compareTo("500")==0)
+        {
+        	ret = jsonStr;      
+        }else{
+        	 try{
+             	TUtilizador u = null;
+                 u = gson.fromJson(jsonStr, TUtilizador.class);
+                 db.addUtilizador(u);
+     			
+             }catch(Exception ex)
+             {
+             	return "500";
+             }
+        }
+
+        return ret;
+	
+    }
+	
+	public String SyncCompanyData()
+	{
+ 
+		String ret="";
+		HashMap <String,String> data = session.getUserDetails();
+		
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/Empresas", ServiceHandler.GET);
+        
+        if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
+        {
+
+            try{
+            	TEmpresa e = null;
+                e = gson.fromJson(jsonStr, TEmpresa.class);
+                
+            }catch(Exception ex)
+            {
+            	return "500";
+            }
+        }else{
+        	ret = jsonStr;
+        }
+
+        return ret;
+    }
+	
+	public boolean SyncProducts()
+	{
+		boolean ret = true;
+		HashMap <String,String> data = session.getUserDetails();
 
         // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(session.KEY_SERVER+"/Utilizadores/"+session.KEY_USERID, ServiceHandler.GET);
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/Produtos/", ServiceHandler.GET);
+        
+        if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
+        {
+            try{        
+                List<TProduto> prodsServer = new ArrayList<TProduto>();
+                prodsServer = Arrays.asList(gson.fromJson(jsonStr, TProduto[].class));
+				
+                db.removeAllProdutos();
+                
+                if (!db.addProdutos(prodsServer))
+                	return false;
+                
+                //ir buscar todos do server
+                //ir buscar todos da bd
+                //apagar todos da bd e inserir todos do server?
+                
+                
+            }catch(Exception ex)
+            {
+            	ret = false;
+            }
+        }else{
+        	ret = false;
+        }
+
+        return ret;
+    }
+	
+	public boolean SyncPlaces()
+	{
+		boolean ret = true;
+		List<TLocal> locaisServer, locaisDB, locaisToAddDB, locaisToAddServer;
+		HashMap <String,String> data = session.getUserDetails();
+
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/Locais/", ServiceHandler.GET);
+        
+        if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
+        {
+            try{
+                locaisServer = new ArrayList<TLocal>();
+                locaisServer = Arrays.asList(gson.fromJson(jsonStr, TLocal[].class));
+				
+                locaisDB = db.getAllLocais();
+                
+                locaisToAddDB = cropLocais(locaisServer,locaisDB);
+                
+                locaisToAddServer = cropLocais(locaisDB,locaisServer);
+                
+                //ver que locais nao existem na db, e que locais nao existem no servidor.
+                //adicionar à db local, e adicionar ao servidor remoto os que faltam.
+                
+//                if (!db(locaisServer))
+//                	return false;
+                
+                //ir buscar todos do server
+                //ir buscar todos da bd
+                //apagar todos da bd e inserir todos do server?
+                
+                
+            }catch(Exception ex)
+            {
+            	ret = false;
+            }
+        }else{
+        	ret = false;
+        }
+
+        return ret;
+    }
+	
+	public String SyncClients()
+	{
+ 
+		String ret="";
+		HashMap <String,String> data = session.getUserDetails();
+
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/Utilizadores/"+session.KEY_USERID, ServiceHandler.GET);
         
         if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
         {
@@ -177,92 +319,42 @@ public class Controller {
         }
 
         return ret;
-	
     }
 	
-	public String SyncCompanyData(SessionManager session)
+	public String SyncTranportationGuides()
 	{
  
-		//SyncUserData
-		//SyncCompanyData
-		//SyncProducts
-		//SyncPlaces
-		//SyncClients
-		//SyncTranportationGuides
-		
 		String ret="";
+		HashMap <String,String> data = session.getUserDetails();
 
-       
+        // Making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/Utilizadores/"+session.KEY_USERID, ServiceHandler.GET);
+        
+        if (jsonStr.compareTo("400")!=0 || jsonStr.compareTo("404")!=0 || jsonStr.compareTo("409")!=0 || jsonStr.compareTo("500")!=0)
+        {
 
-        return ret;
-    }
-	
-	public String SyncProducts(SessionManager session)
-	{
- 
-		//SyncUserData
-		//SyncCompanyData
-		//SyncProducts
-		//SyncPlaces
-		//SyncClients
-		//SyncTranportationGuides
-		
-		String ret="";
-
-       
-
-        return ret;
-    }
-	
-	public String SyncPlaces(SessionManager session)
-	{
- 
-		//SyncUserData
-		//SyncCompanyData
-		//SyncProducts
-		//SyncPlaces
-		//SyncClients
-		//SyncTranportationGuides
-		
-		String ret="";
-
-       
-
-        return ret;
-    }
-	
-	public String SyncClients(SessionManager session)
-	{
- 
-		//SyncUserData
-		//SyncCompanyData
-		//SyncProducts
-		//SyncPlaces
-		//SyncClients
-		//SyncTranportationGuides
-		
-		String ret="";
-
-       
-
-        return ret;
-    }
-	
-	public String SyncTranportationGuides(SessionManager session)
-	{
- 
-		//SyncUserData
-		//SyncCompanyData
-		//SyncProducts
-		//SyncPlaces
-		//SyncClients
-		//SyncTranportationGuides
-		
-		String ret="";
-
-       
+            try{
+            	TUtilizador u = null;
+            	Gson gson = new GsonBuilder().create();
+                u = gson.fromJson(jsonStr, TUtilizador.class);
+    			
+            }catch(Exception ex)
+            {
+            	return "500";
+            }
+        }else{
+        	ret = jsonStr;
+        }
 
         return ret;
     }
 
+	public List<TLocal> cropLocais (List<TLocal> list1, List<TLocal> list2)
+	{
+		List<TLocal> ret = new ArrayList<TLocal>();
+		
+		//compare list elements.
+		return ret;
+	}
+	
 }

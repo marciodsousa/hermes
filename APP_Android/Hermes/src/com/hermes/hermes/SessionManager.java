@@ -2,6 +2,8 @@ package com.hermes.hermes;
 
 import java.util.HashMap;
 
+import com.hermes.hermes.db.DatabaseManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +36,17 @@ public class SessionManager {
 	public static final String KEY_CODLIC = "codLicence";
 	 
      
+
+    static private SessionManager instance;
+
+    static public SessionManager getInstance(Context ctx) {
+    	if (null==instance) {
+            instance = new SessionManager(ctx);
+        }
+    	return instance;
+    }
+	    
+	    
     // Constructor
     public SessionManager(Context context){
         this._context = context;
