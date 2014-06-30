@@ -1,0 +1,62 @@
+﻿@model HermesLicencingInterface.Models.TEmpresa
+@{
+    ViewBag.Title = "Editar Empresa";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Falhou edição da empresa, consultar detalhes.");
+    <div>
+        <fieldset>
+            <div>
+                @Html.HiddenFor(m => m.idEmpresa)
+            </div>
+            <div>
+                @Html.LabelFor(e => e.nome)
+            </div>
+            <div>
+                @Html.TextBoxFor(e => e.nome)
+                @Html.ValidationMessageFor(u => u.nome)
+            </div>
+            <div>
+                @Html.LabelFor(e => e.morada)
+            </div>
+            <div>
+                @Html.TextBoxFor(e => e.morada)
+                @Html.ValidationMessageFor(u => u.morada)
+            </div>
+            <div>
+                @Html.LabelFor(e => e.email)
+            </div>
+            <div>
+                @Html.TextBoxFor(e => e.email)
+                @Html.ValidationMessageFor(e => e.email)
+            </div>
+            <div>
+                @Html.LabelFor(e => e.nif)
+            </div>
+            <div>
+                @Html.TextBoxFor(e => e.nif)
+                @Html.ValidationMessageFor(e => e.nif)
+            </div>
+            <div>
+                @Html.LabelFor(e => e.contacto)
+            </div>
+            <div>
+                @Html.TextBoxFor(e => e.contacto)
+                @Html.ValidationMessageFor(e => e.contacto)
+            </div>
+            <div>
+                @Html.LabelFor(e => e.maxRegs)
+            </div>
+            <div>
+                @Html.TextBoxFor(e => e.maxRegs)
+                @Html.ValidationMessageFor(e => e.maxRegs)
+            </div>
+
+            <input type="submit" value="Enviar" />
+        </fieldset>
+    </div>
+}

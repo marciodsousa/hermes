@@ -1,10 +1,8 @@
 ﻿@model HermesLicencingInterface.Models.TEmpresa
 @{
-    ViewBag.Title = "Adicionar Emoresa";
+    ViewBag.Title = "Adicionar Empresa";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
-
-<h2>Adicionar Empresa</h2>
 
 @using (Html.BeginForm())
 {
@@ -14,6 +12,7 @@
             <legend>
                 Adicionar nova empresa cliente
             </legend>
+            
             <div>
                 @Html.LabelFor(e => e.nome)
             </div>

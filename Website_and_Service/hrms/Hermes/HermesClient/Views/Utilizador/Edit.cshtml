@@ -1,19 +1,17 @@
 ﻿@model HermesClient.Models.TUtilizador
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar Dados utilizador";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
-
-<h2>Editar dados utilizador</h2>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Falhou edição dos dados do utilizador, consultar detalhes.");
     <div>
         <fieldset>
-            <legend>
-                Editar dados da Empresa
-            </legend>
+            <div>
+                @Html.HiddenFor(u => u.idUtilizador)
+            </div>
             <div>
                 @Html.LabelFor(u => u.username)
             </div>
@@ -35,7 +33,6 @@
                 @Html.TextBoxFor(u => u.email)
                 @Html.ValidationMessageFor(u => u.email)
             </div>
-
             <div>
                 @Html.LabelFor(u => u.password)
             </div>

@@ -123,6 +123,25 @@ namespace HermesLicencingInterface.Models
             return lic.idLicenca;
         }
 
+        public static int DeleteById(int id)
+        {
+            var db = new Models.LicencingDBEntities();
+            int ret = 0;
+
+            var query = db.TLicenca.Where(c => c.idLicenca == id).Select(c => c);
+
+            var list = query.ToList();
+            if (list.Count > 0)
+            {
+                db.TLicenca.Remove(query.ToList().First());
+                db.SaveChanges();
+                ret = 1;
+            }
+
+
+            return ret;
+        }
+
         public static bool ValidateData(TLicenca lic)
         {
             bool ret = true;

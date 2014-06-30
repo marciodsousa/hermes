@@ -63,9 +63,6 @@ namespace HermesClient.Controllers
         [HttpPost]
         public ActionResult Edit(TCliente cliente)
         {
-            if (Session["userID"] == null)
-                return RedirectToAction("Login", "Utilizador");
-
             TCliente.Update(cliente);
 
             return RedirectToAction("Index", "Cliente");

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<HermesClient.Models.TGuiaTransporte>
+@{
+    ViewBag.Title = "Lista de Guias Transporte";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<table>
+    <tr>
+        <td></td>
+        <td>Submetida por</td>
+        <td>Data Transporte</td>
+        <td>Local Cargaa</td>
+        <td>Local Descarga</td>
+        <td>Estado</td>
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td><a href="@Url.Content("~/GuiaTransporte/details/" + @obj.idGuia)">@obj.idGuia</a></td>
+            <td>@obj.TUtilizador.username</td>
+            <td>@obj.dataTransporte</td>
+            <td>@obj.TLocal.nome</td>
+            <td>@obj.TLocal1.nome</td>
+            <td>@obj.estado</td>
+        </tr>
+    }
+</table>

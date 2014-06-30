@@ -4,8 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HermesClient.Models;
+using System.Web.Script.Serialization;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json;
 
-namespace HermesLicencingInterface.Controllers
+namespace HermesClient.Controllers
 {
     public class EmpresaController : Controller
     {
@@ -17,28 +21,63 @@ namespace HermesLicencingInterface.Controllers
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
 
-            var ret = TEmpresa.All();
-            return View(ret);
+            return RedirectToAction("Edit", "Empresa");
         }
 
-        public ActionResult Edit(int id = 0)
+
+        [HttpGet]
+        public ActionResult Edit()
         {
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
 
-            TEmpresa emp = TEmpresa.GetById(id);
-            if (emp == null)
-                return HttpNotFound();
+            var emps = TEmpresa.All();
+            TEmpresa emp;
+
+            if (emps.Count() < 1)
+                return RedirectToAction("Login", "Utilizador");
+            emp = emps.FirstOrDefault();
 
             return View(emp);
         }
 
         [HttpPost]
-        public ActionResult Edit(TEmpresa empresa)
+        public ActionResult Edit(Models.TEmpresa empresa)
         {
-            TEmpresa.Update(empresa);
+            if (UpdateCompanyServer(empresa))
+            {
+                TEmpresa.Update(empresa);
+            }
 
-            return RedirectToAction("Index", "Empresa");
+            return RedirectToAction("Edit", "Empresa");
+        }
+
+        private Boolean UpdateCompanyServer(TEmpresa emp)
+        {
+            var serializer = new JavaScriptSerializer();
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Empresas/" + emp.idEmpresa);
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Empresas/" + emp.idEmpresa);
+
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "PUT";
+
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = JsonConvert.SerializeObject(Json(emp).Data);
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                //caso retorne codigo 200, quer dizer que correu tudo bem.
+                if (httpResponse.StatusCode == HttpStatusCode.OK)
+                    return true;
+                else
+                    return false;
+            }
         }
 
     }

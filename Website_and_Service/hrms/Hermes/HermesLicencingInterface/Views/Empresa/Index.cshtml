@@ -1,27 +1,32 @@
 ﻿@model IEnumerable<HermesLicencingInterface.Models.TEmpresa>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Empresas Clientes";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
 
-<h2>Index</h2>
 <table>
     <tr>
         <th>Nome</th>
         <th>Morada</th>
         <th>Email</th>
         <th>NIF</th>
-        <th>Contacto</th>
-        <th>Nr máximo de Registos</th>
+        <th colspan="2"></th>
     </tr>
     @foreach (var obj in Model)
     {
-        <tr>
-            <td>@obj.nome</td>
-            <td>@obj.morada</td>
+        <tr><td>
+
+            <td><a href="@Url.Content("~/Empresa/Edit/" + @obj.idEmpresa)">@obj.nome</a></td>
             <td>@obj.email</td>
             <td>@obj.nif</td>
             <td>@obj.contacto</td>
-            <td>@obj.maxRegs</td>
+            <td><a href="@Url.Content("~/Empresa/Edit/" + @obj.idEmpresa)">Editar/Detalhes</a></td>
+            <td><a href="@Url.Content("~/Licenca/Index/" + @obj.idEmpresa)">Ver Licenças</a></td>
         </tr>
     }
+    <tr>
+        <td colspan="3" align="center">
+            <a href="@Url.Content("~/Empresa/create")">Criar Nova Empresa Cliente</a>
+        </td>
+    </tr>
 </table>

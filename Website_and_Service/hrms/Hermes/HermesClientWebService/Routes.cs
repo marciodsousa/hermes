@@ -25,6 +25,26 @@ namespace HermesClientWebService
             {
                 licencas.Only("index", "show", "create", "update");
             });
+            map.Resources<UtilizadoresController>(utilizadores =>
+            {
+                utilizadores.Only("index", "show", "create", "update");
+            });
+            map.Resources<LocaisController>(locais =>
+            {
+                locais.Only("index", "show", "create", "update");
+            });
+            map.Resources<ClientesController>(clientes =>
+            {
+                clientes.Only("index", "show", "create", "update");
+            });
+            map.Resources<ProdutosController>(produtos =>
+            {
+                produtos.Only("index", "show", "create", "update");
+            });
+            map.Resources<EmpresasController>(empresas =>
+            {
+                empresas.Only("index", "show", "create", "update");
+            });
         }
 
         public static void Start()

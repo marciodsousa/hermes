@@ -1,19 +1,17 @@
 ﻿@model HermesClient.Models.TLocal
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar Local";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
-
-<h2>Editar Local</h2>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Falhou edição do local, consultar detalhes.");
     <div>
         <fieldset>
-            <legend>
-                Editar Local
-            </legend>
+            <div>
+                @Html.HiddenFor(l => l.idLocal)
+            </div>
             <div>
                 @Html.LabelFor(l => l.nome)
             </div>

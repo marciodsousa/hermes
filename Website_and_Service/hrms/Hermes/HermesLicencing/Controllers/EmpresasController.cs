@@ -64,5 +64,23 @@ namespace HermesLicencing.Controllers
             empId = TEmpresa.AddCompany(emp);
             return Json(TEmpresa.GetById(empId));
         }
+
+        public ActionResult Update(TEmpresa emp)
+        {
+
+            var empServer = TEmpresa.GetById(emp.idEmpresa);
+
+            //caso a empresa efectivamente já exista
+            if (empServer != null)
+            {
+                //caso sejam dados de empresa submetidos pelo cliente (campo dos registos seja null)
+                if (emp.maxRegs == null)
+                    emp.maxRegs = empServer.maxRegs;
+
+                TEmpresa.Update(emp);
+            }
+                
+            return Json(TEmpresa.GetById(emp.idEmpresa));
+        }
     }
 }

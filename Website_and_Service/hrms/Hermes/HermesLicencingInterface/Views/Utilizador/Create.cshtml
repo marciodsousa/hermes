@@ -1,19 +1,14 @@
 ﻿@model HermesLicencingInterface.Models.TUtilizador
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Registo de utilizador";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
 
-<h2>Registration</h2>
-
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true, "Create user failed, check your fields");
+    @Html.ValidationSummary(true, "Processo de criação falhou, confirme os dados.");
     <div>
         <fieldset>
-            <legend>
-                Create new user
-            </legend>
             <div>
                 @Html.LabelFor(u => u.username)
             </div>

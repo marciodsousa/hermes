@@ -1,19 +1,14 @@
 ﻿@model HermesClient.Models.TUtilizador
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Criar Utilizador";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
 
-<h2>Registration</h2>
-
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true, "Create user failed, check your fields");
+    @Html.ValidationSummary(true, "Falhou registo de novo utilizador. Consultar info.");
     <div>
         <fieldset>
-            <legend>
-                Create new user
-            </legend>
             <div>
                 @Html.LabelFor(u => u.username)
             </div>
@@ -42,7 +37,7 @@
                 @Html.TextBoxFor(u => u.email)
                 @Html.ValidationMessageFor(u => u.email)
             </div>
-            <input type="submit" value="Create User" />
+            <input type="submit" value="Criar" />
         </fieldset>
     </div>
 }

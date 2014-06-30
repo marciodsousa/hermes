@@ -12,38 +12,67 @@ namespace HermesLicencingInterface.Controllers
         //
         // GET: /Licenca/
 
-        public ActionResult Index(int idEmp)
+        public ActionResult Index(int id)
         {
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
 
-            var licsEmp = TLicenca.GetByEmp(idEmp);
+            var licsEmp = TLicenca.GetByEmp(id);
 
             return View(licsEmp);
         }
 
-        public ActionResult Details(int idEmp)
+        //public ActionResult Details(int id)
+        //{
+        //    if (Session["userID"] == null)
+        //        return RedirectToAction("Login", "Utilizador");
+
+        //    var licsEmp = TLicenca.GetByEmp(id);
+
+        //    ViewBag.Message = TEmpresa.GetById(id).nome;
+
+        //    return View(licsEmp);
+        //}
+
+        public ActionResult Disable(int id)
         {
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
 
-            var licsEmp = TLicenca.GetByEmp(idEmp);
+            var lic = TLicenca.GetById(id);
 
-            return View(licsEmp);
+            if (lic != null)
+            {
+                lic.estado = "0";
+                TLicenca.Update(lic);
+            }
+
+            return RedirectToAction("Index", "Empresa");
         }
 
-        public ActionResult Edit(int idLic)
+        public ActionResult Enable(int id)
         {
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
-            return View();
+
+            var lic = TLicenca.GetById(id);
+
+            if (lic != null)
+            {
+                lic.estado = "1";
+                TLicenca.Update(lic);
+            }
+
+            return RedirectToAction("Index", "Empresa");
         }
 
-        public ActionResult Delete(int idLic)
+        public ActionResult Delete(int id)
         {
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
-            return View();
+            TLicenca.DeleteById(id);
+
+            return RedirectToAction("Index", "Empresa");
         }
     }
 }

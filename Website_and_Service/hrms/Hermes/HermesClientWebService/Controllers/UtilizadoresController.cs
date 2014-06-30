@@ -29,11 +29,8 @@ namespace HermesClientWebService.Controllers
             }
             else
             {
-                return RespondTo(format =>
-                {
-                    format.Default = View(user);
-                    format.Json = () => Json(user, JsonRequestBehavior.AllowGet);
-                });
+                return Json(user, JsonRequestBehavior.AllowGet);
+                
             }
         }
 
@@ -69,48 +66,6 @@ namespace HermesClientWebService.Controllers
             userId = TUtilizador.AddUser(user);
             return Json(TUtilizador.GetById(userId));
         }
-
-        [HttpGet]
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Login(TUtilizador user)
-        {
-            //
-            //if (ModelState.IsValid)
-            //{
-            if (IsValid(user.username, user.password)>0)
-            {
-                var usr = db.TUtilizador.FirstOrDefault(u => u.username == user.username);
-                if (usr.tipoUtilizador == 1)
-                {
-                    Session["usrId"] = usr.idUtilizador;
-                    Session["userName"] = usr.nome;
-                    return RedirectToAction("Index", "Empresas");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "You are not allowed to enter this application.");
-                }
-                
-            }
-            else
-            {
-                ModelState.AddModelError("", "Login data is incorrect.");
-            }
-            //}
-            //var errors = ModelState.Values.SelectMany(v => v.Errors);
-            return View(user);
-        }
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
 
         public static int IsValid(string _username, string _password)
         {

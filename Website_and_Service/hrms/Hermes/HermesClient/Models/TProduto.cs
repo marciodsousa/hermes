@@ -71,6 +71,7 @@ namespace HermesClient.Models
                 if (prod.idProduto == p.idProduto)
                 {
                     p.idProduto = prod.idProduto;
+                    p.nome = prod.nome;
                     p.codProduto = prod.codProduto;
                     p.descricao = prod.descricao;
                     p.valUnitario = prod.valUnitario;
@@ -83,7 +84,7 @@ namespace HermesClient.Models
             return ret;
         }
 
-        public static int AddUser(TProduto prod)
+        public static int AddProduto(TProduto prod)
         {
             var db = new Models.PESTICliEntities();
 

@@ -123,6 +123,7 @@
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\GuiaTransporteController.cs" />
+    <Compile Include="Controllers\LicencaController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\UtilizadorController.cs" />
@@ -174,6 +175,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\background.png" />
+    <Content Include="Content\bar.png" />
+    <Content Include="Content\footer.png" />
+    <Content Include="Content\header.png" />
+    <Content Include="Content\screenshot.jpg" />
+    <Content Include="Content\site.css" />
+    <Content Include="Content\tab_back.png" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -231,6 +239,9 @@
     <Content Include="Views\Local\Create.cshtml" />
     <Content Include="Views\Local\Edit.cshtml" />
     <Content Include="Views\Utilizador\Index.cshtml" />
+    <Content Include="Views\GuiaTransporte\Index.cshtml" />
+    <Content Include="Views\GuiaTransporte\Details.cshtml" />
+    <Content Include="Views\Licenca\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

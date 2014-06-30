@@ -80,7 +80,7 @@ namespace HermesClient.Models
             return ret;
         }
 
-        public static int AddUser(TCliente cli)
+        public static int AddCliente(TCliente cli)
         {
             var db = new Models.PESTICliEntities();
 

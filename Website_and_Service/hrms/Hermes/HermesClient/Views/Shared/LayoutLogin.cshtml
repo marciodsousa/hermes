@@ -1,14 +1,52 @@
-﻿<!DOCTYPE html>
+﻿<!--
+Design by Bryant Smith
+http://www.bryantsmith.com
+http://www.aszx.net
+email: template [-at-] bryantsmith [-dot-] com
+Released under Creative Commons Attribution 2.5 Generic.  In other words, do with it what you please; but please leave the link if you'd be so kind :)
 
-<html>
+Name       : Creative Inspiration
+Description: One column, no nav
+Version    : 1.0
+Released   : 20081009
+-->
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/creativeinspiration.css" />
+
     <title>@ViewBag.Title</title>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
+    @RenderSection("Styles", false)
 </head>
+
 <body>
-    <div>
-        @RenderBody()
+    <div id="page">
+
+        <div id="header">
+            <div id="headerTitle">Hermes</div>
+            <div id="headerSubText">Painel de gestão para Clientes.</div>
+
+        </div>
+        <div id="bar">
+            <div class="navLink"><a href="~/Empresa/edit">empresa</a></div>
+            <div class="navLink"><a href="~/produto">produtos</a></div>
+            <div class="navLink"><a href="~/licenca">licencas</a></div>
+            <div class="navLink"><a href="~/utilizador">utilizadores</a></div>
+            <div class="navLink"><a href="~/guiatransporte">guias</a></div>
+            <div class="navLink"><a href="~/local">locais</a></div>
+            <div class="navLink"><a href="~/cliente">clientes</a></div>
+            <div class="navLink"><a href="~/utilizador/logout">log-out</a></div>
+        </div>
+        <div class="contentTitle"><h1>@ViewBag.Title</h1></div>
+        <div class="contentText">
+            @RenderBody()
+        </div>
     </div>
+    <div id="footer"><a href="http://www.aszx.net">web development</a> by <a href="http://www.bryantsmith.com">bryant smith</a></div>
 </body>
 </html>

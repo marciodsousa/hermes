@@ -4,16 +4,11 @@
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
 
-<h2>Login</h2>
-
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true, "LoginFailed. CHeck your details again");
+    @Html.ValidationSummary(true, "O processo de autenticação falhou. Volte a tentar");
     <div>
         <fieldset>
-            <legend>
-                Login Form
-            </legend>
             <div>
                 @Html.LabelFor(u => u.username)
             </div>

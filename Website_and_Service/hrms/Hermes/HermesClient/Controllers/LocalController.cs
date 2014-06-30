@@ -52,20 +52,17 @@ namespace HermesClient.Controllers
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
 
-            TLocal loc = TLocal.GetById(id);
-            if (loc == null)
+            TLocal prod = TLocal.GetById(id);
+            if (prod == null)
                 return HttpNotFound();
 
-            return View(loc);
+            return View(prod);
         }
 
         [HttpPost]
-        public ActionResult Edit(TLocal local)
+        public ActionResult Edit(TLocal loc)
         {
-            if (Session["userID"] == null)
-                return RedirectToAction("Login", "Utilizador");
-
-            TLocal.Update(local);
+            TLocal.Update(loc);
 
             return RedirectToAction("Index", "Local");
         }

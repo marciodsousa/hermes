@@ -1,0 +1,30 @@
+﻿@model IEnumerable<HermesLicencingInterface.Models.TUtilizador>
+@{
+    ViewBag.Title = "Lista de Utilizadores";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<table>
+    <tr>
+        <th>username</th>
+        <th>nome</th>
+        <th>tipoUtilizador</th>
+        <th>estado</th>
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td><a href="@Url.Content("~/utilizador/edit/" + @obj.idUtilizador)">@obj.username</a></td>
+            <td>@obj.nome</td>
+            <td>@obj.email</td>
+            <td>@obj.estado</td>
+            <td><a href="@Url.Content("~/Utilizador/Enable/" + @obj.idUtilizador)">Activar</a></td>
+            <td><a href="@Url.Content("~/Utilizador/Disable/" + @obj.idUtilizador)">Desactivar</a></td>
+        </tr>
+    }
+    <tr>
+        <td colspan="6" align="center">
+            <a href="@Url.Content("~/Utilizador/create")">Criar Novo Utilizador</a>
+        </td>
+    </tr>
+</table>

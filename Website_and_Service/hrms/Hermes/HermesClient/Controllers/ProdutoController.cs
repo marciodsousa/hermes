@@ -56,7 +56,7 @@ namespace HermesClient.Controllers
 
             TProduto prod = TProduto.GetById(id);
             if(prod==null)
-                return HttpNotFound();
+                return RedirectToAction("Index", "Produto");
 
             return View(prod);
         }
@@ -64,8 +64,6 @@ namespace HermesClient.Controllers
         [HttpPost]
         public ActionResult Edit(TProduto prod)
         {
-            if (Session["userID"] == null)
-                return RedirectToAction("Login", "Utilizador");
 
             TProduto.Update(prod);
 

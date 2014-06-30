@@ -73,7 +73,7 @@ namespace HermesClient.Models
             return ret;
         }
 
-        public static int AddUser(TLocal loc)
+        public static int AddLocal(TLocal loc)
         {
             var db = new Models.PESTICliEntities();
 

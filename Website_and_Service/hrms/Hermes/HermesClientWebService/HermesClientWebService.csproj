@@ -128,6 +128,10 @@
   <ItemGroup>
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\EmpresasController.cs" />
+    <Compile Include="Controllers\LocaisController.cs" />
+    <Compile Include="Controllers\ProdutosController.cs" />
     <Compile Include="Controllers\LicencasController.cs" />
     <Compile Include="Controllers\UtilizadoresController.cs" />
     <Compile Include="Global.asax.cs">

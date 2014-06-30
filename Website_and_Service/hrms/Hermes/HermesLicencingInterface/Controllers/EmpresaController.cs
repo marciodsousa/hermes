@@ -51,9 +51,23 @@ namespace HermesLicencingInterface.Controllers
             }
         }
 
-        public ActionResult Edit()
+
+        [HttpGet]
+        public ActionResult Edit(int id)
         {
-            return View();
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            var emp = TEmpresa.GetById(id);
+            return View(emp);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Models.TEmpresa empresa)
+        {
+            TEmpresa.Update(empresa);
+
+            return RedirectToAction("Index", "Empresa");
         }
 
         public ActionResult Delete()

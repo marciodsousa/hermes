@@ -1,0 +1,47 @@
+﻿@model HermesLicencingInterface.Models.TUtilizador
+@{
+    ViewBag.Title = "Editar Dados utilizador";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Falhou edição dos dados do utilizador, consultar detalhes.");
+    <div>
+        <fieldset>
+            <div>
+                @Html.HiddenFor(u => u.idUtilizador)
+            </div>
+            <div>
+                @Html.LabelFor(u => u.username)
+            </div>
+            <div>
+                @Html.TextBoxFor(u => u.username)
+                @Html.ValidationMessageFor(u => u.username)
+            </div>
+            <div>
+                @Html.LabelFor(u => u.nome)
+            </div>
+            <div>
+                @Html.TextBoxFor(u => u.nome)
+                @Html.ValidationMessageFor(u => u.nome)
+            </div>
+            <div>
+                @Html.LabelFor(u => u.email)
+            </div>
+            <div>
+                @Html.TextBoxFor(u => u.email)
+                @Html.ValidationMessageFor(u => u.email)
+            </div>
+            <div>
+                @Html.LabelFor(u => u.password)
+            </div>
+            <div>
+                @Html.TextBoxFor(u => u.password)
+                @Html.ValidationMessageFor(u => u.password)
+            </div>
+
+            <input type="submit" value="Enviar" />
+        </fieldset>
+    </div>
+}

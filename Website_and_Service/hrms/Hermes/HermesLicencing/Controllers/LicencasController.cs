@@ -83,5 +83,12 @@ namespace HermesLicencing.Controllers
     
         }
 
+        public ActionResult Destroy(int Id)
+        {
+            if (TLicenca.DeleteById(Id) < 0)
+                return new HttpStatusCodeResult(404);
+            return new HttpStatusCodeResult(200);
+        }
+
     }
 }

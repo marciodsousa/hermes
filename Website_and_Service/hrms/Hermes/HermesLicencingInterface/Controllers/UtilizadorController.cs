@@ -15,7 +15,11 @@ namespace HermesLicencingInterface.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            var ret = TUtilizador.All();
+            return View(ret);
         }
 
         [HttpGet]
@@ -82,6 +86,29 @@ namespace HermesLicencingInterface.Controllers
                 return RedirectToAction("Index", "Home");
 
             }
+        }
+
+        public ActionResult Edit(int id = 0)
+        {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            TUtilizador usr = TUtilizador.GetById(id);
+            if (usr == null)
+                return HttpNotFound();
+
+            return View(usr);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(TUtilizador utilizador)
+        {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            TUtilizador.Update(utilizador);
+
+            return RedirectToAction("Index", "Utilizador");
         }
 
         private int IsValid(string username, string password)

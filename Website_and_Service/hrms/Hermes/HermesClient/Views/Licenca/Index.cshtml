@@ -1,0 +1,25 @@
+﻿@model IEnumerable<HermesClient.Models.TLicenca>
+@{
+    ViewBag.Title = "Licenças Contratadas";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<table>
+    <tr>
+        <th>IMEI</th>
+        <th>CodLicenca</th>
+        <th>Estado</th>
+        <th colspan="3"></th>
+    </tr>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td>@obj.imei</td>
+            <td>@obj.codLicenca</td>
+            <td>@obj.estado</td>
+            <td><a href="@Url.Content("~/Licenca/Enable/" + @obj.idLicenca)">Activar</a></td>
+            <td><a href="@Url.Content("~/Licenca/Disable/" + @obj.idLicenca)">Desactivar</a></td>
+            <td><a href="@Url.Content("~/Licenca/Delete/" + @obj.idLicenca)">Eliminar</a></td>
+        </tr>
+    }
+</table>

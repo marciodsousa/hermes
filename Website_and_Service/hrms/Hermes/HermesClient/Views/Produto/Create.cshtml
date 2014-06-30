@@ -1,19 +1,14 @@
 ﻿@model HermesClient.Models.TProduto
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Criar Produto";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
-
-<h2>Adicionar Produto</h2>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Falhou criação de novo produto, consultar detalhes.");
     <div>
         <fieldset>
-            <legend>
-                Adicionar novo produto
-            </legend>
             <div>
                 @Html.LabelFor(p => p.nome)
             </div>

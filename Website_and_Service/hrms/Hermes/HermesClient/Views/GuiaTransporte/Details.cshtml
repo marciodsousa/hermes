@@ -1,0 +1,98 @@
+﻿@model HermesClient.Models.TGuiaTransporte
+@{
+    ViewBag.Title = "Detalhes da Guia de Transporte";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+<script type="TEXT/JAVASCRIPT">
+    var outp = 0
+</script>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <fieldset>
+            <div>
+                @Html.LabelFor(g => g.idEmissao)
+            </div>
+            <div>
+                @Model.idEmissao
+            </div>
+
+            <div>
+                Submetido Por:
+            </div>
+            <div>
+                <a href="@Url.Content("~/Utilizador/Edit/" + @Model.idUtilizador)">@Model.TUtilizador.nome</a>
+            </div>
+
+            <div>
+                Matrícula do Veículo
+            </div>
+            <div>
+                @Model.matricula
+            </div>
+            <div>
+                Cliente
+            </div>
+            <div>
+                <a href="@Url.Content("~/Cliente/Edit/" + @Model.TCliente.idCliente)">@Model.TCliente.nome</a>
+            </div>
+            <div>
+                Data Transporte
+            </div>
+            <div>
+                @Model.dataTransporte
+            </div>
+
+            <div>
+                Local Carga
+            </div>
+            <div>
+                <a href="@Url.Content("~/Local/Edit/" + @Model.idLocalCarga)">@Model.TLocal.nome</a>
+            </div>
+
+            <div>
+                Local Descarga
+            </div>
+            <div>
+                <a href="@Url.Content("~/Local/Edit/" + @Model.idLocalDescarga)">@Model.TLocal1.nome</a>
+            </div>
+            <div>
+                Produtos
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                    </tr>
+                    @foreach (var obj in Model.TLinhaProduto)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Content("~/Produto/Edit/" + @obj.idProduto)">@obj.TProduto.nome</a>
+                            </td>
+                            <td>@obj.quantidade</td>
+                            <td>
+                                <script type="TEXT/JAVASCRIPT">
+                                outp=outp+@obj.TProduto.valUnitario * @obj.quantidade
+                                document.write(@obj.TProduto.valUnitario /100)
+                                </script>€
+                            
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3">
+                            <script type="TEXT/JAVASCRIPT">
+                                document.write(outp/100)
+                            </script>€
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                    
+        </fieldset>
+    </div>
+}

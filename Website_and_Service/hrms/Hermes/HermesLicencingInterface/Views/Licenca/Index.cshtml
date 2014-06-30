@@ -1,23 +1,26 @@
 ﻿@model IEnumerable<HermesLicencingInterface.Models.TLicenca>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Licenças da empresa "+ @ViewBag.Message;
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
 
-<h2>Licenças da empresa com id @Model.First().idEmpresa </h2>
 <table>
     <tr>
         <th>IMEI</th>
-        <th>Estado</th>
         <th>CodLicenca</th>
+        <th>Estado</th>
+        <th colspan="2"></th>
 
     </tr>
     @foreach (var obj in Model)
     {
         <tr>
             <td>@obj.imei</td>
-            <td>@obj.estado</td>
             <td>@obj.codLicenca</td>
-        </tr>
+            <td>@obj.estado</td>
+            <td><a href="@Url.Content("~/Licenca/Enable/"+@obj.idLicenca)">Activar</a></td>
+            <td><a href="@Url.Content("~/Licenca/Disable/"+@obj.idLicenca)">Desactivar</a></td>
+            <td><a href="@Url.Content("~/Licenca/Delete/"+@obj.idLicenca)">Eliminar</a></td>
+</tr>
     }
 </table>

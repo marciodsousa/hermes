@@ -21,41 +21,16 @@ namespace HermesClient.Controllers
             return View(ret);
         }
 
-        [HttpGet]
-        public ActionResult Create()
+        public ActionResult Details(int id=0)
         {
             if (Session["userID"] == null)
                 return RedirectToAction("Login", "Utilizador");
 
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(Models.TGuiaTransporte guiaT)
-        {
-            using (var db = new PESTICliEntities())
-            {
-                var sysGuiaT = db.TGuiaTransporte.Create();
-
-                sysGuiaT.idEmissao = guiaT.idEmissao;
-                sysGuiaT.idUtilizador = guiaT.idUtilizador;
-                sysGuiaT.matricula = guiaT.matricula;
-                sysGuiaT.idCLiente = guiaT.idCLiente;
-                sysGuiaT.dataTransporte = guiaT.dataTransporte;
-                sysGuiaT.idLocalCarga = guiaT.idLocalCarga;
-                sysGuiaT.idLocalDescarga = guiaT.idLocalDescarga;
-                sysGuiaT.estado = guiaT.estado;
-
-                db.TGuiaTransporte.Add(sysGuiaT);
-                db.SaveChanges();
-
+            TGuiaTransporte guia = TGuiaTransporte.GetById(id);
+            if (guia == null)
                 return RedirectToAction("Index", "GuiaTransporte");
-            }
-        }
 
-        public ActionResult Edit()
-        {
-            return View();
+            return View(guia);
         }
 
         public ActionResult Delete()

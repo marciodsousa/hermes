@@ -1,23 +1,24 @@
 ﻿@model IEnumerable<HermesClient.Models.TLocal>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista de Locais";
     Layout = "~/Views/Shared/LayoutLogin.cshtml";
 }
 
-<h2>Index</h2>
-
 <table>
     <tr>
-        <th>idLocal</th>
         <th>nome</th>
         <th>morada</th>
     </tr>
     @foreach (var obj in Model)
     {
         <tr>
-            <td>@obj.idLocal</td>
-            <td><a href="/local/edit/@obj.idLocal">@obj.nome</a></td>
+            <td><a href="@Url.Content("~/Local/edit/" + @obj.idLocal)">@obj.nome</a></td>
             <td>@obj.morada</td>
         </tr>
     }
+    <tr>
+        <td colspan="2" align="center">
+            <a href="@Url.Content("~/Local/create")">Criar Novo Local</a>
+        </td>
+    </tr>
 </table>
