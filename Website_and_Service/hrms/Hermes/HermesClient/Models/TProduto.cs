@@ -20,7 +20,7 @@ namespace HermesClient.Models
         public int idProduto { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         [Display(Name = "Nome do Produto: ")]
         public string nome { get; set; }
 
@@ -29,12 +29,12 @@ namespace HermesClient.Models
         public int valUnitario { get; set; }
 
 
-        [StringLength(20)]
+        [StringLength(50)]
         [Display(Name = "Código do produto: ")]
         public string codProduto { get; set; }
 
 
-        [StringLength(20)]
+        [StringLength(200)]
         [Display(Name = "Descrição: ")]
         public string descricao { get; set; }
 
@@ -52,6 +52,15 @@ namespace HermesClient.Models
             var db = new Models.PESTICliEntities();
 
             var query = db.TProduto.Where(c => c.idProduto == id).Select(c => c);
+            return query.ToList().First();
+        }
+
+        public static TProduto GetByCodProd(string codProd)
+        {
+
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TProduto.Where(c => c.codProduto == codProd).Select(c => c);
             return query.ToList().First();
         }
 

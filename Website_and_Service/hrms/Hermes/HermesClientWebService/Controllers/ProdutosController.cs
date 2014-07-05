@@ -65,7 +65,12 @@ namespace HermesClientWebService.Controllers
         public ActionResult Create(TProduto prod)
         {
             int prodId;
-            prodId = TProduto.AddProduto(prod);
+            var prodDB = TProduto.GetByCodProd(prod.codProduto);
+
+            if (prodDB == null)
+                prodId = TProduto.AddProduto(prod);
+            else
+                prodId = prodDB.idProduto;
             return Json(TProduto.GetById(prodId));
         }
     }

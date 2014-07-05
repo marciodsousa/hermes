@@ -45,6 +45,10 @@ namespace HermesClientWebService
             {
                 empresas.Only("index", "show", "create", "update");
             });
+            map.Resources<GuiasTransporteController>(guiastransporte =>
+            {
+                guiastransporte.Only("index", "show", "create", "update");
+            });
         }
 
         public static void Start()

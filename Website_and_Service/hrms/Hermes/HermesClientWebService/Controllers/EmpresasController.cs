@@ -19,7 +19,7 @@ namespace HermesClientWebService.Controllers
 
         public ActionResult Index()
         {
-            return Json(TEmpresa.All(), JsonRequestBehavior.AllowGet);
+            return Json(TEmpresa.All().FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Show(int Id)

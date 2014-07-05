@@ -55,6 +55,22 @@ namespace HermesClient.Models
             return query.ToList().First();
         }
 
+        public static List<TGuiaTransporte> GetByUsr(int idUsr)
+        {
+            List<TGuiaTransporte> ret;
+
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TGuiaTransporte.Where(c => c.idUtilizador == idUsr).Select(c => c);
+
+            ret = query.ToList();
+            if (ret.Count > 0)
+                return ret;
+
+            return new List<TGuiaTransporte>();
+
+        }
+
         public static int Update(TGuiaTransporte guiat)
         {
             int ret = 0;
@@ -87,7 +103,7 @@ namespace HermesClient.Models
             return ret;
         }
 
-        public static int AddUser(TGuiaTransporte guiat)
+        public static int AddGuia(TGuiaTransporte guiat)
         {
             var db = new Models.PESTICliEntities();
 
