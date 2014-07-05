@@ -3,9 +3,9 @@ package com.hermes.hermes.Model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable
+@DatabaseTable(tableName = "tutilizador")
 public class TUtilizador {
-	@DatabaseField
+	@DatabaseField (id=true)
 	private int idUtilizador;
 	
 	@DatabaseField
@@ -18,14 +18,12 @@ public class TUtilizador {
 	private String email;
 	
 	@DatabaseField
-	private int tipoUtilizado;
+	private int tipoUtilizador;
 	
 	@DatabaseField
 	private int estado;
 	
-	@DatabaseField
-	private int idEmpresa;
-	
+	@DatabaseField(canBeNull = false, foreign = true)
 	private TEmpresa TEmpresa;
 	
 	public int getIdUtilizador()
@@ -68,24 +66,24 @@ public class TUtilizador {
     	this.email = email;
     }  
     
-    public int getTipoUtilizado()
+    public int getTipoUtilizador()
     {
-    	return this.tipoUtilizado;
+    	return this.tipoUtilizador;
     }
     
     public void setTipoUtilizado(int tipoUtilizado)
     {
-    	this.tipoUtilizado = tipoUtilizado;
+    	this.tipoUtilizador = tipoUtilizado;
     }
     
-    public int getIdEmpresa()
+    public TEmpresa getEmpresa()
     {
-    	return this.idEmpresa;
+    	return this.TEmpresa;
     }
     
-    public void setIdEmpresa(int ide)
+    public void setEmpresa(TEmpresa TEmpresa)
     {
-    	this.idEmpresa = ide;
+    	this.TEmpresa = TEmpresa;
     }
     
     public int getEstado()

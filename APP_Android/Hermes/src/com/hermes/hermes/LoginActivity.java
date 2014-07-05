@@ -223,13 +223,17 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			mServer = "http://wvm100.dei.isep.ipp.pt/hermesclientWS";
+			mUsername = "admin";
+			mPassword = "hermesadmin";
+			
+			
 			session = SessionManager.getInstance(getApplicationContext());
 			
 			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 			// TODO: attempt authentication against a network service.
 
-			Controller c = new Controller(getApplicationContext());
+			DataController c = new DataController(getApplicationContext());
 			
 			//calls registerDevice method which returns the licence code
 			String codLic = c.registerDevice(mServer, telephonyManager.getDeviceId());
@@ -281,7 +285,7 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
-			Controller c = new Controller(getApplicationContext());
+			DataController c = new DataController(getApplicationContext());
 			
 			showProgress(false);
 

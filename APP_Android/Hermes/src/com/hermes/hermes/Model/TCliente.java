@@ -1,11 +1,14 @@
 package com.hermes.hermes.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class TCliente {
-	@DatabaseField
+	@DatabaseField (id=true)
 	private int idCliente;
 	
 	@DatabaseField
@@ -56,5 +59,17 @@ public class TCliente {
     {
     	this.contacto = contacto;
     }  
+    
+    public static List<TCliente> diff(List<TCliente> list1, List<TCliente> list2)
+    {
+    	List<TCliente> ret = new ArrayList<TCliente>();
+    	
+    	for (TCliente cli1 : list1) {
+    		if(!list2.contains(cli1))
+    			ret.add(cli1);
+        }
+    	
+    	return ret;
+    }
     
 }

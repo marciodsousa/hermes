@@ -38,14 +38,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database,ConnectionSource connectionSource) {
         try {
+        	TableUtils.createTable(connectionSource, TUtilizador.class);
             TableUtils.createTable(connectionSource, TCliente.class);
             TableUtils.createTable(connectionSource, TEmpresa.class);
             TableUtils.createTable(connectionSource, TGuiaTransporte.class);
             TableUtils.createTable(connectionSource, TLicenca.class);
             TableUtils.createTable(connectionSource, TLinhaProduto.class);
             TableUtils.createTable(connectionSource, TLocal.class);
-            TableUtils.createTable(connectionSource, TProduto.class);
-            TableUtils.createTable(connectionSource, TUtilizador.class);
+            TableUtils.createTable(connectionSource, TProduto.class);            
             
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);

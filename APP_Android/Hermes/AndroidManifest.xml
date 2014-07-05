@@ -35,8 +35,20 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.hermes.hermes.NewGuideActivity"
-            android:label="@string/title_activity_new_guide" >
+            android:name="com.hermes.hermes.AddEditGuideActivity"
+            android:label="@string/title_activity_add_edit_guide" >
+        </activity>
+        <activity
+            android:name="com.hermes.hermes.AddEditProductActivity"
+            android:label="@string/title_activity_add_edit_product" >
+        </activity>
+        <activity
+            android:name="com.hermes.hermes.AddEditClientActivity"
+            android:label="@string/title_activity_add_edit_client" >
+        </activity>
+        <activity
+            android:name="com.hermes.hermes.AddEditPlaceActivity"
+            android:label="@string/title_activity_add_edit_place" >
         </activity>
     </application>
 

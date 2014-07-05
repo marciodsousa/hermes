@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class TEmpresa {
-	@DatabaseField
+	@DatabaseField (id=true)
 	private int idEmpresa;
 	
 	@DatabaseField

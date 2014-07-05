@@ -2,48 +2,43 @@ package com.hermes.hermes;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import com.hermes.hermes.Model.TProduto;
+import com.hermes.hermes.Model.*;
 import com.hermes.hermes.db.DatabaseManager;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.View.OnClickListener;
 
-
+/**
+ * A placeholder fragment containing a simple view.
+ */
 public class ProductsFragment extends Fragment {
-	 ListView listView;
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-	private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_SECTION_NUMBER = "section_number";
+	private ArrayAdapter<String> listAdapter ; 
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PlacesFragment newInstance(int sectionNumber) {
-    	PlacesFragment fragment = new PlacesFragment();
+    public static ProductsFragment newInstance(int sectionNumber) {
+    	ProductsFragment fragment = new ProductsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
@@ -59,45 +54,70 @@ public class ProductsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         
         
+        final ListView mainListView = (ListView) rootView.findViewById(R.id.list);
         
-        listView = (ListView) rootView.findViewById(R.id.list_view);
+        Button button = (Button) rootView.findViewById(R.id.btnNew);
+        button.setOnClickListener(new OnClickListener()
+        {
+                  @Override
+                  public void onClick(View v)
+                  {
+                	// user is not logged in redirect him to Login Activity
+                      Intent i = new Intent(getActivity().getApplicationContext(), AddEditProductActivity.class);
+                      
+                      // Closing all the Activities
+                      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                       
+                      // Add new Flag to start new Activity
+                      i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                       
+                      // Staring Login Activity
+                      getActivity().getApplicationContext().startActivity(i);
+                  } 
+        }); 
         
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+        DatabaseManager db = DatabaseManager.getInstance(getActivity().getApplicationContext());
         
-        setupListView(listView);
+        List<TProduto> prods = db.getAllProdutos();
+        String[] values = new String[prods.size()];
         
+        for(int i=0; i<prods.size(); i++)
+      	  values[i] = prods.get(i).getNome();
+
+        ArrayList<String> itemList = new ArrayList<String>();  
+        itemList.addAll( Arrays.asList(values) );  
+          
+        // Create ArrayAdapter using the planet list.  
+        listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.simplerow, itemList);
+          
+        // Set the ArrayAdapter as the ListView's adapter.  
+        mainListView.setAdapter( listAdapter );      
         
+        mainListView.setClickable(true);
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+          @Override
+          public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
+            Object o = mainListView.getItemAtPosition(position);
+            
+            // user is not logged in redirect him to Login Activity
+            Intent i = new Intent(getActivity().getApplicationContext(), AddEditProductActivity.class);
+            i.putExtra("posProduto", position);
+            
+            // Closing all the Activities
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+             
+            // Add new Flag to start new Activity
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+             
+            // Staring Login Activity
+            getActivity().getApplicationContext().startActivity(i);
+          }
+        });
+
         return rootView;
-        
-        
-        
     }
-    
-    private void setupListView(ListView lv) {
-        final List<TProduto> products = DatabaseManager.getInstance().getAllProdutos();
-        
-        List<String> titles = new ArrayList<String>();
-        for (TProduto p : products) {
-            titles.add(p.getNome());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, titles);
-        lv.setAdapter(adapter);
-
-//        final Fragment fragment = this;
-//        lv.setOnItemClickListener(new OnItemClickListener() {
-//
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            	TProduto produto = products.get(position);
-//                Intent intent = new Intent(fragment, WishItemListActivity.class);
-//                intent.putExtra(Constants.keyWishListId, produto.getId());
-//                startActivity(intent);
-//            }
-//        });
-    }
-    
-    
 
     @Override
     public void onAttach(Activity activity) {
@@ -105,4 +125,25 @@ public class ProductsFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
+    
+    /**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			SessionManager session = SessionManager.getInstance(getActivity().getApplicationContext());
+			DataController c = new DataController(getActivity().getApplicationContext());
+			
+			
+			//call method to fetch data from server before finishing activity
+			c.syncAllData(session);
+			
+
+			return true;
+			
+		}
+
+	}
 }

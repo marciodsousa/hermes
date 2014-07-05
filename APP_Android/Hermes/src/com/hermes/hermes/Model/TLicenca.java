@@ -11,8 +11,8 @@ public class TLicenca {
 	@DatabaseField
     private String imei;
 	
-	@DatabaseField
-    private int idEmpresa;
+	@DatabaseField(canBeNull = false, foreign = true)
+	private TEmpresa TEmpresa;
 	
 	@DatabaseField
     private String estado;
@@ -40,14 +40,14 @@ public class TLicenca {
     	this.imei = imei;
     }
     
-    public int getIdEmpresa()
+    public TEmpresa getEmpresa()
     {
-    	return this.idEmpresa;
+    	return this.TEmpresa;
     }
     
-    public void setIdEmpresa(int ide)
+    public void setEmpresa(TEmpresa TEmpresa)
     {
-    	this.idEmpresa = ide;
+    	this.TEmpresa = TEmpresa;
     }
     
     public String getEstado()

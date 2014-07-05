@@ -6,32 +6,32 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class TLinhaProduto {
 	@DatabaseField
-    private int idGuia;
-	
-	@DatabaseField
-    private int idProduto;
-	
-	@DatabaseField
     private int quantidade;
+	
+	@DatabaseField(canBeNull = false, foreign = true)
+    private TGuiaTransporte TGuiaTransporte;
+	
+	@DatabaseField(canBeNull = false, foreign = true)
+    private TProduto TProduto;
 
-    public int getIdGuia()
+    public TGuiaTransporte getIdGuia()
     {
-    	return this.idGuia;
+    	return this.TGuiaTransporte;
     }
     
-    public void setIdGuia(int idGuia)
+    public void setIdGuia(TGuiaTransporte TGuiaTransporte)
     {
-    	this.idGuia = idGuia;
+    	this.TGuiaTransporte = TGuiaTransporte;
     }
     
-    public int getIdProduto()
+    public TProduto getIdProduto()
     {
-    	return this.idProduto;
+    	return this.TProduto;
     }
     
-    public void setIdProduto(int idProduto)
+    public void setIdProduto(TProduto TProduto)
     {
-    	this.idProduto = idProduto;
+    	this.TProduto = TProduto;
     }
     
     public int getQuantidadea()

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="txtCodProd">Código Produto</string>
+    <string name="txtNomeProd">Nome</string>
+    <string name="txtDescProd">Descrição</string>
+    <string name="txtValUnit">Valor Unitário (cents)</string>
+    <string name="txtCancel">Cancelar</string>
+    <string name="txtSubmit">Submeter</string>
+</resources>

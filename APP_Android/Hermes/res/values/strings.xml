@@ -12,5 +12,10 @@
     <string name="action_settings">Definições</string>
     <string name="title_activity_new_guide">NewGuideActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="create">Criar</string>
+    <string name="title_activity_add_edit_product">Produto</string>
+    <string name="title_activity_add_edit_client">Cliente</string>
+    <string name="title_activity_add_edit_place">Local</string>
+    <string name="title_activity_add_edit_guide">Guia de Transporte</string>
 
 </resources>

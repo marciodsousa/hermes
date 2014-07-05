@@ -1,11 +1,14 @@
 package com.hermes.hermes.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class TProduto {
-	@DatabaseField
+	@DatabaseField (id=true)
 	private int idProduto;
 	
 	@DatabaseField
@@ -25,7 +28,7 @@ public class TProduto {
     	return this.idProduto;
     }
     
-    public void setIdLicenca(int idProduto)
+    public void setIdProduto(int idProduto)
     {
     	this.idProduto = idProduto;
     }
@@ -68,5 +71,17 @@ public class TProduto {
     public void setDescricao(String descricao)
     {
     	this.descricao = descricao;
+    }
+    
+    public static List<TProduto> diff(List<TProduto> list1, List<TProduto> list2)
+    {
+    	List<TProduto> ret = new ArrayList<TProduto>();
+    	
+    	for (TProduto prod1 : list1) {
+    		if(!list2.contains(prod1))
+    			ret.add(prod1);
+        }
+    	
+    	return ret;
     }
 }

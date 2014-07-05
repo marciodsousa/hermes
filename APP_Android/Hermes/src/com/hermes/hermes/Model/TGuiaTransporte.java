@@ -1,6 +1,7 @@
 package com.hermes.hermes.Model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.j256.ormlite.dao.ForeignCollection;
@@ -10,40 +11,48 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class TGuiaTransporte {
-	@DatabaseField
+	@DatabaseField (id=true)
 	private int idGuia;
 	
 	@DatabaseField
     private int idEmissao;
 	
-	@DatabaseField
-    private int idUtilizador;
+//	@DatabaseField
+//    private int idUtilizador;
     
 	@DatabaseField
     private String matricula;
     
-	@DatabaseField
-    private int idCLiente;
+//	@DatabaseField
+//    private int idCLiente;
     
 	@DatabaseField
     private String dataTransporte;
     
-	@DatabaseField
-    private int idLocalCarga;
-    
-	@DatabaseField
-    private int idLocalDescarga;
+//	@DatabaseField
+//    private int idLocalCarga;
+//    
+//	@DatabaseField
+//    private int idLocalDescarga;
     
 	@DatabaseField
     private int estado;
-
+	
+	
+	@DatabaseField(canBeNull = false, foreign = true)
     private TCliente TCliente;
+	
+	@DatabaseField(canBeNull = false, foreign = true)
     private TLocal TLocal;
+	
+	@DatabaseField(canBeNull = false, foreign = true)
     private TLocal TLocal1;
+	
+	@DatabaseField(canBeNull = false, foreign = true)
     private TUtilizador TUtilizador;
     
-    @ForeignCollectionField
-    private ForeignCollection<TLinhaProduto> prods;
+    @ForeignCollectionField(eager = true)
+    private Collection<TLinhaProduto> TLinhaProduto = new ArrayList<TLinhaProduto>();
     
     public int getIdGuia()
     {
@@ -65,14 +74,14 @@ public class TGuiaTransporte {
     	this.idEmissao = idEmissao;
     }
     
-    public int getIdUtilizador()
+    public TUtilizador getUtilizador()
     {
-    	return this.idUtilizador;
+    	return this.TUtilizador;
     }
     
-    public void setIdUtilizador(int idUtilizador)
+    public void setUtilizador(TUtilizador TUtilizador)
     {
-    	this.idUtilizador = idUtilizador;
+    	this.TUtilizador = TUtilizador;
     }
     
     public String getMatricula()
@@ -85,14 +94,14 @@ public class TGuiaTransporte {
     	this.matricula = matricula;
     }
     
-    public int getIdCLiente()
+    public TCliente getCLiente()
     {
-    	return this.idCLiente;
+    	return this.TCliente;
     }
     
-    public void setIdCLiente(int idCLiente)
+    public void setCLiente(TCliente TCliente)
     {
-    	this.idCLiente = idCLiente;
+    	this.TCliente = TCliente;
     }
     
     public String getDataTransporte()
@@ -105,24 +114,24 @@ public class TGuiaTransporte {
     	this.dataTransporte = dataTransporte;
     }
     
-    public int getIdLocalCarga()
+    public TLocal getLocalCarga()
     {
-    	return this.idLocalCarga;
+    	return this.TLocal;
     }
     
-    public void setIdLocalCarga(int idLocalCarga)
+    public void setLocalCarga(TLocal TLocalCarga)
     {
-    	this.idLocalCarga = idLocalCarga;
+    	this.TLocal = TLocalCarga;
     }
     
-    public int setIdLocalDescarga()
+    public TLocal setIdLocalDescarga()
     {
-    	return this.idLocalDescarga;
+    	return this.TLocal1;
     }
     
-    public void setIdLocalDescarga(int idLocalDescarga)
+    public void setIdLocalDescarga(TLocal TLocalDescarga)
     {
-    	this.idLocalDescarga = idLocalDescarga;
+    	this.TLocal1 = TLocalDescarga;
     }
     
     public int setEstado()
@@ -136,14 +145,30 @@ public class TGuiaTransporte {
     }
     
     public void setProds(ForeignCollection<TLinhaProduto> prods) {
-        this.prods = prods;
+        this.TLinhaProduto = prods;
     }
 
-    public List<TLinhaProduto> getItems() {
+/*    public List<TLinhaProduto> getItems() {
         ArrayList<TLinhaProduto> itemList = new ArrayList<TLinhaProduto>();
-        for (TLinhaProduto item : prods) {
+        for (TLinhaProduto item : TLinhaProduto) {
             itemList.add(item);
         }
         return itemList;
+    }*/
+    
+    public List<TLinhaProduto> getItems() {
+        return new ArrayList<TLinhaProduto>(TLinhaProduto) ;
+    }
+    
+    public static List<TGuiaTransporte> diff(List<TGuiaTransporte> list1, List<TGuiaTransporte> list2)
+    {
+    	List<TGuiaTransporte> ret = new ArrayList<TGuiaTransporte>();
+    	
+    	for (TGuiaTransporte guia1 : list1) {
+    		if(!list2.contains(guia1))
+    			ret.add(guia1);
+        }
+    	
+    	return ret;
     }
 }

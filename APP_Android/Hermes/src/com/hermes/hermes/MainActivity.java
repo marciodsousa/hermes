@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -102,24 +103,13 @@ public class MainActivity extends Activity
             .commit();
             break;
         case 3:
-//        	fragmentManager.beginTransaction()
-//            .replace(R.id.container, PlacesFragment.newInstance(position + 1))
-//            .commit();
-        	
-        	
-        	// user is not logged in redirect him to Login Activity
-            Intent i = new Intent(getApplicationContext(), NewGuideActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-             
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-             
-            // Staring Login Activity
-            getApplicationContext().startActivity(i);
-        	
+        	fragmentManager.beginTransaction()
+            .replace(R.id.container, PlacesFragment.newInstance(position + 1))
+            .commit();
             break;
-    }
+            
+        }       	
+            
     }
 
     public void onSectionAttached(int number) {

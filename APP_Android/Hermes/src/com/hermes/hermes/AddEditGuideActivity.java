@@ -34,7 +34,7 @@ import com.hermes.common.activities.SampleActivityBase;
  * For devices with displays with a width of 720dp or greater, the sample log is always visible,
  * on other devices it's visibility is controlled by an item on the Action Bar.
  */
-public class NewGuideActivity extends SampleActivityBase {
+public class AddEditGuideActivity extends SampleActivityBase {
 
     public static final String TAG = "MainActivity";
 
@@ -44,7 +44,7 @@ public class NewGuideActivity extends SampleActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_guide);
+        setContentView(R.layout.activity_add_edit_guide);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
