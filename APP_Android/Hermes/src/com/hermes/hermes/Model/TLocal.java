@@ -50,10 +50,21 @@ public class TLocal {
     public static List<TLocal> diff(List<TLocal> list1, List<TLocal> list2)
     {
     	List<TLocal> ret = new ArrayList<TLocal>();
+    	boolean exists = false;
     	
     	for (TLocal loc1 : list1) {
-    		if(!list2.contains(loc1))
+    		for (TLocal loc2 : list2) {
+        		if (loc1.getIdLocal() == loc2.getIdLocal())
+        		{
+        			exists = true;
+        			break;
+        		}
+            }
+    		
+    		if (!exists)
     			ret.add(loc1);
+    		
+			exists=false;
         }
     	
     	return ret;

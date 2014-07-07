@@ -50,6 +50,10 @@
             android:name="com.hermes.hermes.AddEditPlaceActivity"
             android:label="@string/title_activity_add_edit_place" >
         </activity>
+        <service
+            android:name="com.hermes.hermes.service.DataSyncService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

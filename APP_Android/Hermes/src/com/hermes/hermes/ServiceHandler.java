@@ -139,6 +139,7 @@ public class ServiceHandler {
             // Checking http request method type
             if (method == POST) {
                 HttpPost httpPost = new HttpPost(url);
+                httpPost.addHeader("content-type", "application/json");
                 // adding post params
                 if (json.compareTo("") != 0) {
                 	httpPost.setEntity(new ByteArrayEntity(
@@ -149,6 +150,7 @@ public class ServiceHandler {
  
             } else if (method == PUT) {
             	HttpPut httpPut = new HttpPut(url);
+            	httpPut.addHeader("content-type", "application/json");
                 // adding post params
                 if (json.compareTo("") != 0) {
                 	httpPut.setEntity(new ByteArrayEntity(

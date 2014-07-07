@@ -76,10 +76,21 @@ public class TProduto {
     public static List<TProduto> diff(List<TProduto> list1, List<TProduto> list2)
     {
     	List<TProduto> ret = new ArrayList<TProduto>();
+    	boolean exists = false;
     	
     	for (TProduto prod1 : list1) {
-    		if(!list2.contains(prod1))
+    		for (TProduto prod2 : list2) {
+        		if (prod1.getIdProduto() == prod2.getIdProduto())
+        		{
+        			exists = true;
+        			break;
+        		}
+            }
+    		
+    		if (!exists)
     			ret.add(prod1);
+    		
+			exists=false;
         }
     	
     	return ret;

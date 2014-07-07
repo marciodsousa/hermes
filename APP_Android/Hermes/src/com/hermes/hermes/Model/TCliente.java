@@ -63,10 +63,21 @@ public class TCliente {
     public static List<TCliente> diff(List<TCliente> list1, List<TCliente> list2)
     {
     	List<TCliente> ret = new ArrayList<TCliente>();
+    	boolean exists = false;
     	
     	for (TCliente cli1 : list1) {
-    		if(!list2.contains(cli1))
+    		for (TCliente cli2 : list2) {
+        		if (cli1.getIdCliente() == cli2.getIdCliente())
+        		{
+        			exists = true;
+        			break;
+        		}
+            }
+    		
+    		if (!exists)
     			ret.add(cli1);
+    		
+			exists=false;
         }
     	
     	return ret;
