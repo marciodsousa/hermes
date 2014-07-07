@@ -65,7 +65,12 @@ namespace HermesClientWebService.Controllers
         public ActionResult Create(TLocal loc)
         {
             int locId;
-            locId = TLocal.AddLocal(loc);
+            var locDB = TLocal.GetByNome(loc.nome);
+
+            if (locDB == null)
+                locId = TLocal.AddLocal(loc);
+            else
+                locId = locDB.idLocal;
             return Json(TLocal.GetById(locId));
         }
     }

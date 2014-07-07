@@ -39,7 +39,11 @@ namespace HermesClient.Models
             var db = new Models.PESTICliEntities();
 
             var query = db.TLicenca.Where(c => c.idLicenca == id).Select(c => c);
-            return query.ToList().First();
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static TLicenca GetByIMEI(string imei)

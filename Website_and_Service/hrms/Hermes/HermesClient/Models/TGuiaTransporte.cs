@@ -52,7 +52,11 @@ namespace HermesClient.Models
             var db = new Models.PESTICliEntities();
 
             var query = db.TGuiaTransporte.Where(c => c.idGuia == id).Select(c => c);
-            return query.ToList().First();
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static List<TGuiaTransporte> GetByUsr(int idUsr)

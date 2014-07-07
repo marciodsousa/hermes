@@ -43,7 +43,24 @@ namespace HermesClient.Models
             var db = new Models.PESTICliEntities();
 
             var query = db.TLocal.Where(c => c.idLocal == id).Select(c => c);
-            return query.ToList().First();
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
+        }
+
+        public static TLocal GetByNome(String nome)
+        {
+
+            var db = new Models.PESTICliEntities();
+
+            var query = db.TLocal.Where(c => c.nome.ToLower().Contains(nome.ToLower())).Select(c => c);
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static int Update(TLocal loc)

@@ -65,7 +65,12 @@ namespace HermesClientWebService.Controllers
         public ActionResult Create(TCliente cli)
         {
             int cliId;
-            cliId = TCliente.AddCliente(cli);
+            var cliDB = TCliente.GetByNIF(cli.nif);
+
+            if (cliDB == null)
+                cliId = TCliente.AddCliente(cli);
+            else
+                cliId = cliDB.idCliente;
             return Json(TCliente.GetById(cliId));
         }
     }

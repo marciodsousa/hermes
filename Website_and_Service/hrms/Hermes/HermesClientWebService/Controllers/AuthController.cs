@@ -17,44 +17,48 @@ namespace HermesClientWebService.Controllers
         //
         // GET: /Licencas/
 
-        public ActionResult Index()
-        {
+        //public ActionResult Index()
+        //{
 
-            string result;
-            var serializer = new JavaScriptSerializer();
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesClientWS/Auths");
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/licencas");
+        //    string result;
+        //    var serializer = new JavaScriptSerializer();
+        //    var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesClientWS/Clientes");
 
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
+        //    //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:61098/Clientes");
 
-            Dictionary<string,string> dic = new Dictionary<string,string>();
-            dic.Add("usr","admin");
-            dic.Add("passwd","hermesadmin");
+        //    httpWebRequest.ContentType = "application/json";
+        //    httpWebRequest.Method = "POST";
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(dic);
+        //    TCliente prod = new TCliente();
+        //    prod.contacto = "227895684";
+        //    prod.nif = "222222222";
+        //    prod.idCliente = 0;
+        //    prod.nome = "Uva";
 
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
 
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        //    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+        //    {
+        //        string json = JsonConvert.SerializeObject(Json(prod).Data);
+        //        json = "{\"contacto\":\"223659854\",\"nome\":\"Isep\",\"nif\":\"524136985\",\"idCliente\":0}";
+        //        streamWriter.Write(json);
+        //        streamWriter.Flush();
+        //        streamWriter.Close();
 
-                //caso retorne codigo 409, quer dizer que valor maximo de licenças foi atingido. Retornar.
-                if(httpResponse.StatusCode==HttpStatusCode.Conflict)
-                    return new HttpStatusCodeResult(409);
+        //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
-                //senão prosseguir parsing.
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    result = streamReader.ReadToEnd();
-                }
-            }
+        //        //caso retorne codigo 409, quer dizer que valor maximo de licenças foi atingido. Retornar.
+        //        if (httpResponse.StatusCode == HttpStatusCode.Conflict)
+        //            return new HttpStatusCodeResult(409);
 
-            return new HttpStatusCodeResult(409);
-        }
+        //        //senão prosseguir parsing.
+        //        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        //        {
+        //            result = streamReader.ReadToEnd();
+        //        }
+        //    }
+
+        //    return new HttpStatusCodeResult(409);
+        //}
 
         public ActionResult Create(string usr, string passwd)
         {

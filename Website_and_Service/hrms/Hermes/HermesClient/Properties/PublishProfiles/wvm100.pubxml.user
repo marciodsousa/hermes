@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/03/2014 00:43:54</publishTime>
     </File>
     <File Include="bin/HermesClient.dll">
-      <publishTime>07/05/2014 22:00:12</publishTime>
+      <publishTime>07/07/2014 23:23:11</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>04/28/2014 19:04:41</publishTime>

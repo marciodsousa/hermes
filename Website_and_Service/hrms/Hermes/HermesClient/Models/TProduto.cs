@@ -52,7 +52,12 @@ namespace HermesClient.Models
             var db = new Models.PESTICliEntities();
 
             var query = db.TProduto.Where(c => c.idProduto == id).Select(c => c);
-            return query.ToList().First();
+
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static TProduto GetByCodProd(string codProd)
@@ -60,8 +65,13 @@ namespace HermesClient.Models
 
             var db = new Models.PESTICliEntities();
 
-            var query = db.TProduto.Where(c => c.codProduto == codProd).Select(c => c);
-            return query.ToList().First();
+            var query = db.TProduto.Where(c => c.codProduto.ToLower().Contains(codProd.ToLower())).Select(c => c);
+
+            var list = query.ToList();
+            if (list.Count > 0)
+                return query.ToList().First();
+
+            return null;
         }
 
         public static int Update(TProduto prod)
