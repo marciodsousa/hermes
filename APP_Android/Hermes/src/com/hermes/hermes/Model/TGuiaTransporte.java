@@ -144,7 +144,8 @@ public class TGuiaTransporte {
     	this.estado = estado;
     }
     
-    public void setProds(ForeignCollection<TLinhaProduto> prods) {
+    public void setProds(Collection<TLinhaProduto> prods) {
+    	
         this.TLinhaProduto = prods;
     }
 

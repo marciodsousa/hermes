@@ -670,6 +670,19 @@ public class DatabaseManager {
 
 		return ret;
 	}
+	
+	public int getNewGuiaID() {
+		int id = 0;
+		List<TGuiaTransporte> guias = getAllGuiasTransporte();
+		
+		for (TGuiaTransporte guia : guias)
+		{
+			if(guia.getIdGuia()<id)
+				id=guia.getIdGuia();
+		}
+
+		return id-1;
+	}
 
 	// LinhaProduto
 

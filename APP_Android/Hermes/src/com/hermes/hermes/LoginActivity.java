@@ -272,7 +272,7 @@ public class LoginActivity extends Activity {
 				return false;
 			}
 			
-			session.createLoginSession(usrId+"", mServer, codLic);
+			session.createLoginSession(usrId+"", mServer, codLic, "");
 			
 			//call method to fetch data from server before finishing activity
 			c.syncAllData();

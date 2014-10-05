@@ -477,8 +477,9 @@ public class DataController {
 	
 	public boolean ImportGuias()
 	{
+		
 		boolean ret = true;
-		List<TGuiaTransporte> guiasServ, guiasDB, guiasToServRaw, guiasToDelete, guiasToDB, guiasToServ;
+		List<TGuiaTransporte> guiasServ, guiasDB, guiasToServRaw;
 		
 		//get server and db
 		guiasServ = getGuiaTransportesServer();
@@ -488,48 +489,20 @@ public class DataController {
 		if(guiasDB.size()==0)
 			return db.addGuiasTransporte(guiasServ);
 		
-		//obter itens que existem na DB guiaal, mas não existem no servidor.
+		//obter itens que existem na DB local, mas não existem no servidor.
 		guiasToServRaw = TGuiaTransporte.diff(guiasDB, guiasServ);
 		
-		guiasToDelete = new ArrayList<TGuiaTransporte>();
 		
-		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
+		//verificar quais as guias inexistentes no servidor que foram apagados (para não inserir itens apagados)
 		for (TGuiaTransporte guia : guiasToServRaw) {
-    		if (guia.getIdGuia() > 1)
-    		{
-    			guiasToDelete.add(guia);
-    		}
+			db.removeGuiaTransporteById(guia.getIdGuia());
         }
-		
-		//apagar da DB os itens que foram apagados no servidor
-		for (TGuiaTransporte guia : guiasToDelete) {
-    		db.removeGuiaTransporteById(guia.getIdGuia());
-        }
-		
-		guiasToDB = TGuiaTransporte.diff(guiasServ, guiasDB);
-		
-		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
-		guiasToServ = TGuiaTransporte.diff(guiasToServRaw, guiasToDelete);
 		
 		//set db
-		if(guiasToDB.size()>0)
+		if(!db.addGuiasTransporte(guiasServ))
 		{
-			if(!db.addGuiasTransporte(guiasToDB))
-			{
-				ret = false;
-			}
+			ret = false;
 		}
-		
-		//set server
-		if(guiasToServ.size()>0)
-		{
-			if(!addGuiasServer(guiasToServ))
-			{
-				ret = false;
-			}
-		}
-		
-		db.removeGuiaTransporteById(0);
 		
 		return ret;
     }
@@ -537,58 +510,29 @@ public class DataController {
 	public boolean ExportGuias()
 	{
 		boolean ret = true;
-		List<TGuiaTransporte> guiasServ, guiasDB, guiasToServRaw, guiasToDelete, guiasToDB, guiasToServ;
+		List<TGuiaTransporte> guiasDB, guiasToServ;
 		
 		//get server and db
-		guiasServ = getGuiaTransportesServer();
 		guiasDB = db.getAllGuiasTransporte();
 		
-		//se as tabela estiver vazia, adicionar todos os registos e parar execução
-		if(guiasDB.size()==0)
-			return db.addGuiasTransporte(guiasServ);
+		guiasToServ = new ArrayList<TGuiaTransporte>();
 		
-		//obter itens que existem na DB guiaal, mas não existem no servidor.
-		guiasToServRaw = TGuiaTransporte.diff(guiasDB, guiasServ);
+		for(TGuiaTransporte guia : guiasDB){
+			if(guia.getIdGuia()<0)
+				guiasToServ.add(guia);
+		}
 		
-		guiasToDelete = new ArrayList<TGuiaTransporte>();
+		if(!addGuiasServer(guiasToServ))
+		{
+			ret = false;
+		}
 		
-		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
-		for (TGuiaTransporte guia : guiasToServRaw) {
-    		if (guia.getIdGuia() > 1)
-    		{
-    			guiasToDelete.add(guia);
-    		}
-        }
-		
-		//apagar da DB os itens que foram apagados no servidor
-		for (TGuiaTransporte guia : guiasToDelete) {
+		for (TGuiaTransporte guia : guiasToServ) {
     		db.removeGuiaTransporteById(guia.getIdGuia());
         }
 		
-		guiasToDB = TGuiaTransporte.diff(guiasServ, guiasDB);
-		
-		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
-		guiasToServ = TGuiaTransporte.diff(guiasToServRaw, guiasToDelete);
-		
-		//set db
-		if(guiasToDB.size()>0)
-		{
-			if(!db.addGuiasTransporte(guiasToDB))
-			{
-				ret = false;
-			}
-		}
-		
-		//set server
-		if(guiasToServ.size()>0)
-		{
-			if(!addGuiasServer(guiasToServ))
-			{
-				ret = false;
-			}
-		}
-		
-		db.removeGuiaTransporteById(0);
+		if(!ImportGuias())
+			ret = false;
 		
 		return ret;
     }
@@ -645,6 +589,20 @@ public class DataController {
 			ret=true;
 		
         return ret;
+	}
+	
+	public boolean saveGuiaTransporte(TGuiaTransporte guia)
+	{
+		boolean ret = false;
+		
+		int id = db.getNewGuiaID();
+		
+		guia.setIdGuia(id);
+		
+		if(db.addGuiaTransporte(guia))
+			ret=true;
+		
+		return ret;
 	}
 	
 	

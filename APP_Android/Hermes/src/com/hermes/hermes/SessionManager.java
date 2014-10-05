@@ -34,6 +34,9 @@ public class SessionManager {
 	
 	// Licence code (make variable public to access from outside)
 	public static final String KEY_CODLIC = "codLicence";
+	
+	// Licence code (make variable public to access from outside)
+	public static final String KEY_MATRICULA = "matricula";
 	 
      
 
@@ -57,7 +60,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String id, String server, String codLic ){
+    public void createLoginSession(String id, String server, String codLic, String mat ){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
          
@@ -69,6 +72,9 @@ public class SessionManager {
         
         // Storing licence code in pref
         editor.putString(KEY_CODLIC, codLic);
+        
+        // Storing licence code in pref
+        editor.putString(KEY_MATRICULA, mat);
    
          
         // commit changes
@@ -104,6 +110,9 @@ public class SessionManager {
         
         // licence code
         user.put(KEY_CODLIC, pref.getString(KEY_CODLIC, null));
+        
+        // licence plate
+        user.put(KEY_MATRICULA, pref.getString(KEY_MATRICULA, null));
         
         return user;
     }
