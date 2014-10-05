@@ -20,7 +20,7 @@ Released   : 20081009
 
     <title>@ViewBag.Title</title>
 
-    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/sitelogin.css")" rel="stylesheet" type="text/css" />
     @RenderSection("Styles", false)
 </head>
 
@@ -29,24 +29,14 @@ Released   : 20081009
 
         <div id="header">
             <div id="headerTitle">Hermes</div>
-            <div id="headerSubText">Painel de gestão para Clientes.</div>
-
-        </div>
-        <div id="bar">
-            <div class="navLink"><a href="~/Empresa/edit">empresa</a></div>
-            <div class="navLink"><a href="~/licenca">licencas</a></div>
-            <div class="navLink"><a href="~/utilizador">utilizadores</a></div>
-            <div class="navLink"><a href="~/guiatransporte">guias</a></div>
-            <div class="navLink"><a href="~/produto">produtos</a></div>
-            <div class="navLink"><a href="~/local">locais</a></div>
-            <div class="navLink"><a href="~/cliente">clientes</a></div>
-            <div class="navLink"><a href="~/utilizador/logout">log-out</a></div>
+            <div id="headerSubText">Painel de Licenciamento.</div>
         </div>
         <div class="contentTitle"><h1>@ViewBag.Title</h1></div>
         <div class="contentText">
             @RenderBody()
         </div>
+        <div id="footer"></div>
     </div>
-    <div id="footer"><a href="http://www.aszx.net">web development</a> by <a href="http://www.bryantsmith.com">bryant smith</a></div>
+    
 </body>
 </html>

@@ -124,12 +124,12 @@ public class TGuiaTransporte {
     	this.TLocal = TLocalCarga;
     }
     
-    public TLocal setIdLocalDescarga()
+    public TLocal getLocalDescarga()
     {
     	return this.TLocal1;
     }
     
-    public void setIdLocalDescarga(TLocal TLocalDescarga)
+    public void setLocalDescarga(TLocal TLocalDescarga)
     {
     	this.TLocal1 = TLocalDescarga;
     }

@@ -4,14 +4,9 @@
 
     <item
         android:id="@+id/action_settings"
+        android:icon="@drawable/more_vert"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-    
-    <item android:id="@+id/menu_sync"
-          android:icon="@drawable/ic_action_refresh"
-          android:title="@string/description_sync"
-          android:orderInCategory="1"
-          android:showAsAction="always" />
 
 </menu>

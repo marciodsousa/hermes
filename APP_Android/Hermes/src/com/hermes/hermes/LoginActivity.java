@@ -275,7 +275,7 @@ public class LoginActivity extends Activity {
 			session.createLoginSession(usrId+"", mServer, codLic);
 			
 			//call method to fetch data from server before finishing activity
-			c.syncAllData(session);
+			c.syncAllData();
 			
 			loginStatus = 0;
 			return true;

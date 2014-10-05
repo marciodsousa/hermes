@@ -35,7 +35,11 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.hermes.hermes.AddEditGuideActivity"
+            android:name="com.hermes.hermes.ViewGuideActivity"
+            android:label="@string/title_activity_add_edit_guide" >
+        </activity>
+        <activity
+            android:name="com.hermes.hermes.AddGuiaActivity"
             android:label="@string/title_activity_add_edit_guide" >
         </activity>
         <activity
@@ -51,7 +55,23 @@
             android:label="@string/title_activity_add_edit_place" >
         </activity>
         <service
-            android:name="com.hermes.hermes.service.DataSyncService"
+            android:name="com.hermes.hermes.service.ProductImportService"
+            android:exported="false">
+        </service>
+        <service
+            android:name="com.hermes.hermes.service.PlaceImportService"
+            android:exported="false">
+        </service>
+        <service
+            android:name="com.hermes.hermes.service.CompanyImportService"
+            android:exported="false">
+        </service>
+        <service
+            android:name="com.hermes.hermes.service.GuideImportService"
+            android:exported="false">
+        </service>
+        <service
+            android:name="com.hermes.hermes.service.GuideExportService"
             android:exported="false">
         </service>
     </application>

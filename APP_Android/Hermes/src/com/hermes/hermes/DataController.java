@@ -86,7 +86,7 @@ public class DataController {
       
     }
 	
-	public boolean syncAllData(SessionManager session)
+	public boolean syncAllData()
 	{
 		boolean ret = false;
 		
@@ -96,16 +96,16 @@ public class DataController {
 			{
 				if(SyncUtilizador())
 				{
-					if(SyncProdutos())
+					if(ImportProdutos())
 					{
-						if(SyncLocais())
+						if(ImportLocais())
 						{
-							if(SyncClientes())
+							if(ImportClientes())
 							{
-								//if(SyncGuias())
-								//{
+								if(ImportGuias())
+								{
 									ret=true;
-								//}
+								}
 							}
 						}
 					}
@@ -221,10 +221,10 @@ public class DataController {
         return ret;
 	}
 	
-	public boolean SyncProdutos()
+	public boolean ImportProdutos()
 	{
 		boolean ret = true;
-		List<TProduto> prodsServ, prodsDB, prodsToServRaw, prodsToDelete, prodsToDB, prodsToServ;
+		List<TProduto> prodsServ, prodsDB, prodsToServRaw;
 		
 		//get server and db
 		prodsServ = getProdutosServer();
@@ -237,45 +237,17 @@ public class DataController {
 		//obter itens que existem na DB local, mas não existem no servidor.
 		prodsToServRaw = TProduto.diff(prodsDB, prodsServ);
 		
-		prodsToDelete = new ArrayList<TProduto>();
 		
 		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
 		for (TProduto prod : prodsToServRaw) {
-    		if (prod.getIdProduto() > 1)
-    		{
-    			prodsToDelete.add(prod);
-    		}
+			db.removeProdutoById(prod.getIdProduto());
         }
-		
-		//apagar da DB os itens que foram apagados no servidor
-		for (TProduto prod : prodsToDelete) {
-    		db.removeProdutoById(prod.getIdProduto());
-        }
-		
-		prodsToDB = TProduto.diff(prodsServ, prodsDB);
-		
-		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
-		prodsToServ = TProduto.diff(prodsToServRaw, prodsToDelete);
 		
 		//set db
-		if(prodsToDB.size()>0)
+		if(!db.addProdutos(prodsServ))
 		{
-			if(!db.addProdutos(prodsToDB))
-			{
-				ret = false;
-			}
+			ret = false;
 		}
-		
-		//set server
-		if(prodsToServ.size()>0)
-		{
-			if(!addProdutosServer(prodsToServ))
-			{
-				ret = false;
-			}
-		}
-		
-		db.removeProdutoById(0);
 		
 		return ret;
     }
@@ -301,7 +273,7 @@ public class DataController {
         return ret;
 	}
 	
-	public boolean addProdutosServer(List<TProduto> prods)
+	/*public boolean addProdutosServer(List<TProduto> prods)
 	{
 		boolean ret = false;
 		String json, jsonStr;
@@ -331,12 +303,12 @@ public class DataController {
 			ret=true;
 			
         return ret;
-	}
+	}*/
 	
-	public boolean SyncLocais()
+	public boolean ImportLocais()
 	{
 		boolean ret = true;
-		List<TLocal> locsServ, locsDB, locsToServRaw, locsToDelete, locsToDB, locsToServ;
+		List<TLocal> locsServ, locsDB, locsToServRaw;
 		
 		//get server and db
 		locsServ = getLocaisServer();
@@ -349,45 +321,17 @@ public class DataController {
 		//obter itens que existem na DB local, mas não existem no servidor.
 		locsToServRaw = TLocal.diff(locsDB, locsServ);
 		
-		locsToDelete = new ArrayList<TLocal>();
 		
 		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
 		for (TLocal loc : locsToServRaw) {
-    		if (loc.getIdLocal() > 1)
-    		{
-    			locsToDelete.add(loc);
-    		}
+			db.removeLocalById(loc.getIdLocal());
         }
-		
-		//apagar da DB os itens que foram apagados no servidor
-		for (TLocal loc : locsToDelete) {
-    		db.removeLocalById(loc.getIdLocal());
-        }
-		
-		locsToDB = TLocal.diff(locsServ, locsDB);
-		
-		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
-		locsToServ = TLocal.diff(locsToServRaw, locsToDelete);
 		
 		//set db
-		if(locsToDB.size()>0)
+		if(!db.addLocais(locsServ))
 		{
-			if(!db.addLocais(locsToDB))
-			{
-				ret = false;
-			}
+			ret = false;
 		}
-		
-		//set server
-		if(locsToServ.size()>0)
-		{
-			if(!addLocaisServer(locsToServ))
-			{
-				ret = false;
-			}
-		}
-		
-		db.removeLocalById(0);
 		
 		return ret;
     }
@@ -413,7 +357,7 @@ public class DataController {
         return ret;
 	}
 	
-	public boolean addLocaisServer(List<TLocal> locs)
+	/*public boolean addLocaisServer(List<TLocal> locs)
 	{
 		boolean ret = false;
 		String json, jsonStr;
@@ -444,12 +388,12 @@ public class DataController {
 			ret=true;
 		
         return ret;
-	}
+	}*/
 	
-	public boolean SyncClientes()
+	public boolean ImportClientes()
 	{
 		boolean ret = true;
-		List<TCliente> clisServ, clisDB, clisToServRaw, clisToDelete, clisToDB, clisToServ;
+		List<TCliente> clisServ, clisDB, clisToServRaw;
 		
 		//get server and db
 		clisServ = getClientesServer();
@@ -459,48 +403,20 @@ public class DataController {
 		if(clisDB.size()==0)
 			return db.addClientes(clisServ);
 		
-		//obter itens que existem na DB clial, mas não existem no servidor.
+		//obter itens que existem na DB local, mas não existem no servidor.
 		clisToServRaw = TCliente.diff(clisDB, clisServ);
 		
-		clisToDelete = new ArrayList<TCliente>();
 		
 		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
 		for (TCliente cli : clisToServRaw) {
-    		if (cli.getIdCliente() > 1)
-    		{
-    			clisToDelete.add(cli);
-    		}
+			db.removeLocalById(cli.getIdCliente());
         }
-		
-		//apagar da DB os itens que foram apagados no servidor
-		for (TCliente cli : clisToDelete) {
-    		db.removeClienteById(cli.getIdCliente());
-        }
-		
-		clisToDB = TCliente.diff(clisServ, clisDB);
-		
-		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
-		clisToServ = TCliente.diff(clisToServRaw, clisToDelete);
 		
 		//set db
-		if(clisToDB.size()>0)
+		if(!db.addClientes(clisServ))
 		{
-			if(!db.addClientes(clisToDB))
-			{
-				ret = false;
-			}
+			ret = false;
 		}
-		
-		//set server
-		if(clisToServ.size()>0)
-		{
-			if(!addClientesServer(clisToServ))
-			{
-				ret = false;
-			}
-		}
-		
-		db.removeClienteById(0);
 		
 		return ret;
     }
@@ -526,7 +442,7 @@ public class DataController {
         return ret;
 	}
 	
-	public boolean addClientesServer(List<TCliente> clis)
+	/*public boolean addClientesServer(List<TCliente> clis)
 	{
 		boolean ret = false;
 		String json, jsonStr;
@@ -557,36 +473,133 @@ public class DataController {
 			ret=true;
 		
         return ret;
-	}
+	}*/
 	
-	public boolean SyncGuias()
+	public boolean ImportGuias()
 	{
+		boolean ret = true;
+		List<TGuiaTransporte> guiasServ, guiasDB, guiasToServRaw, guiasToDelete, guiasToDB, guiasToServ;
+		
 		//get server and db
-		List<TGuiaTransporte> guiasServ = getGuiasServer();
-		List<TGuiaTransporte> guiasDB = db.getAllGuiasTransporte();
+		guiasServ = getGuiaTransportesServer();
+		guiasDB = db.getAllGuiasTransporte();
 		
 		//se as tabela estiver vazia, adicionar todos os registos e parar execução
 		if(guiasDB.size()==0)
 			return db.addGuiasTransporte(guiasServ);
 		
-		//diff(db,server)
-		List<TGuiaTransporte> guiasToServ = TGuiaTransporte.diff(guiasDB, guiasServ);
-		List<TGuiaTransporte> guiasToDB = TGuiaTransporte.diff(guiasServ, guiasDB);
+		//obter itens que existem na DB guiaal, mas não existem no servidor.
+		guiasToServRaw = TGuiaTransporte.diff(guiasDB, guiasServ);
 		
-		//get db
-		if(db.addGuiasTransporte(guiasToDB))
-			return addGuiasServer(guiasToServ);
-		else
-			return false;
+		guiasToDelete = new ArrayList<TGuiaTransporte>();
+		
+		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
+		for (TGuiaTransporte guia : guiasToServRaw) {
+    		if (guia.getIdGuia() > 1)
+    		{
+    			guiasToDelete.add(guia);
+    		}
+        }
+		
+		//apagar da DB os itens que foram apagados no servidor
+		for (TGuiaTransporte guia : guiasToDelete) {
+    		db.removeGuiaTransporteById(guia.getIdGuia());
+        }
+		
+		guiasToDB = TGuiaTransporte.diff(guiasServ, guiasDB);
+		
+		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
+		guiasToServ = TGuiaTransporte.diff(guiasToServRaw, guiasToDelete);
+		
+		//set db
+		if(guiasToDB.size()>0)
+		{
+			if(!db.addGuiasTransporte(guiasToDB))
+			{
+				ret = false;
+			}
+		}
+		
+		//set server
+		if(guiasToServ.size()>0)
+		{
+			if(!addGuiasServer(guiasToServ))
+			{
+				ret = false;
+			}
+		}
+		
+		db.removeGuiaTransporteById(0);
+		
+		return ret;
     }
 	
-	public List<TGuiaTransporte> getGuiasServer()
+	public boolean ExportGuias()
+	{
+		boolean ret = true;
+		List<TGuiaTransporte> guiasServ, guiasDB, guiasToServRaw, guiasToDelete, guiasToDB, guiasToServ;
+		
+		//get server and db
+		guiasServ = getGuiaTransportesServer();
+		guiasDB = db.getAllGuiasTransporte();
+		
+		//se as tabela estiver vazia, adicionar todos os registos e parar execução
+		if(guiasDB.size()==0)
+			return db.addGuiasTransporte(guiasServ);
+		
+		//obter itens que existem na DB guiaal, mas não existem no servidor.
+		guiasToServRaw = TGuiaTransporte.diff(guiasDB, guiasServ);
+		
+		guiasToDelete = new ArrayList<TGuiaTransporte>();
+		
+		//verificar quais os produtos inexistentes no servidor que foram apagados (para não inserir itens apagados)
+		for (TGuiaTransporte guia : guiasToServRaw) {
+    		if (guia.getIdGuia() > 1)
+    		{
+    			guiasToDelete.add(guia);
+    		}
+        }
+		
+		//apagar da DB os itens que foram apagados no servidor
+		for (TGuiaTransporte guia : guiasToDelete) {
+    		db.removeGuiaTransporteById(guia.getIdGuia());
+        }
+		
+		guiasToDB = TGuiaTransporte.diff(guiasServ, guiasDB);
+		
+		//obter itens a enviar para o servidor, retirando os que já lá tinham sido apagados.
+		guiasToServ = TGuiaTransporte.diff(guiasToServRaw, guiasToDelete);
+		
+		//set db
+		if(guiasToDB.size()>0)
+		{
+			if(!db.addGuiasTransporte(guiasToDB))
+			{
+				ret = false;
+			}
+		}
+		
+		//set server
+		if(guiasToServ.size()>0)
+		{
+			if(!addGuiasServer(guiasToServ))
+			{
+				ret = false;
+			}
+		}
+		
+		db.removeGuiaTransporteById(0);
+		
+		return ret;
+    }
+	
+	public List<TGuiaTransporte> getGuiaTransportesServer()
 	{
 		List<TGuiaTransporte> ret = new ArrayList<TGuiaTransporte>();
 		HashMap <String,String> data = session.getUserDetails();
 
         // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/GuiasTransportes/"+ data.get(session.KEY_USERID), ServiceHandler.GET);
+        String jsonStr = sh.makeServiceCall(data.get(session.KEY_SERVER)+"/GuiasTransportes/"+data.get(session.KEY_USERID), ServiceHandler.GET);
         
         if (jsonStr.compareTo("400")!=0 && jsonStr.compareTo("404")!=0 && jsonStr.compareTo("409")!=0 && jsonStr.compareTo("500")!=0)
         {
@@ -601,22 +614,38 @@ public class DataController {
         return ret;
 	}
 	
-	public boolean addGuiasServer(List<TGuiaTransporte> prods)
+	public boolean addGuiasServer(List<TGuiaTransporte> guias)
 	{
 		boolean ret = false;
+		String json, jsonStr;
+		TGuiaTransporte c;
+		int flag=0;
 		
 		HashMap <String,String> data = session.getUserDetails();
 
-		String json = gson.toJson(prods);
-		
-        // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCallJS(data.get(session.KEY_SERVER)+"/Produtos/", ServiceHandler.POST, json);
-        
-        if (jsonStr.compareTo("400")!=0 && jsonStr.compareTo("404")!=0 && jsonStr.compareTo("409")!=0 && jsonStr.compareTo("500")!=0)
-        {
-            ret = true;
+		for (TGuiaTransporte guia : guias) {
+			json = gson.toJson(guia);
+			
+	        // Making a request to url and getting response
+	        jsonStr = sh.makeServiceCallJS(data.get(session.KEY_SERVER)+"/GuiasTransportes/", ServiceHandler.POST, json);
+	        
+	        if (jsonStr.compareTo("400")!=0 && jsonStr.compareTo("404")!=0 && jsonStr.compareTo("409")!=0 && jsonStr.compareTo("500")!=0)
+	        {
+                c = gson.fromJson(jsonStr, TGuiaTransporte.class);
+                 
+                if(db.getGuiaTransporteById(c.getIdGuia())==null)
+        		{
+                	if(db.addGuiaTransporte(c))
+                		flag++;
+        		}
+	        }
         }
+		
+		if(flag==guias.size())
+			ret=true;
+		
         return ret;
 	}
+	
 	
 }

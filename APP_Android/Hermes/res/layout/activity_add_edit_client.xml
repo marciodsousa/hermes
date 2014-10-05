@@ -16,13 +16,13 @@
             android:layout_weight="0.25"
             android:text="@string/txtNomeCli" />
 
-        <EditText
+        <TextView
             android:id="@+id/editNomeCli"
-            android:inputType="textCapWords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:ems="10" />
+            android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
     
         <LinearLayout
@@ -36,13 +36,13 @@
             android:layout_weight="0.25"
             android:text="@string/txtContactoCli" />
 
-        <EditText
+        <TextView
             android:id="@+id/editContactoCli"
-            android:inputType="number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:ems="10" />
+            android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
     
     <LinearLayout
@@ -56,47 +56,12 @@
             android:layout_weight="0.25"
             android:text="@string/txtNifCli" />
 
-        <EditText
+        <TextView
             android:id="@+id/editNifCli"
-            android:inputType="number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
-            android:ems="10" />
+            android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
-
-    
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.75"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/btnSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:text="@string/txtSubmit" />
-
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:text="@string/txtCancel" />
-        </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>

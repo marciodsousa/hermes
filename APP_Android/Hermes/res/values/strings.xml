@@ -17,6 +17,8 @@
     <string name="title_activity_add_edit_client">Cliente</string>
     <string name="title_activity_add_edit_place">Local</string>
     <string name="title_activity_add_edit_guide">Guia de Transporte</string>
-	<string name="description_sync">Sincronizar</string>
+	<string name="description_import">Importar dados</string>
+	<string name="description_export">Exportar dados</string>
+	<string name="description_add">Criar novo</string>
 	<string name="error_sync">Ocorreu um erro durante a Sincronização</string>
 </resources>

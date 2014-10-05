@@ -8,7 +8,7 @@ public class TLinhaProduto {
 	@DatabaseField
     private int quantidade;
 	
-	@DatabaseField(canBeNull = false, foreign = true)
+	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private TGuiaTransporte TGuiaTransporte;
 	
 	@DatabaseField(canBeNull = false, foreign = true)

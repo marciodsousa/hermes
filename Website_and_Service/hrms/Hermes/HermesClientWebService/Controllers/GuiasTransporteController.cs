@@ -12,7 +12,7 @@ namespace HermesClientWebService.Controllers
         //
         // GET: /GuiasTransporte/
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int Id = 0)
         {
             var licsEmp = TGuiaTransporte.All();
 
@@ -43,6 +43,10 @@ namespace HermesClientWebService.Controllers
 
         public ActionResult Update(TGuiaTransporte guia)
         {
+            if(guia.idEmissao==-1)
+            {
+                emitGuia(TGuiaTransporte.GetById(guia.idGuia));
+            }
             ActionResult result = null;
 
             switch (TGuiaTransporte.Update(guia))
@@ -72,6 +76,16 @@ namespace HermesClientWebService.Controllers
             int guiaId;
             guiaId = TGuiaTransporte.AddGuia(guia);
             return Json(TGuiaTransporte.GetById(guiaId));
+        }
+
+        private Boolean emitGuia(TGuiaTransporte guia)
+        {
+            Boolean ret = false;
+
+            //vai aqui o código que permite submeter a guia à AT.
+
+            //https://servicos.portaldasfinancas.gov.pt:701/sgdtws/documentosTransporte
+            return ret;
         }
 
     }

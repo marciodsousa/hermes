@@ -14,10 +14,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="@string/txtCodProd" />
+            android:text="@string/txtMatricula" />
         
          <TextView
-            android:id="@+id/editCodProd"
+            android:id="@+id/viewMatricula"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -35,10 +35,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="@string/txtNomeProd" />
+            android:text="@string/txtCliente" />
 
         <TextView
-            android:id="@+id/editNomeProd"
+            android:id="@+id/viewCliente"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -55,10 +55,76 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="@string/txtDescProd" />
+            android:text="@string/txtData" />
 
         <TextView
-            android:id="@+id/editDescProd"
+            android:id="@+id/viewData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/txtLocCarga" />
+
+        <TextView
+            android:id="@+id/viewLocCarga"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/txtLocDescarga" />
+
+        <TextView
+            android:id="@+id/viewLocDescarga"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="10"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/txtProds" />
+
+        <TextView
+            android:id="@+id/viewProds"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.75"
@@ -68,23 +134,4 @@
         
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.25"
-            android:text="@string/txtValUnit" />
-
-        <TextView
-            android:id="@+id/editValUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="5"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
 </LinearLayout>

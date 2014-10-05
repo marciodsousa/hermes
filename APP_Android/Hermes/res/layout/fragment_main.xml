@@ -8,12 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
 	tools:context="com.hermes.hermes.MainActivity$PlaceholderFragment" >
 
-    <Button android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:id="@+id/btnNew"
-        android:text="@string/create" android:layout_alignParentBottom="true" />
-
     <ListView android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:id="@+id/list"
-        android:layout_alignParentTop="true" android:layout_above="@id/btnNew" />
+        android:layout_height="fill_parent" android:id="@+id/list"/>
 
 </RelativeLayout>

@@ -194,10 +194,6 @@ public class MainActivity extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-        	
-        }
         
         switch (item.getItemId()) {
         // If the user clicks the "Refresh" button.
@@ -214,14 +210,14 @@ public class MainActivity extends Activity
 	            getApplicationContext().startActivity(i);
 	            return true;
 	            
-	        case R.id.menu_sync:
+	       /* case R.id.menu_sync:
 
 	        	Intent mServiceIntent = new Intent(this, DataSyncService.class);
 	        	mServiceIntent.setClass(mActivityContext, DataSyncService.class);
 	        	// Starts the IntentService
 	        	this.startService(mServiceIntent);
 	        	
-	            return true;
+	            return true;*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -279,7 +275,7 @@ public class MainActivity extends Activity
          */
         @Override
         public void onReceive(Context context, Intent intent) {
-        	final MenuItem refreshItem = mOptionsMenu.findItem(R.id.menu_sync);
+        	final MenuItem refreshItem = mOptionsMenu.findItem(R.id.menu_import);
         	
             /*
              * Gets the status from the Intent's extended data, and chooses the appropriate action

@@ -32,32 +32,6 @@ namespace HermesLicencing.Controllers
             }
         }
 
-        public ActionResult Update(TEmpresa emp)
-        {
-            ActionResult result = null;
-
-            switch (TEmpresa.Update(emp))
-            {
-                case 1: //empresa actualizada com sucesso
-                    result = Json(TEmpresa.GetById(emp.idEmpresa));
-                    break;
-
-                case 0: //empresa não encontrada
-                    result = new HttpNotFoundResult();
-                    break;
-
-                case 2: //dados inválidos
-                    result = new HttpStatusCodeResult(400);
-                    break;
-
-                case 3:
-                    result = new HttpStatusCodeResult(409);
-                    break;
-            }
-
-            return result;
-        }
-
         public ActionResult Create(TEmpresa emp)
         {
             int empId;

@@ -162,6 +162,7 @@
     <Content Include="Content\footer.png" />
     <Content Include="Content\header.png" />
     <Content Include="Content\screenshot.jpg" />
+    <Content Include="Content\sitelogin.css" />
     <Content Include="Content\tab_back.png" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
@@ -229,6 +230,7 @@
     <Content Include="Views\Empresa\Edit.cshtml" />
     <Content Include="Views\Utilizador\Index.cshtml" />
     <Content Include="Views\Utilizador\Edit.cshtml" />
+    <Content Include="Views\Shared\LayoutLogin4Real.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
