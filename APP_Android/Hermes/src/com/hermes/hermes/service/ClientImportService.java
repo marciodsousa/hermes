@@ -2,23 +2,24 @@ package com.hermes.hermes.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import com.hermes.hermes.*;
 
-public class CompanyImportService extends IntentService {
+import com.hermes.hermes.controller.ClienteController;
+
+public class ClientImportService extends IntentService {
 	// Used to write to the system log from this class.
     public static final String LOG_TAG = "CompanyImportService";
 
     // Defines and instantiates an object for handling status updates.
     private BroadcastNotifier mBroadcaster = new BroadcastNotifier(this);
     
-    private DataController c;
+    private ClienteController c;
 
     /**
      * An IntentService must always have a constructor that calls the super constructor. The
      * string supplied to the super constructor is used to give a name to the IntentService's
      * background thread.
      */
-    public CompanyImportService() {
+    public ClientImportService() {
         super("CompanyImportService");
     }
 
@@ -30,7 +31,7 @@ public class CompanyImportService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent workIntent) {
-    	 c = new DataController(getApplicationContext());
+    	 c = new ClienteController(getApplicationContext());
 
         try {
         	// Broadcasts an Intent indicating that processing has started.

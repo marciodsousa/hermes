@@ -1,20 +1,16 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hermes.hermes.Model.TCliente;
-import com.hermes.hermes.db.*;
+import com.hermes.hermes.R;
+import com.hermes.hermes.controller.ClienteController;
+import com.hermes.hermes.model.TCliente;
 
-public class AddEditClientActivity extends Activity {
+public class ViewClientActivity extends Activity {
 
 	private TextView mNameView;
 	private TextView mContactView;
@@ -25,7 +21,7 @@ public class AddEditClientActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_edit_client);
+		setContentView(R.layout.activity_view_client);
 
 		mNameView = (TextView) findViewById(R.id.editNomeCli);
 		mContactView = (TextView) findViewById(R.id.editContactoCli);
@@ -34,8 +30,8 @@ public class AddEditClientActivity extends Activity {
 		bundle = getIntent().getExtras();
 		if (null != bundle && bundle.containsKey("posCliente")) {
 			int posCli = bundle.getInt("posCliente");
-			List<TCliente> clis = DatabaseManager.getInstance(
-					getApplicationContext()).getAllClientes();
+			ClienteController c = new ClienteController(getApplicationContext());
+			List<TCliente>clis = c.getAllActiveClients();
 
 			cli = clis.get(posCli);
 

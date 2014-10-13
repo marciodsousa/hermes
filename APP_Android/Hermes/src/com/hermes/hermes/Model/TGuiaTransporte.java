@@ -1,4 +1,4 @@
-package com.hermes.hermes.Model;
+package com.hermes.hermes.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

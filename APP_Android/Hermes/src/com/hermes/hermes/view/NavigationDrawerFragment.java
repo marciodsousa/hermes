@@ -1,4 +1,10 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
+
+import com.hermes.hermes.R;
+import com.hermes.hermes.R.drawable;
+import com.hermes.hermes.R.layout;
+import com.hermes.hermes.R.menu;
+import com.hermes.hermes.R.string;
 
 import android.app.Activity;
 import android.app.ActionBar;

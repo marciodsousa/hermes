@@ -1,4 +1,4 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,15 +18,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.hermes.hermes.Model.TGuiaTransporte;
-import com.hermes.hermes.db.DatabaseManager;
-import com.hermes.hermes.service.GuideExportService;
-import com.hermes.hermes.service.GuideImportService;
+import com.hermes.hermes.R;
+import com.hermes.hermes.controller.ClienteController;
+import com.hermes.hermes.db.ClienteDBManager;
+import com.hermes.hermes.model.TCliente;
+import com.hermes.hermes.service.ClientImportService;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class GuidesFragment extends Fragment {
+public class ClientsFragment extends Fragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
 	 */
@@ -37,15 +37,15 @@ public class GuidesFragment extends Fragment {
 	/**
 	 * Returns a new instance of this fragment for the given section number.
 	 */
-	public static GuidesFragment newInstance(int sectionNumber) {
-		GuidesFragment fragment = new GuidesFragment();
+	public static ClientsFragment newInstance(int sectionNumber) {
+		ClientsFragment fragment = new ClientsFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public GuidesFragment() {
+	public ClientsFragment() {
 	}
 
 	@Override
@@ -53,42 +53,18 @@ public class GuidesFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
-
 		setHasOptionsMenu(true);
-
 		final ListView mainListView = (ListView) rootView
 				.findViewById(R.id.list);
 
-		/*
-		 * Button button = (Button) rootView.findViewById(R.id.btnNew);
-		 * button.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { // user is not logged in
-		 * redirect him to Login Activity Intent i = new
-		 * Intent(getActivity().getApplicationContext(),
-		 * AddEditGuideActivity.class);
-		 * 
-		 * // Closing all the Activities
-		 * i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		 * 
-		 * // Add new Flag to start new Activity
-		 * i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		 * 
-		 * // Staring Login Activity
-		 * getActivity().getApplicationContext().startActivity(i); } });
-		 */
-
-		DatabaseManager db = DatabaseManager.getInstance(getActivity()
+		ClienteController c = new ClienteController(getActivity()
 				.getApplicationContext());
 
-		List<TGuiaTransporte> prods = db.getAllGuiasTransporte();
+		List<TCliente> prods = c.getAllActiveClients();
 		String[] values = new String[prods.size()];
 
 		for (int i = 0; i < prods.size(); i++)
-			values[i] = prods.get(i).getDataTransporte()
-					+ " - "
-					+ db.getClienteById(
-							prods.get(i).getCLiente().getIdCliente()).getNome();
+			values[i] = prods.get(i).getNome();
 
 		ArrayList<String> itemList = new ArrayList<String>();
 		itemList.addAll(Arrays.asList(values));
@@ -113,8 +89,8 @@ public class GuidesFragment extends Fragment {
 						// user is not logged in redirect him to Login Activity
 						Intent i = new Intent(getActivity()
 								.getApplicationContext(),
-								ViewGuideActivity.class);
-						i.putExtra("posGuia", position);
+								ViewClientActivity.class);
+						i.putExtra("posCliente", position);
 
 						// Closing all the Activities
 						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -137,28 +113,9 @@ public class GuidesFragment extends Fragment {
 				ARG_SECTION_NUMBER));
 	}
 
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			DataController c = new DataController(getActivity()
-					.getApplicationContext());
-
-			// call method to fetch data from server before finishing activity
-			c.syncAllData();
-
-			return true;
-
-		}
-
-	}
-
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.guiafragment, menu);
+		inflater.inflate(R.menu.datafragments, menu);
 	}
 
 	@Override
@@ -167,37 +124,11 @@ public class GuidesFragment extends Fragment {
 		switch (item.getItemId()) {
 		case R.id.menu_import:
 			Intent mServiceIntent = new Intent(getActivity(),
-					GuideImportService.class);
+					ClientImportService.class);
 			mServiceIntent.setClass(getActivity().getApplicationContext(),
-					GuideImportService.class);
+					ClientImportService.class);
 			// Starts the IntentService
 			getActivity().startService(mServiceIntent);
-
-			return true;
-
-		case R.id.menu_export:
-			Intent mServiceIntent2 = new Intent(getActivity(),
-					GuideExportService.class);
-			mServiceIntent2.setClass(getActivity().getApplicationContext(),
-					GuideExportService.class);
-			// Starts the IntentService
-			getActivity().startService(mServiceIntent2);
-
-			return true;
-
-		case R.id.menu_add:
-			// user is not logged in redirect him to Login Activity
-			Intent i = new Intent(getActivity().getApplicationContext(),
-					AddGuiaActivity.class);
-
-			// Closing all the Activities
-			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-			// Add new Flag to start new Activity
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-			// Staring Login Activity
-			getActivity().getApplicationContext().startActivity(i);
 
 			return true;
 		default:

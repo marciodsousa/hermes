@@ -1,17 +1,17 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hermes.hermes.Model.TProduto;
-import com.hermes.hermes.db.DatabaseManager;
+import com.hermes.hermes.R;
+import com.hermes.hermes.controller.ProdutoController;
+import com.hermes.hermes.db.ProdutoDBManager;
+import com.hermes.hermes.model.TProduto;
 
-public class AddEditProductActivity extends Activity {
+public class ViewProductActivity extends Activity {
 
 	private TextView mNameView;
 	private TextView mCodProdView;
@@ -23,7 +23,7 @@ public class AddEditProductActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_edit_product);
+		setContentView(R.layout.activity_view_product);
 
 		mNameView = (TextView) findViewById(R.id.editNomeProd);
 		mCodProdView = (TextView) findViewById(R.id.editCodProd);
@@ -34,8 +34,10 @@ public class AddEditProductActivity extends Activity {
 		if (null != bundle && bundle.containsKey("posProduto")) {
 
 			int posProd = bundle.getInt("posProduto");
-			List<TProduto> prods = DatabaseManager.getInstance(
-					getApplicationContext()).getAllProdutos();
+			
+			ProdutoController c = new ProdutoController(getApplicationContext());
+			List<TProduto> prods = c.getAllActiveProducts();
+			
 
 			prod = prods.get(posProd);
 

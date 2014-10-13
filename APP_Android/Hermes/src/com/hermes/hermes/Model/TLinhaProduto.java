@@ -1,4 +1,4 @@
-package com.hermes.hermes.Model;
+package com.hermes.hermes.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -11,25 +11,25 @@ public class TLinhaProduto {
 	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private TGuiaTransporte TGuiaTransporte;
 	
-	@DatabaseField(canBeNull = false, foreign = true)
+	@DatabaseField(canBeNull = false, foreignAutoRefresh = true, foreign = true)
     private TProduto TProduto;
 
-    public TGuiaTransporte getIdGuia()
+    public TGuiaTransporte getGuia()
     {
     	return this.TGuiaTransporte;
     }
     
-    public void setIdGuia(TGuiaTransporte TGuiaTransporte)
+    public void setGuia(TGuiaTransporte TGuiaTransporte)
     {
     	this.TGuiaTransporte = TGuiaTransporte;
     }
     
-    public TProduto getIdProduto()
+    public TProduto getProduto()
     {
     	return this.TProduto;
     }
     
-    public void setIdProduto(TProduto TProduto)
+    public void setProduto(TProduto TProduto)
     {
     	this.TProduto = TProduto;
     }

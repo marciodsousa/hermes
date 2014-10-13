@@ -3,7 +3,7 @@ package com.hermes.hermes.service;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.hermes.hermes.DataController;
+import com.hermes.hermes.controller.ProdutoController;
 
 public class ProductImportService extends IntentService {
 	// Used to write to the system log from this class.
@@ -12,7 +12,7 @@ public class ProductImportService extends IntentService {
     // Defines and instantiates an object for handling status updates.
     private BroadcastNotifier mBroadcaster = new BroadcastNotifier(this);
     
-    private DataController c;
+    private ProdutoController c;
 
     /**
      * An IntentService must always have a constructor that calls the super constructor. The
@@ -31,7 +31,7 @@ public class ProductImportService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent workIntent) {
-    	 c = new DataController(getApplicationContext());
+    	 c = new ProdutoController(getApplicationContext());
 
         try {
         	// Broadcasts an Intent indicating that processing has started.

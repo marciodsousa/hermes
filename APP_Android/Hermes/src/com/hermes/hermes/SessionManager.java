@@ -3,6 +3,7 @@ package com.hermes.hermes;
 import java.util.HashMap;
 
 import com.hermes.hermes.db.DatabaseManager;
+import com.hermes.hermes.view.LoginActivity;
 
 import android.content.Context;
 import android.content.Intent;

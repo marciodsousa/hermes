@@ -1,6 +1,4 @@
-package com.hermes.hermes;
-
-import java.util.HashMap;
+package com.hermes.hermes.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -18,7 +16,16 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.hermes.hermes.Model.*;
+
+import com.hermes.hermes.SessionManager;
+import com.hermes.hermes.R;
+import com.hermes.hermes.controller.ClienteController;
+import com.hermes.hermes.controller.EmpresaController;
+import com.hermes.hermes.controller.GuiaTransporteController;
+import com.hermes.hermes.controller.LicencaController;
+import com.hermes.hermes.controller.LocalController;
+import com.hermes.hermes.controller.ProdutoController;
+import com.hermes.hermes.controller.UtilizadorController;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -35,7 +42,6 @@ public class LoginActivity extends Activity {
 	private String mServer;
 	private String mUsername;
 	private String mPassword;
-
 
 	// UI references.
 	private EditText mServerView;
@@ -60,7 +66,7 @@ public class LoginActivity extends Activity {
 		// Set up the login form.
 		mServerView = (EditText) findViewById(R.id.server);
 		mServerView.setText(mServer);
-		
+
 		mUsernameView = (EditText) findViewById(R.id.username);
 		mUsernameView.setText(mUsername);
 
@@ -97,7 +103,7 @@ public class LoginActivity extends Activity {
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		finish();
@@ -135,7 +141,7 @@ public class LoginActivity extends Activity {
 			focusView = mServerView;
 			cancel = true;
 		}
-		
+
 		// Check for a valid username.
 		if (TextUtils.isEmpty(mUsername)) {
 			mUsernameView.setError(getString(R.string.error_field_required));
@@ -146,7 +152,7 @@ public class LoginActivity extends Activity {
 			focusView = mUsernameView;
 			cancel = true;
 		}
-				
+
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
@@ -157,8 +163,6 @@ public class LoginActivity extends Activity {
 			focusView = mPasswordView;
 			cancel = true;
 		}
-
-		
 
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
@@ -225,42 +229,50 @@ public class LoginActivity extends Activity {
 			mServer = "http://wvm100.dei.isep.ipp.pt/hermesclientWS";
 			mUsername = "admin";
 			mPassword = "hermesadmin";
-			
-			
+			LicencaController licController = new LicencaController(
+					getApplicationContext());
+			UtilizadorController usrController = new UtilizadorController(
+					getApplicationContext());
+			ClienteController cltController = new ClienteController(
+					getApplicationContext());
+			EmpresaController empController = new EmpresaController(
+					getApplicationContext());
+			GuiaTransporteController gtrController = new GuiaTransporteController(
+					getApplicationContext());
+			LocalController locController = new LocalController(
+					getApplicationContext());
+			ProdutoController prdController = new ProdutoController(
+					getApplicationContext());
+
 			session = SessionManager.getInstance(getApplicationContext());
-			
+
 			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-			// TODO: attempt authentication against a network service.
+			// calls registerDevice method which returns the licence code
+			String codLic = licController.registerDevice(mServer,
+					telephonyManager.getDeviceId());
 
-			DataController c = new DataController(getApplicationContext());
-			
-			//calls registerDevice method which returns the licence code
-			String codLic = c.registerDevice(mServer, telephonyManager.getDeviceId());
-			
 			// Server Doesnt Exist
-			if (codLic.compareTo("404")==0)
-			{
+			if (codLic.compareTo("404") == 0) {
 				loginStatus = -1;
 				return false;
 			}
-			
+
 			// Users number is maxxed out
-			if (codLic.compareTo("409")==0)
-			{
+			if (codLic.compareTo("409") == 0) {
 				loginStatus = -4;
 				return false;
-			}	
-			
+			}
+
 			// test other errors
-			if (codLic.compareTo("500")==0 || codLic.compareTo("400")==0)
-			{
+			if (codLic.compareTo("500") == 0 || codLic.compareTo("400") == 0) {
 				loginStatus = -5;
 				return false;
-			}	
-			
-			//calls login method which returns userID
-			int usrId = c.loginServer(mServer, mUsername, mPassword);
+			}
+
+			// calls login method which returns userID
+			int usrId = usrController
+					.loginServer(mServer, mUsername, mPassword);
 
 			// if user does not exist
 			if (usrId == 0) {
@@ -271,52 +283,69 @@ public class LoginActivity extends Activity {
 				loginStatus = -3;
 				return false;
 			}
-			
-			session.createLoginSession(usrId+"", mServer, codLic, "");
-			
-			//call method to fetch data from server before finishing activity
-			c.syncAllData();
-			
+
+			session.createLoginSession(usrId + "", mServer, codLic, "");
+
+			if (empController.SyncEmpresa()) {
+				if (licController.SyncLicenca()) {
+					if (usrController.SyncUtilizador()) {
+						if (prdController.ImportProdutos()) {
+							if (locController.ImportLocais()) {
+								if (cltController.ImportClientes()) {
+									if (gtrController.ImportGuias()) {
+										loginStatus = 0;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
 			loginStatus = 0;
 			return true;
-			
+
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
-			DataController c = new DataController(getApplicationContext());
-			
+
 			showProgress(false);
 
 			if (success) {
 				finish();
 			} else {
 				switch (loginStatus) {
-		            case -1:  
-		            	mServerView.setError(getString(R.string.error_invalid_server));
-		            	mServerView.requestFocus();
-	            			break;
-	            			
-		            case -2:  
-	            		mUsernameView.setError(getString(R.string.error_invalid_username));
-	            		mUsernameView.requestFocus();
-		                    break;
-	            			
-		            case -3:  
-						mPasswordView.setError(getString(R.string.error_incorrect_password));
-						mPasswordView.requestFocus();
-						    break;
-					
-		            case -4:  
-		            	mUsernameView.setError(getString(R.string.error_max_users_reached));
-		            	mUsernameView.requestFocus();
-		                    break;
-		                    
-		            case -5:  
-		            	mUsernameView.setError(getString(R.string.error_error_registering_device));
-		            	mUsernameView.requestFocus();
-		                    break;
+				case -1:
+					mServerView
+							.setError(getString(R.string.error_invalid_server));
+					mServerView.requestFocus();
+					break;
+
+				case -2:
+					mUsernameView
+							.setError(getString(R.string.error_invalid_username));
+					mUsernameView.requestFocus();
+					break;
+
+				case -3:
+					mPasswordView
+							.setError(getString(R.string.error_incorrect_password));
+					mPasswordView.requestFocus();
+					break;
+
+				case -4:
+					mUsernameView
+							.setError(getString(R.string.error_max_users_reached));
+					mUsernameView.requestFocus();
+					break;
+
+				case -5:
+					mUsernameView
+							.setError(getString(R.string.error_error_registering_device));
+					mUsernameView.requestFocus();
+					break;
 				}
 			}
 		}

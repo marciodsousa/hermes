@@ -1,4 +1,4 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,21 +14,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
-import com.hermes.hermes.Model.TLocal;
-import com.hermes.hermes.db.DatabaseManager;
-import com.hermes.hermes.service.PlaceImportService;
+import com.hermes.hermes.R;
+import com.hermes.hermes.db.ClienteDBManager;
+import com.hermes.hermes.db.GuiaTransporteDBManager;
+import com.hermes.hermes.model.TGuiaTransporte;
+import com.hermes.hermes.service.GuideExportService;
+import com.hermes.hermes.service.GuideImportService;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlacesFragment extends Fragment {
+public class GuidesFragment extends Fragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
 	 */
@@ -38,15 +39,15 @@ public class PlacesFragment extends Fragment {
 	/**
 	 * Returns a new instance of this fragment for the given section number.
 	 */
-	public static PlacesFragment newInstance(int sectionNumber) {
-		PlacesFragment fragment = new PlacesFragment();
+	public static GuidesFragment newInstance(int sectionNumber) {
+		GuidesFragment fragment = new GuidesFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public PlacesFragment() {
+	public GuidesFragment() {
 	}
 
 	@Override
@@ -54,39 +55,26 @@ public class PlacesFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
-		
+
 		setHasOptionsMenu(true);
-		
+
 		final ListView mainListView = (ListView) rootView
 				.findViewById(R.id.list);
 
-		/*Button button = (Button) rootView.findViewById(R.id.btnNew);
-		button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// user is not logged in redirect him to Login Activity
-				Intent i = new Intent(getActivity().getApplicationContext(),
-						AddEditPlaceActivity.class);
-
-				// Closing all the Activities
-				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-				// Add new Flag to start new Activity
-				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-				// Staring Login Activity
-				getActivity().getApplicationContext().startActivity(i);
-			}
-		});*/
-
-		DatabaseManager db = DatabaseManager.getInstance(getActivity()
+		GuiaTransporteDBManager dbGuia = GuiaTransporteDBManager.getInstance(getActivity()
+				.getApplicationContext());
+		
+		ClienteDBManager dbClient = ClienteDBManager.getInstance(getActivity()
 				.getApplicationContext());
 
-		List<TLocal> prods = db.getAllLocais();
+		List<TGuiaTransporte> prods = dbGuia.getAllGuiasTransporte();
 		String[] values = new String[prods.size()];
 
 		for (int i = 0; i < prods.size(); i++)
-			values[i] = prods.get(i).getNome();
+			values[i] = prods.get(i).getDataTransporte()
+					+ " - "
+					+ dbClient.getClienteById(
+							prods.get(i).getCLiente().getIdCliente()).getNome();
 
 		ArrayList<String> itemList = new ArrayList<String>();
 		itemList.addAll(Arrays.asList(values));
@@ -111,8 +99,8 @@ public class PlacesFragment extends Fragment {
 						// user is not logged in redirect him to Login Activity
 						Intent i = new Intent(getActivity()
 								.getApplicationContext(),
-								AddEditPlaceActivity.class);
-						i.putExtra("posLocal", position);
+								ViewGuideActivity.class);
+						i.putExtra("posGuia", position);
 
 						// Closing all the Activities
 						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -135,28 +123,9 @@ public class PlacesFragment extends Fragment {
 				ARG_SECTION_NUMBER));
 	}
 
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			DataController c = new DataController(getActivity()
-					.getApplicationContext());
-
-			// call method to fetch data from server before finishing activity
-			c.syncAllData();
-
-			return true;
-
-		}
-
-	}
-
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.datafragments, menu);
+		inflater.inflate(R.menu.guiafragment, menu);
 	}
 
 	@Override
@@ -165,11 +134,37 @@ public class PlacesFragment extends Fragment {
 		switch (item.getItemId()) {
 		case R.id.menu_import:
 			Intent mServiceIntent = new Intent(getActivity(),
-					PlaceImportService.class);
+					GuideImportService.class);
 			mServiceIntent.setClass(getActivity().getApplicationContext(),
-					PlaceImportService.class);
+					GuideImportService.class);
 			// Starts the IntentService
 			getActivity().startService(mServiceIntent);
+
+			return true;
+
+		case R.id.menu_export:
+			Intent mServiceIntent2 = new Intent(getActivity(),
+					GuideExportService.class);
+			mServiceIntent2.setClass(getActivity().getApplicationContext(),
+					GuideExportService.class);
+			// Starts the IntentService
+			getActivity().startService(mServiceIntent2);
+
+			return true;
+
+		case R.id.menu_add:
+			// user is not logged in redirect him to Login Activity
+			Intent i = new Intent(getActivity().getApplicationContext(),
+					AddGuiaActivity.class);
+
+			// Closing all the Activities
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			// Add new Flag to start new Activity
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+			// Staring Login Activity
+			getActivity().getApplicationContext().startActivity(i);
 
 			return true;
 		default:

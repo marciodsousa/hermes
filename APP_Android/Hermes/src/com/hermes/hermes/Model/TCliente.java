@@ -1,4 +1,4 @@
-package com.hermes.hermes.Model;
+package com.hermes.hermes.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,9 @@ public class TCliente {
 	
 	@DatabaseField
 	private String contacto;
+	
+	@DatabaseField
+	private int estado;
 	
 	public int getIdCliente()
     {
@@ -59,6 +62,16 @@ public class TCliente {
     {
     	this.contacto = contacto;
     }  
+    
+    public int getEstado()
+    {
+    	return this.estado;
+    }
+    
+    public void setEstado(int estado)
+    {
+    	this.estado = estado;
+    } 
     
     public static List<TCliente> diff(List<TCliente> list1, List<TCliente> list2)
     {

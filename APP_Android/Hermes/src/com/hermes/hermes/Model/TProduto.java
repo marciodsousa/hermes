@@ -1,4 +1,4 @@
-package com.hermes.hermes.Model;
+package com.hermes.hermes.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,9 @@ public class TProduto {
 	
 	@DatabaseField
 	private String descricao;
+	
+	@DatabaseField
+	private int estado;
     
     public int getIdProduto()
     {
@@ -72,6 +75,16 @@ public class TProduto {
     {
     	this.descricao = descricao;
     }
+    
+    public int getEstado()
+    {
+    	return this.estado;
+    }
+    
+    public void setEstado(int estado)
+    {
+    	this.estado = estado;
+    } 
     
     public static List<TProduto> diff(List<TProduto> list1, List<TProduto> list2)
     {

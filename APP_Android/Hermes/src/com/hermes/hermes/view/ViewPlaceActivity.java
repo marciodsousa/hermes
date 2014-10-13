@@ -1,20 +1,16 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hermes.hermes.Model.TLocal;
-import com.hermes.hermes.db.*;
+import com.hermes.hermes.R;
+import com.hermes.hermes.controller.LocalController;
+import com.hermes.hermes.model.TLocal;
 
-public class AddEditPlaceActivity extends Activity {
+public class ViewPlaceActivity extends Activity {
 
 	private TextView mNameView;
 	private TextView mAddressView;
@@ -25,7 +21,7 @@ public class AddEditPlaceActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_edit_place);
+		setContentView(R.layout.activity_view_place);
 		
 		
 		mNameView = (TextView) findViewById(R.id.editNomeLocal);
@@ -34,7 +30,8 @@ public class AddEditPlaceActivity extends Activity {
 		bundle = getIntent().getExtras();
 		if (null != bundle && bundle.containsKey("posLocal")) {
             int posLoc = bundle.getInt("posLocal");
-            List<TLocal> locs = DatabaseManager.getInstance(getApplicationContext()).getAllLocais();
+            LocalController c = new LocalController(getApplicationContext());
+			List<TLocal>locs = c.getAllActivePlaces();
             
             loc = locs.get(posLoc);
             

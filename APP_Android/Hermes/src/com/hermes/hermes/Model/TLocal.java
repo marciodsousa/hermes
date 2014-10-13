@@ -1,4 +1,4 @@
-package com.hermes.hermes.Model;
+package com.hermes.hermes.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,9 @@ public class TLocal {
 	
 	@DatabaseField
 	private String morada;
+	
+	@DatabaseField
+	private int estado;
 	
 	public int getIdLocal()
     {
@@ -46,6 +49,16 @@ public class TLocal {
     {
     	this.morada = morada;
     }
+    
+    public int getEstado()
+    {
+    	return this.estado;
+    }
+    
+    public void setEstado(int estado)
+    {
+    	this.estado = estado;
+    } 
     
     public static List<TLocal> diff(List<TLocal> list1, List<TLocal> list2)
     {

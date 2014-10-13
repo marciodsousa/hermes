@@ -2,7 +2,8 @@ package com.hermes.hermes.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import com.hermes.hermes.*;
+
+import com.hermes.hermes.controller.LocalController;
 
 public class PlaceImportService extends IntentService {
 	// Used to write to the system log from this class.
@@ -11,7 +12,7 @@ public class PlaceImportService extends IntentService {
     // Defines and instantiates an object for handling status updates.
     private BroadcastNotifier mBroadcaster = new BroadcastNotifier(this);
     
-    private DataController c;
+    private LocalController c;
 
     /**
      * An IntentService must always have a constructor that calls the super constructor. The
@@ -30,7 +31,7 @@ public class PlaceImportService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent workIntent) {
-    	 c = new DataController(getApplicationContext());
+    	 c = new LocalController(getApplicationContext());
 
         try {
         	// Broadcasts an Intent indicating that processing has started.

@@ -1,4 +1,4 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,13 +19,20 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.hermes.hermes.Model.TCliente;
-import com.hermes.hermes.Model.TGuiaTransporte;
-import com.hermes.hermes.Model.TLinhaProduto;
-import com.hermes.hermes.Model.TLocal;
-import com.hermes.hermes.Model.TProduto;
-import com.hermes.hermes.Model.TUtilizador;
-import com.hermes.hermes.db.DatabaseManager;
+import com.hermes.hermes.DatePickerFragment;
+import com.hermes.hermes.R;
+import com.hermes.hermes.SessionManager;
+import com.hermes.hermes.controller.ClienteController;
+import com.hermes.hermes.controller.GuiaTransporteController;
+import com.hermes.hermes.controller.LocalController;
+import com.hermes.hermes.controller.ProdutoController;
+import com.hermes.hermes.db.UtilizadorDBManager;
+import com.hermes.hermes.model.TCliente;
+import com.hermes.hermes.model.TGuiaTransporte;
+import com.hermes.hermes.model.TLinhaProduto;
+import com.hermes.hermes.model.TLocal;
+import com.hermes.hermes.model.TProduto;
+import com.hermes.hermes.model.TUtilizador;
 
 public class AddGuiaActivity extends Activity {
 
@@ -34,7 +41,6 @@ public class AddGuiaActivity extends Activity {
 	private EditText mDataView;
 	private EditText mCargaView;
 	private EditText mDescargaView;
-	private EditText mProdsView;
 
 	private TProduto prod;
 	private TGuiaTransporte guia;
@@ -42,8 +48,12 @@ public class AddGuiaActivity extends Activity {
 	private TCliente cli;
 	private TUtilizador user;
 
-	private DatabaseManager db;
-	private DataController dc;
+	private ProdutoController prdController;
+	private ClienteController cliController;
+	private LocalController locController;
+	private UtilizadorDBManager dbUsrs;
+	
+	private GuiaTransporteController gtrController;
 
 	private List<TProduto> prods;
 	private List<TLocal> locais;
@@ -58,13 +68,18 @@ public class AddGuiaActivity extends Activity {
 		setContentView(R.layout.activity_add_guide);
 		
 		guia = new TGuiaTransporte();
+		gtrController = new GuiaTransporteController(getApplicationContext());
 		
-		dc = new DataController(getApplicationContext());
-		db = DatabaseManager.getInstance(getApplicationContext());
-
-		prods = db.getAllProdutos();
-		locais = db.getAllLocais();
-		clis = db.getAllClientes();
+		prdController = new ProdutoController (getApplicationContext());
+		cliController = new ClienteController (getApplicationContext());
+		locController = new LocalController (getApplicationContext());
+		
+		dbUsrs = UtilizadorDBManager.getInstance(getApplicationContext());
+		
+		
+		prods = prdController.getAllActiveProducts();
+		locais = locController.getAllActivePlaces();
+		clis = cliController.getAllActiveClients();
 		lprods = new ArrayList<TLinhaProduto>();
 
 		mMatricula = (CheckBox) findViewById(R.id.cbMatricula);
@@ -145,7 +160,7 @@ public class AddGuiaActivity extends Activity {
 					       
 					        SessionManager sm = SessionManager.getInstance(getApplicationContext());					        
 					        HashMap <String,String> userData = sm.getUserDetails();					        
-					        user = db.getUtilizadorById(Integer.parseInt(userData.get(sm.KEY_USERID)));
+					        user = dbUsrs.getUtilizadorById(Integer.parseInt(userData.get(sm.KEY_USERID)));
 					        
 					        guia.setUtilizador(user);
 					        guia.setCLiente(cli);
@@ -160,7 +175,7 @@ public class AddGuiaActivity extends Activity {
 					        	guia.setMatricula(userData.get(sm.KEY_MATRICULA));
 					        
 					        
-					        if (dc.saveGuiaTransporte(guia)) 
+					        if (gtrController.saveGuiaTransporte(guia)) 
 					        	finish();
 						}
 					}
@@ -220,7 +235,7 @@ public class AddGuiaActivity extends Activity {
 								        ll.addView(row,1);
 								        
 								        TLinhaProduto lprod = new TLinhaProduto();
-								        lprod.setIdProduto(prod);
+								        lprod.setProduto(prod);
 								        lprod.setQuantidade(quantidade);
 								        
 								        lprods.add(lprod);

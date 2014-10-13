@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.List;
 
@@ -22,10 +22,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.hermes.hermes.Model.TGuiaTransporte;
-import com.hermes.hermes.Model.TLinhaProduto;
-import com.hermes.hermes.Model.TProduto;
-import com.hermes.hermes.db.DatabaseManager;
+import com.hermes.hermes.R;
+import com.hermes.hermes.db.ClienteDBManager;
+import com.hermes.hermes.db.GuiaTransporteDBManager;
+import com.hermes.hermes.db.LocalDBManager;
+import com.hermes.hermes.db.ProdutoDBManager;
+import com.hermes.hermes.model.TGuiaTransporte;
+import com.hermes.hermes.model.TLinhaProduto;
+import com.hermes.hermes.model.TProduto;
 
 
 public class ViewGuideActivity extends Activity {
@@ -45,7 +49,10 @@ public class ViewGuideActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_guide);
 		
-		DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+		GuiaTransporteDBManager dbGuias = GuiaTransporteDBManager.getInstance(getApplicationContext());
+		ClienteDBManager dbClis = ClienteDBManager.getInstance(getApplicationContext());
+		LocalDBManager dbLocs = LocalDBManager.getInstance(getApplicationContext());
+		ProdutoDBManager dbProds = ProdutoDBManager.getInstance(getApplicationContext());
 		
 		
 		mMatricula = (TextView) findViewById(R.id.viewMatricula);
@@ -59,18 +66,18 @@ public class ViewGuideActivity extends Activity {
 		if (null != bundle && bundle.containsKey("posGuia")) {
 			double totalValue = 0;
             int posLoc = bundle.getInt("posGuia");
-            List<TGuiaTransporte> guias = DatabaseManager.getInstance(getApplicationContext()).getAllGuiasTransporte();
+            List<TGuiaTransporte> guias = dbGuias.getAllGuiasTransporte();
             
             guia = guias.get(posLoc);
             
             mMatricula.setText(guia.getMatricula());
-            mCliente.setText(db.getClienteById(guia.getCLiente().getIdCliente()).getNome());
+            mCliente.setText(dbClis.getClienteById(guia.getCLiente().getIdCliente()).getNome());
             mData.setText(guia.getDataTransporte());
-            mLocCarga.setText(db.getLocalById(guia.getLocalCarga().getIdLocal()).getNome());
-            mLocDescarga.setText(db.getLocalById(guia.getLocalDescarga().getIdLocal()).getNome());
+            mLocCarga.setText(dbLocs.getLocalById(guia.getLocalCarga().getIdLocal()).getNome());
+            mLocDescarga.setText(dbLocs.getLocalById(guia.getLocalDescarga().getIdLocal()).getNome());
             
             for (TLinhaProduto lprod : guia.getItems()){
-            	TProduto prod = db.getProdutoById(lprod.getIdProduto().getIdProduto());
+            	TProduto prod = dbProds.getProdutoById(lprod.getProduto().getIdProduto());
             	double prodValue = prod.getValUnitario();
             	
             	 mProdutos.setText(mProdutos.getText() + "" +

@@ -1,4 +1,4 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -18,6 +18,9 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
 import java.util.List;
+
+import com.hermes.hermes.R;
+import com.hermes.hermes.R.xml;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

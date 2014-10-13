@@ -1,4 +1,4 @@
-package com.hermes.hermes;
+package com.hermes.hermes.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,28 +7,26 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
-import com.hermes.hermes.Model.TCliente;
-import com.hermes.hermes.db.DatabaseManager;
-import com.hermes.hermes.service.CompanyImportService;
+import com.hermes.hermes.R;
+import com.hermes.hermes.controller.LocalController;
+import com.hermes.hermes.model.TLocal;
+import com.hermes.hermes.service.PlaceImportService;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ClientsFragment extends Fragment {
+public class PlacesFragment extends Fragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
 	 */
@@ -38,15 +36,15 @@ public class ClientsFragment extends Fragment {
 	/**
 	 * Returns a new instance of this fragment for the given section number.
 	 */
-	public static ClientsFragment newInstance(int sectionNumber) {
-		ClientsFragment fragment = new ClientsFragment();
+	public static PlacesFragment newInstance(int sectionNumber) {
+		PlacesFragment fragment = new PlacesFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public ClientsFragment() {
+	public PlacesFragment() {
 	}
 
 	@Override
@@ -54,33 +52,17 @@ public class ClientsFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
+		
 		setHasOptionsMenu(true);
+		
 		final ListView mainListView = (ListView) rootView
 				.findViewById(R.id.list);
 
-		/*Button button = (Button) rootView.findViewById(R.id.btnNew);
-		button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// user is not logged in redirect him to Login Activity
-				Intent i = new Intent(getActivity().getApplicationContext(),
-						AddEditClientActivity.class);
 
-				// Closing all the Activities
-				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-				// Add new Flag to start new Activity
-				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-				// Staring Login Activity
-				getActivity().getApplicationContext().startActivity(i);
-			}
-		});*/
-
-		DatabaseManager db = DatabaseManager.getInstance(getActivity()
+		LocalController c = new LocalController(getActivity()
 				.getApplicationContext());
 
-		List<TCliente> prods = db.getAllClientes();
+		List<TLocal> prods = c.getAllActivePlaces();
 		String[] values = new String[prods.size()];
 
 		for (int i = 0; i < prods.size(); i++)
@@ -109,8 +91,8 @@ public class ClientsFragment extends Fragment {
 						// user is not logged in redirect him to Login Activity
 						Intent i = new Intent(getActivity()
 								.getApplicationContext(),
-								AddEditClientActivity.class);
-						i.putExtra("posCliente", position);
+								ViewPlaceActivity.class);
+						i.putExtra("posLocal", position);
 
 						// Closing all the Activities
 						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -133,23 +115,6 @@ public class ClientsFragment extends Fragment {
 				ARG_SECTION_NUMBER));
 	}
 
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			DataController c = new DataController(getActivity()
-					.getApplicationContext());
-
-			// call method to fetch data from server before finishing activity
-			c.syncAllData();
-
-			return true;
-		}
-	}
-
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.datafragments, menu);
@@ -161,9 +126,9 @@ public class ClientsFragment extends Fragment {
 		switch (item.getItemId()) {
 		case R.id.menu_import:
 			Intent mServiceIntent = new Intent(getActivity(),
-					CompanyImportService.class);
+					PlaceImportService.class);
 			mServiceIntent.setClass(getActivity().getApplicationContext(),
-					CompanyImportService.class);
+					PlaceImportService.class);
 			// Starts the IntentService
 			getActivity().startService(mServiceIntent);
 
