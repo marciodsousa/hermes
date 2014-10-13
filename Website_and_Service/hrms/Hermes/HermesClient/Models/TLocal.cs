@@ -29,6 +29,8 @@ namespace HermesClient.Models
         [Display(Name = "Morada: ")]
         public string morada { get; set; }
 
+        public int estado { get; set; }
+
         public static List<TLocal> All()
         {
             var db = new Models.PESTICliEntities();
@@ -81,6 +83,7 @@ namespace HermesClient.Models
                     l.idLocal = loc.idLocal;
                     l.nome = loc.nome;
                     l.morada = loc.morada;
+                    l.estado = loc.estado;
 
                     db.SaveChanges();
                     ret = 1;

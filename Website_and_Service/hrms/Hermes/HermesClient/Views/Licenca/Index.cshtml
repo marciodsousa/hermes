@@ -17,8 +17,12 @@
             <td>@obj.imei</td>
             <td>@obj.codLicenca</td>
             <td>@obj.estado</td>
-            <td><a href="@Url.Content("~/Licenca/Enable/" + @obj.idLicenca)">Activar</a></td>
-            <td><a href="@Url.Content("~/Licenca/Disable/" + @obj.idLicenca)">Desactivar</a></td>
+            @if (obj.estado == "1")
+            {
+                <td><a href="@Url.Content("~/Licenca/Enable/" + @obj.idLicenca)">Activar</a></td>
+            }else{
+                <td><a href="@Url.Content("~/Licenca/Disable/" + @obj.idLicenca)">Desactivar</a></td>
+            }
             <td><a href="@Url.Content("~/Licenca/Delete/" + @obj.idLicenca)">Eliminar</a></td>
         </tr>
     }

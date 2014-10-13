@@ -38,6 +38,8 @@ namespace HermesClient.Models
         [Display(Name = "Descrição: ")]
         public string descricao { get; set; }
 
+        public int estado { get; set; }
+
         public static List<TProduto> All()
         {
             var db = new Models.PESTICliEntities();
@@ -94,6 +96,7 @@ namespace HermesClient.Models
                     p.codProduto = prod.codProduto;
                     p.descricao = prod.descricao;
                     p.valUnitario = prod.valUnitario;
+                    p.estado = prod.estado;
 
                     db.SaveChanges();
                     ret = 1;

@@ -13,6 +13,7 @@
           <Property Name="nome" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="nif" Type="nvarchar" MaxLength="9" Nullable="false" />
           <Property Name="contacto" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TEmpresa">
           <Key>
@@ -34,7 +35,7 @@
           <Property Name="idUtilizador" Type="int" Nullable="false" />
           <Property Name="matricula" Type="nvarchar" MaxLength="12" />
           <Property Name="idCLiente" Type="int" Nullable="false" />
-          <Property Name="dataTransporte" Type="nvarchar" MaxLength="10" Nullable="true" />
+          <Property Name="dataTransporte" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="idLocalCarga" Type="int" Nullable="false" />
           <Property Name="idLocalDescarga" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" Nullable="false" />
@@ -65,16 +66,18 @@
           <Property Name="idLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nome" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="morada" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TProduto">
           <Key>
             <PropertyRef Name="idProduto" />
           </Key>
           <Property Name="idProduto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nome" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="nome" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="valUnitario" Type="int" Nullable="false" />
           <Property Name="codProduto" Type="nvarchar" MaxLength="50" />
-          <Property Name="descricao" Type="nvarchar" MaxLength="50" />
+          <Property Name="descricao" Type="nvarchar" MaxLength="200" />
+          <Property Name="estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TUtilizador">
           <Key>
@@ -240,6 +243,7 @@
           <Property Name="nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="nif" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="contacto" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TGuiaTransporte">
           <Key>
@@ -250,7 +254,7 @@
           <Property Name="idUtilizador" Type="Int32" Nullable="false" />
           <Property Name="matricula" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="idCLiente" Type="Int32" Nullable="false" />
-          <Property Name="dataTransporte" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="dataTransporte" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="idLocalCarga" Type="Int32" Nullable="false" />
           <Property Name="idLocalDescarga" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="Int32" Nullable="false" />
@@ -277,16 +281,18 @@
           <Property Name="idLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="morada" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TProduto">
           <Key>
             <PropertyRef Name="idProduto" />
           </Key>
           <Property Name="idProduto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="valUnitario" Type="Int32" Nullable="false" />
           <Property Name="codProduto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TUtilizador">
           <Key>
@@ -472,6 +478,7 @@
           <EntitySetMapping Name="TCliente">
             <EntityTypeMapping TypeName="PESTICliModel.TCliente">
               <MappingFragment StoreEntitySet="TCliente">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="idCliente" ColumnName="idCliente" />
                 <ScalarProperty Name="nome" ColumnName="nome" />
                 <ScalarProperty Name="nif" ColumnName="nif" />
@@ -506,6 +513,7 @@
           <EntitySetMapping Name="TLocal">
             <EntityTypeMapping TypeName="PESTICliModel.TLocal">
               <MappingFragment StoreEntitySet="TLocal">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="idLocal" ColumnName="idLocal" />
                 <ScalarProperty Name="nome" ColumnName="nome" />
                 <ScalarProperty Name="morada" ColumnName="morada" />
@@ -515,6 +523,7 @@
           <EntitySetMapping Name="TProduto">
             <EntityTypeMapping TypeName="PESTICliModel.TProduto">
               <MappingFragment StoreEntitySet="TProduto">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="idProduto" ColumnName="idProduto" />
                 <ScalarProperty Name="nome" ColumnName="nome" />
                 <ScalarProperty Name="valUnitario" ColumnName="valUnitario" />

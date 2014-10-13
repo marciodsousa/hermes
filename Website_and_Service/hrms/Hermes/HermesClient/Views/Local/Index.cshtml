@@ -14,6 +14,14 @@
         <tr>
             <td><a href="@Url.Content("~/Local/edit/" + @obj.idLocal)">@obj.nome</a></td>
             <td>@obj.morada</td>
+            @if (obj.estado == 1)
+            {
+                <td><a href="@Url.Content("~/Local/Enable/" + @obj.idLocal)">Activar</a></td>
+            }
+            else
+            {
+                <td><a href="@Url.Content("~/Local/Disable/" + @obj.idLocal)">Desactivar</a></td>
+            }
         </tr>
     }
     <tr>

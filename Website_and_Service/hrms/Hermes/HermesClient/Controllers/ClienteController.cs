@@ -69,9 +69,38 @@ namespace HermesClient.Controllers
         }
 
 
-        public ActionResult Delete()
+        public ActionResult Disable(int id)
         {
-            return View();
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            var clt = TCliente.GetById(id);
+
+            if (clt != null)
+            {
+                clt.estado = 1;
+                TCliente.Update(clt);
+                
+            }
+
+            return RedirectToAction("Index", "Cliente");
+        }
+
+        public ActionResult Enable(int id)
+        {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            var clt = TCliente.GetById(id);
+
+            if (clt != null)
+            {
+                clt.estado = 0;
+                TCliente.Update(clt);
+
+            }
+
+            return RedirectToAction("Index", "Cliente");
         }
 
     }

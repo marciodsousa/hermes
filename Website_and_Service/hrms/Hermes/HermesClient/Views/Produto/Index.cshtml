@@ -18,6 +18,14 @@
             <td><a href="@Url.Content("~/Produto/edit/" + @obj.idProduto)">@obj.nome</a></td>
             <td>@obj.descricao</td>
             <td>@obj.valUnitario</td>
+            @if (obj.estado == 1)
+            {
+                <td><a href="@Url.Content("~/Produto/Enable/" + @obj.idProduto)">Activar</a></td>
+            }
+            else
+            {
+                <td><a href="@Url.Content("~/Produto/Disable/" + @obj.idProduto)">Desactivar</a></td>
+            }
         </tr>
     }
     <tr>

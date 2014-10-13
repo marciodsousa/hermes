@@ -16,6 +16,14 @@
             <td><a href="@Url.Content("~/cliente/edit/" + @obj.idCliente)">@obj.nome</a></td>
             <td>@obj.nif</td>
             <td>@obj.contacto</td>
+            @if (obj.estado == 1)
+            {
+                <td><a href="@Url.Content("~/cliente/Enable/" + @obj.idCliente)">Activar</a></td>
+            }
+            else
+            {
+                <td><a href="@Url.Content("~/cliente/Disable/" + @obj.idCliente)">Desactivar</a></td>
+            }
         </tr>
     }
     <tr>

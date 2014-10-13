@@ -34,6 +34,8 @@ namespace HermesClient.Models
         [Display(Name = "Contacto: ")]
         public string contacto { get; set; }
 
+        public int estado { get; set; }
+
 
         public static List<TCliente> All()
         {
@@ -88,6 +90,7 @@ namespace HermesClient.Models
                     c.nome = cli.nome;
                     c.nif = cli.nif;
                     c.contacto = cli.contacto;
+                    c.estado = cli.estado;
 
                     db.SaveChanges();
                     ret = 1;
