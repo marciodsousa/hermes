@@ -31,6 +31,7 @@ namespace HermesClient.Models
         public int idLocalCarga { get; set; }
         public int idLocalDescarga { get; set; }
         public int estado { get; set; }
+        public string horaTransporte { get; set; }
 
         public virtual TCliente TCliente { get; set; }
         public virtual TLocal TLocal { get; set; }
@@ -98,6 +99,7 @@ namespace HermesClient.Models
                     gt.idLocalCarga = guiat.idLocalCarga;
                     gt.idLocalDescarga = guiat.idLocalDescarga;
                     gt.estado = guiat.estado;
+                    gt.horaTransporte = guiat.horaTransporte;
 
                     db.SaveChanges();
                     ret = 1;
@@ -130,6 +132,8 @@ namespace HermesClient.Models
             if (guiat.idUtilizador == null || guiat.idUtilizador < 1)
                 return false;
             if (guiat.dataTransporte == null)
+                return false;
+            if (guiat.horaTransporte == null)
                 return false;
             if (guiat.idLocalCarga == null || guiat.idLocalCarga < 1)
                 return false;

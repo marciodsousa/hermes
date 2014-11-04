@@ -80,7 +80,7 @@ namespace HermesClient.Controllers
                 TLocal.Update(loc);
             }
 
-            return RedirectToAction("Index", "Licenca");
+            return RedirectToAction("Index", "Local");
         }
 
         public ActionResult Enable(int id)
@@ -96,7 +96,7 @@ namespace HermesClient.Controllers
                 TLocal.Update(loc);
             }
 
-            return RedirectToAction("Index", "Licenca");
+            return RedirectToAction("Index", "Local");
         }
 
     }

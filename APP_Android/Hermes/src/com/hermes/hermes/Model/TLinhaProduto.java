@@ -8,7 +8,10 @@ public class TLinhaProduto {
 	@DatabaseField
     private int quantidade;
 	
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+	@DatabaseField
+    private int valorAtual;
+	
+	@DatabaseField(canBeNull = false, foreignAutoRefresh = true, foreign = true)
     private TGuiaTransporte TGuiaTransporte;
 	
 	@DatabaseField(canBeNull = false, foreignAutoRefresh = true, foreign = true)
@@ -34,7 +37,7 @@ public class TLinhaProduto {
     	this.TProduto = TProduto;
     }
     
-    public int getQuantidadea()
+    public int getQuantidade()
     {
     	return this.quantidade;
     }
@@ -42,6 +45,16 @@ public class TLinhaProduto {
     public void setQuantidade(int quantidade)
     {
     	this.quantidade = quantidade;
+    }
+    
+    public int getValorAtual()
+    {
+    	return this.valorAtual;
+    }
+    
+    public void setValorAtual(int valorAtual)
+    {
+    	this.valorAtual = valorAtual;
     }
     
 }

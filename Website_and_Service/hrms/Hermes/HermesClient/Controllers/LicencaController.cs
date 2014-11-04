@@ -75,8 +75,8 @@ namespace HermesClient.Controllers
         private Boolean UpdateLicenceServer(TLicenca lic)
         {
             var serializer = new JavaScriptSerializer();
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Licencas/" + lic.idEmpresa);
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Empresas/" + emp.idEmpresa);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Licencas/" + lic.idLicenca);
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Licencas/" + lic.idLicenca);
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "PUT";
@@ -103,8 +103,8 @@ namespace HermesClient.Controllers
         private Boolean DeleteLicenceServer(TLicenca lic)
         {
             var serializer = new JavaScriptSerializer();
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Licencas/" + lic.idLicenca);
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Empresas/" + emp.idEmpresa);
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Licencas/" + lic.idLicenca);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Licencas/" + lic.idLicenca);
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "DELETE";

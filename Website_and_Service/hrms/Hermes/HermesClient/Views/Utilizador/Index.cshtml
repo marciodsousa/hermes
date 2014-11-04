@@ -18,8 +18,14 @@
             <td>@obj.nome</td>
             <td>@obj.email</td>
             <td>@obj.estado</td>
-            <td><a href="@Url.Content("~/Utilizador/Enable/" + @obj.idUtilizador)">Activar</a></td>
-            <td><a href="@Url.Content("~/Utilizador/Disable/" + @obj.idUtilizador)">Desactivar</a></td>
+            @if (obj.estado == 1)
+            {
+                <td><a href="@Url.Content("~/Utilizador/Enable/" + @obj.idUtilizador)">Activar</a></td>
+            }
+            else
+            {
+                <td><a href="@Url.Content("~/Utilizador/Disable/" + @obj.idUtilizador)">Desactivar</a></td>
+            }
         </tr>
     }
     <tr>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hermes.hermes.SessionManager;
 import com.hermes.hermes.R;
@@ -104,9 +106,25 @@ public class LoginActivity extends Activity {
 		return true;
 	}
 
+	private Boolean exit = false;
+
 	@Override
 	public void onBackPressed() {
-		finish();
+		if (exit) {
+			finish();
+			System.exit(0);
+		} else {
+			Toast.makeText(this, "Volte a pressionar Back para sair.",
+					Toast.LENGTH_SHORT).show();
+			exit = true;
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					exit = false;
+				}
+			}, 3 * 1000);
+
+		}
 	}
 
 	/**
@@ -226,9 +244,9 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			mServer = "http://wvm100.dei.isep.ipp.pt/hermesclientWS";
-			mUsername = "admin";
-			mPassword = "hermesadmin";
+			//mServer = "http://wvm100.dei.isep.ipp.pt/hermesclientWS";
+			//mUsername = "admin";
+			//mPassword = "hermesadmin";
 			LicencaController licController = new LicencaController(
 					getApplicationContext());
 			UtilizadorController usrController = new UtilizadorController(

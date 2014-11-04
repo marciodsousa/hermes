@@ -20,6 +20,7 @@ namespace HermesClient.Models
         public int idGuia { get; set; }
         public int idProduto { get; set; }
         public int quantidade { get; set; }
+        public int valorAtual { get; set; }
 
         public virtual TProduto TProduto { get; set; }
 

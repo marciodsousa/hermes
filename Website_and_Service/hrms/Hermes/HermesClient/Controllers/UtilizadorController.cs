@@ -70,6 +70,9 @@ namespace HermesClient.Controllers
 
             using (var db = new PESTICliEntities())
             {
+                TEmpresa emp = TEmpresa.All().FirstOrDefault();
+                utilizador.idEmpresa = emp.idEmpresa;
+
                 var crypto = new SimpleCrypto.PBKDF2();
                 var encryPass = crypto.Compute(utilizador.password);
                 var sysUser = db.TUtilizador.Create();
@@ -86,7 +89,7 @@ namespace HermesClient.Controllers
                 db.TUtilizador.Add(sysUser);
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Produto");
+                return RedirectToAction("Index", "Utilizador");
 
             }
         }
@@ -110,6 +113,40 @@ namespace HermesClient.Controllers
                 return RedirectToAction("Login", "Utilizador");
 
             TUtilizador.Update(utilizador);
+
+            return RedirectToAction("Index", "Utilizador");
+        }
+
+        public ActionResult Disable(int id)
+        {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            var usr = TUtilizador.GetById(id);
+
+            if (usr != null)
+            {
+                usr.estado = 1;
+                TUtilizador.Update(usr);
+
+            }
+
+            return RedirectToAction("Index", "Utilizador");
+        }
+
+        public ActionResult Enable(int id)
+        {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "Utilizador");
+
+            var usr = TUtilizador.GetById(id);
+
+            if (usr != null)
+            {
+                usr.estado = 0;
+                TUtilizador.Update(usr);
+
+            }
 
             return RedirectToAction("Index", "Utilizador");
         }

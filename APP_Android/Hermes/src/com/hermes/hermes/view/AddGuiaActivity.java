@@ -9,6 +9,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -18,10 +19,12 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.hermes.hermes.DatePickerFragment;
 import com.hermes.hermes.R;
 import com.hermes.hermes.SessionManager;
+import com.hermes.hermes.TimePickerFragment;
 import com.hermes.hermes.controller.ClienteController;
 import com.hermes.hermes.controller.GuiaTransporteController;
 import com.hermes.hermes.controller.LocalController;
@@ -39,6 +42,7 @@ public class AddGuiaActivity extends Activity {
 	private CheckBox mMatricula;
 	private EditText mClienteView;
 	private EditText mDataView;
+	private EditText mTimeView;
 	private EditText mCargaView;
 	private EditText mDescargaView;
 
@@ -52,31 +56,30 @@ public class AddGuiaActivity extends Activity {
 	private ClienteController cliController;
 	private LocalController locController;
 	private UtilizadorDBManager dbUsrs;
-	
+
 	private GuiaTransporteController gtrController;
 
 	private List<TProduto> prods;
 	private List<TLocal> locais;
 	private List<TCliente> clis;
 	private ArrayList<TLinhaProduto> lprods;
-	
+
 	private int quantidade;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_guide);
-		
+
 		guia = new TGuiaTransporte();
 		gtrController = new GuiaTransporteController(getApplicationContext());
-		
-		prdController = new ProdutoController (getApplicationContext());
-		cliController = new ClienteController (getApplicationContext());
-		locController = new LocalController (getApplicationContext());
-		
+
+		prdController = new ProdutoController(getApplicationContext());
+		cliController = new ClienteController(getApplicationContext());
+		locController = new LocalController(getApplicationContext());
+
 		dbUsrs = UtilizadorDBManager.getInstance(getApplicationContext());
-		
-		
+
 		prods = prdController.getAllActiveProducts();
 		locais = locController.getAllActivePlaces();
 		clis = cliController.getAllActiveClients();
@@ -85,6 +88,7 @@ public class AddGuiaActivity extends Activity {
 		mMatricula = (CheckBox) findViewById(R.id.cbMatricula);
 		mClienteView = (EditText) findViewById(R.id.viewCliente);
 		mDataView = (EditText) findViewById(R.id.viewData);
+		mTimeView = (EditText) findViewById(R.id.viewHora);
 		mCargaView = (EditText) findViewById(R.id.viewLocCarga);
 		mDescargaView = (EditText) findViewById(R.id.viewLocDescarga);
 
@@ -120,6 +124,22 @@ public class AddGuiaActivity extends Activity {
 			}
 		});
 
+		// Time picker
+		mTimeView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showTimePickerDialog(v);
+			}
+		});
+		mTimeView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					showTimePickerDialog(v);
+				}
+			}
+		});
+
 		// Local Carga picker
 		mCargaView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -143,40 +163,47 @@ public class AddGuiaActivity extends Activity {
 				showPlacesPickerDialog(v, false);
 			}
 		});
-		mDescargaView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					showPlacesPickerDialog(v, false);
-				}
-			}
-		});
+		mDescargaView
+				.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+					@Override
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus) {
+							showPlacesPickerDialog(v, false);
+						}
+					}
+				});
 
 		findViewById(R.id.btnSubmit).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						if (validateFields()) {
-					       
-					        SessionManager sm = SessionManager.getInstance(getApplicationContext());					        
-					        HashMap <String,String> userData = sm.getUserDetails();					        
-					        user = dbUsrs.getUtilizadorById(Integer.parseInt(userData.get(sm.KEY_USERID)));
-					        
-					        guia.setUtilizador(user);
-					        guia.setCLiente(cli);
-					        guia.setDataTransporte(mDataView.getText().toString());
-					        //guia.setMatricula(matricula);
-					        guia.setProds(lprods);
-					        guia.setLocalCarga(locCarga);
-					        guia.setLocalDescarga(locDescarga);
-					        guia.setEstado(1);
-					        
-					        if (mMatricula.isChecked())
-					        	guia.setMatricula(userData.get(sm.KEY_MATRICULA));
-					        
-					        
-					        if (gtrController.saveGuiaTransporte(guia)) 
-					        	finish();
+
+							SessionManager sm = SessionManager
+									.getInstance(getApplicationContext());
+							HashMap<String, String> userData = sm
+									.getUserDetails();
+							user = dbUsrs.getUtilizadorById(Integer
+									.parseInt(userData.get(sm.KEY_USERID)));
+
+							guia.setUtilizador(user);
+							guia.setCLiente(cli);
+							guia.setDataTransporte(mDataView.getText()
+									.toString());
+							guia.setHoraTransporte(mTimeView.getText()
+									.toString());
+							// guia.setMatricula(matricula);
+							guia.setProds(lprods);
+							guia.setLocalCarga(locCarga);
+							guia.setLocalDescarga(locDescarga);
+							guia.setEstado(1);
+
+							if (mMatricula.isChecked())
+								guia.setMatricula(userData
+										.get(sm.KEY_MATRICULA));
+
+							if (gtrController.saveGuiaTransporte(guia))
+								finish();
 						}
 					}
 				});
@@ -211,39 +238,46 @@ public class AddGuiaActivity extends Activity {
 									@Override
 									public void onClick(DialogInterface dialog,
 											int which) {
-								
+
 										prod = prods.get(which);
-										
+
 										TableLayout ll = (TableLayout) findViewById(R.id.tblLayout);
 
-								        TableRow row= new TableRow(AddGuiaActivity.this);
-								        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-								        TextView txtQnt = new TextView(AddGuiaActivity.this);
-								        txtQnt.setText(quantidade+"");
-								        
-								        TextView txtPrd = new TextView(AddGuiaActivity.this);
-								        txtPrd.setText(prod.getNome());
-								        
-								        TextView txtVl = new TextView(AddGuiaActivity.this);
-								        Double preco = (double) prod.getValUnitario();
-								        txtVl.setText(preco/100 + "€");
-								        
-								        row.setLayoutParams(lp);
-								        row.addView(txtQnt);
-								        row.addView(txtPrd);
-								        row.addView(txtVl);
-								        ll.addView(row,1);
-								        
-								        TLinhaProduto lprod = new TLinhaProduto();
-								        lprod.setProduto(prod);
-								        lprod.setQuantidade(quantidade);
-								        
-								        lprods.add(lprod);
+										TableRow row = new TableRow(
+												AddGuiaActivity.this);
+										TableRow.LayoutParams lp = new TableRow.LayoutParams(
+												TableRow.LayoutParams.WRAP_CONTENT);
+										TextView txtQnt = new TextView(
+												AddGuiaActivity.this);
+										txtQnt.setText(quantidade + "");
+
+										TextView txtPrd = new TextView(
+												AddGuiaActivity.this);
+										txtPrd.setText(prod.getNome());
+
+										TextView txtVl = new TextView(
+												AddGuiaActivity.this);
+										Double preco = (double) prod
+												.getValUnitario();
+										txtVl.setText(preco / 100 + "€");
+
+										row.setLayoutParams(lp);
+										row.addView(txtQnt);
+										row.addView(txtPrd);
+										row.addView(txtVl);
+										ll.addView(row, 1);
+
+										TLinhaProduto lprod = new TLinhaProduto();
+										lprod.setProduto(prod);
+										lprod.setQuantidade(quantidade);
+										lprod.setValorAtual(prod.getValUnitario()*quantidade);
+
+										lprods.add(lprod);
 
 									}
 								});
 						builder3.show();
-						
+
 						showQuantityInputDialog(view);
 
 					}
@@ -255,7 +289,7 @@ public class AddGuiaActivity extends Activity {
 		boolean ret = false;
 
 		if (mClienteView.getText().toString().length() > 2) {
-			if (isValidDate(mDataView.getText().toString())) {
+			if (isValidDate(mDataView.getText().toString(), mTimeView.getText().toString())) {
 				if (mCargaView.getText().toString().length() > 2) {
 					if (mDescargaView.getText().toString().length() > 2) {
 						if (lprods.size() > 0)
@@ -268,11 +302,11 @@ public class AddGuiaActivity extends Activity {
 		return ret;
 	}
 
-	SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+	SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy kk:mm");
 
-	boolean isValidDate(String input) {
+	boolean isValidDate(String data, String hora) {
 		try {
-			format.parse(input);
+			format.parse(data + " " + hora);
 			return true;
 		} catch (ParseException e) {
 			return false;
@@ -296,6 +330,24 @@ public class AddGuiaActivity extends Activity {
 		newFragment.setCallBack(ondate);
 
 		newFragment.show(getFragmentManager(), "datePicker");
+
+	}
+	
+	public void showTimePickerDialog(View v) {
+		TimePickerFragment newFragment = new TimePickerFragment();
+
+		OnTimeSetListener ontime = new OnTimeSetListener() {
+			@Override
+			public void onTimeSet(TimePicker view, int hour, int minute) {
+
+				mTimeView.setText(String.valueOf(hour) + ":"
+						+ String.valueOf(minute));
+			}
+		};
+
+		newFragment.setCallBack(ontime);
+
+		newFragment.show(getFragmentManager(), "timePicker");
 
 	}
 
@@ -340,10 +392,10 @@ public class AddGuiaActivity extends Activity {
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if(carga){
+						if (carga) {
 							mCargaView.setText(locaisStrings[which]);
 							locCarga = locais.get(which);
-						}else{
+						} else {
 							mDescargaView.setText(locaisStrings[which]);
 							locDescarga = locais.get(which);
 						}
@@ -352,6 +404,7 @@ public class AddGuiaActivity extends Activity {
 				});
 		builder3.show();
 	}
+
 	public void showQuantityInputDialog(View v) {
 		final CharSequence[] locaisStrings = new CharSequence[locais.size()];
 
@@ -363,19 +416,19 @@ public class AddGuiaActivity extends Activity {
 
 		AlertDialog.Builder builder3 = new AlertDialog.Builder(
 				AddGuiaActivity.this);
-		
+
 		final EditText input = new EditText(this);
 		builder3.setView(input);
 		builder3.setTitle("Quantidade");
 		builder3.setMessage("Inserir quantidade do item:");
 
-		builder3.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
-		    public void onClick(DialogInterface dialog, int whichButton) {  
-		    	String qnt = input.getText().toString();
-		    	quantidade = Integer.parseInt(qnt);
-		       }  
-		     });  
-		
+		builder3.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String qnt = input.getText().toString();
+				quantidade = Integer.parseInt(qnt);
+			}
+		});
+
 		builder3.show();
 	}
 }

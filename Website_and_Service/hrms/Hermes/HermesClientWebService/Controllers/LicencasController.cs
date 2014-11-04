@@ -99,7 +99,8 @@ namespace HermesClientWebService.Controllers
             TLicenca licence = serializer.Deserialize<TLicenca>(result);
             //licence.TEmpresa = null;
 
-            if ((lic.imei == licence.imei) && (TLicenca.GetByIMEI(licence.imei)== null))
+            if ((lic.imei == licence.imei) && (TLicenca.GetByIMEI(licence.imei) == null))
+                licence.TEmpresa = null;
                 TLicenca.AddLicenca(licence);
             
             return Json(TLicenca.GetByIMEI(licence.imei), JsonRequestBehavior.AllowGet);

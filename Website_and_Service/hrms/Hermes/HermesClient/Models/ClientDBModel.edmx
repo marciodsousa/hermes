@@ -39,6 +39,7 @@
           <Property Name="idLocalCarga" Type="int" Nullable="false" />
           <Property Name="idLocalDescarga" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" Nullable="false" />
+          <Property Name="horaTransporte" Type="nvarchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="TLicenca">
           <Key>
@@ -58,6 +59,7 @@
           <Property Name="idGuia" Type="int" Nullable="false" />
           <Property Name="idProduto" Type="int" Nullable="false" />
           <Property Name="quantidade" Type="int" Nullable="false" />
+          <Property Name="valorAtual" Type="int" />
         </EntityType>
         <EntityType Name="TLocal">
           <Key>
@@ -263,6 +265,7 @@
           <NavigationProperty Name="TLocal1" Relationship="Self.FK_TGuiaTransporte_TLocalD" FromRole="TGuiaTransporte" ToRole="TLocal" />
           <NavigationProperty Name="TLinhaProduto" Relationship="Self.FK_TLinhaProduto_TGuiaTransporte" FromRole="TGuiaTransporte" ToRole="TLinhaProduto" />
           <NavigationProperty Name="TUtilizador" Relationship="PESTICliModel.FK_TGuiaTransporte_idUtilizador" FromRole="TGuiaTransporte" ToRole="TUtilizador" />
+          <Property Name="horaTransporte" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TLinhaProduto">
           <Key>
@@ -273,6 +276,7 @@
           <Property Name="idProduto" Type="Int32" Nullable="false" />
           <Property Name="quantidade" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TProduto" Relationship="Self.FK_TLinhaProduto_TProduto" FromRole="TLinhaProduto" ToRole="TProduto" />
+          <Property Name="valorAtual" Type="Int32" />
         </EntityType>
         <EntityType Name="TLocal">
           <Key>
@@ -489,6 +493,7 @@
           <EntitySetMapping Name="TGuiaTransporte">
             <EntityTypeMapping TypeName="PESTICliModel.TGuiaTransporte">
               <MappingFragment StoreEntitySet="TGuiaTransporte">
+                <ScalarProperty Name="horaTransporte" ColumnName="horaTransporte" />
                 <ScalarProperty Name="idGuia" ColumnName="idGuia" />
                 <ScalarProperty Name="idEmissao" ColumnName="idEmissao" />
                 <ScalarProperty Name="idUtilizador" ColumnName="idUtilizador" />
@@ -504,6 +509,7 @@
           <EntitySetMapping Name="TLinhaProduto">
             <EntityTypeMapping TypeName="PESTICliModel.TLinhaProduto">
               <MappingFragment StoreEntitySet="TLinhaProduto">
+                <ScalarProperty Name="valorAtual" ColumnName="valorAtual" />
                 <ScalarProperty Name="idGuia" ColumnName="idGuia" />
                 <ScalarProperty Name="idProduto" ColumnName="idProduto" />
                 <ScalarProperty Name="quantidade" ColumnName="quantidade" />

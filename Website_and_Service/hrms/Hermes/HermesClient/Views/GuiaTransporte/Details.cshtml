@@ -38,10 +38,10 @@
                 <a href="@Url.Content("~/Cliente/Edit/" + @Model.TCliente.idCliente)">@Model.TCliente.nome</a>
             </div>
             <div>
-                Data Transporte
+                Data Início Transporte
             </div>
             <div>
-                @Model.dataTransporte
+                @Model.dataTransporte - @Model.horaTransporte
             </div>
 
             <div>
@@ -84,7 +84,10 @@
                         </tr>
                     }
                     <tr>
-                        <td colspan="3">
+                        <td>
+                            Total:
+                        </td>
+                        <td colspan="2">
                             <script type="TEXT/JAVASCRIPT">
                                 document.write(outp/100)
                             </script>€

@@ -31,7 +31,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 		Calendar c = Calendar.getInstance();
 		c.set(year, month, day);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		formattedDate = sdf.format(c.getTime());
 		
 	}

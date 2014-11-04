@@ -28,6 +28,9 @@ public class TGuiaTransporte {
     
 	@DatabaseField
     private String dataTransporte;
+	
+	@DatabaseField
+    private String horaTransporte;
     
 //	@DatabaseField
 //    private int idLocalCarga;
@@ -113,6 +116,17 @@ public class TGuiaTransporte {
     {
     	this.dataTransporte = dataTransporte;
     }
+    
+    public String getHoraTransporte()
+    {
+    	return this.horaTransporte;
+    }
+    
+    public void setHoraTransporte(String horaTransporte)
+    {
+    	this.horaTransporte = horaTransporte;
+    }
+    
     
     public TLocal getLocalCarga()
     {

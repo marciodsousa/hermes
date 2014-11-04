@@ -37,6 +37,7 @@ public class ViewGuideActivity extends Activity {
 	private TextView mMatricula;
 	private TextView mCliente;
 	private TextView mData;
+	private TextView mHora;
 	private TextView mLocCarga;
 	private TextView mLocDescarga;
 	private TextView mProdutos;
@@ -58,6 +59,7 @@ public class ViewGuideActivity extends Activity {
 		mMatricula = (TextView) findViewById(R.id.viewMatricula);
 		mCliente = (TextView) findViewById(R.id.viewCliente);
 		mData = (TextView) findViewById(R.id.viewData);
+		mHora = (TextView) findViewById(R.id.viewHora);
 		mLocCarga = (TextView) findViewById(R.id.viewLocCarga);
 		mLocDescarga = (TextView) findViewById(R.id.viewLocDescarga);
 		mProdutos = (TextView) findViewById(R.id.viewProds);
@@ -73,18 +75,19 @@ public class ViewGuideActivity extends Activity {
             mMatricula.setText(guia.getMatricula());
             mCliente.setText(dbClis.getClienteById(guia.getCLiente().getIdCliente()).getNome());
             mData.setText(guia.getDataTransporte());
+            mHora.setText(guia.getHoraTransporte());
             mLocCarga.setText(dbLocs.getLocalById(guia.getLocalCarga().getIdLocal()).getNome());
             mLocDescarga.setText(dbLocs.getLocalById(guia.getLocalDescarga().getIdLocal()).getNome());
             
             for (TLinhaProduto lprod : guia.getItems()){
             	TProduto prod = dbProds.getProdutoById(lprod.getProduto().getIdProduto());
-            	double prodValue = prod.getValUnitario();
+            	double prodValue = lprod.getValorAtual()/lprod.getQuantidade();
             	
             	 mProdutos.setText(mProdutos.getText() + "" +
-            			 lprod.getQuantidadea() + " | " + prod.getNome() + 
+            			 lprod.getQuantidade() + " | " + prod.getNome() + 
             			 (prodValue/100) +"€ \n");
             	 
-            	 totalValue += lprod.getQuantidadea() * prod.getValUnitario();
+            	 totalValue += lprod.getValorAtual();
             }
     		
             mProdutos.setText(mProdutos.getText() + "Total: " + totalValue/100 + "€");

@@ -55,8 +55,8 @@ namespace HermesClient.Controllers
         private Boolean UpdateCompanyServer(TEmpresa emp)
         {
             var serializer = new JavaScriptSerializer();
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Empresas/" + emp.idEmpresa);
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Empresas/" + emp.idEmpresa);
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://wvm100.dei.isep.ipp.pt/HermesLicencingWS/Empresas/" + emp.idEmpresa);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:49346/Empresas/" + emp.idEmpresa);
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "PUT";

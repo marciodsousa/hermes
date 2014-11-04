@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="LicencingDBModel.TEmpresa" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="LicencingDBModel.TLicenca" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="LicencingDBModel.FK_TLicenca_TEmpresa" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="LicencingDBModel.TUtilizador" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LicencingDBModel.TUtilizador" Width="1.5" PointX="2" PointY="3.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -13,6 +13,7 @@ import com.hermes.hermes.ServiceHandler;
 import com.hermes.hermes.SessionManager;
 import com.hermes.hermes.db.GuiaTransporteDBManager;
 import com.hermes.hermes.model.TGuiaTransporte;
+import com.hermes.hermes.model.TLinhaProduto;
 
 public class GuiaTransporteController {
 
@@ -107,8 +108,21 @@ public class GuiaTransporteController {
 		int flag = 0;
 
 		HashMap<String, String> data = session.getUserDetails();
+		List<TLinhaProduto> linhaprod; 
 
 		for (TGuiaTransporte guia : guias) {
+			
+			linhaprod = new ArrayList<TLinhaProduto>();
+			
+			for (TLinhaProduto linha : guia.getItems()) {
+				TLinhaProduto newProd = new TLinhaProduto();
+				newProd.setProduto(linha.getProduto());
+				newProd.setValorAtual(linha.getValorAtual());
+				newProd.setQuantidade(linha.getQuantidade());
+				linhaprod.add(newProd);
+			}
+			
+			guia.setProds(linhaprod);
 			json = gson.toJson(guia);
 
 			// Making a request to url and getting response
